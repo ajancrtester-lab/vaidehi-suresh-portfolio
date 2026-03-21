@@ -1,0 +1,52 @@
+import { useEffect, useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Hero from './components/Hero';
+import About from './components/About';
+import AudioPlayer from './components/AudioPlayer';
+import VideoGallery from './components/VideoGallery';
+import ImageGallery from './components/ImageGallery';
+import Events from './components/Events';
+import Testimonials from './components/Testimonials';
+import Contact from './components/Contact';
+import CustomCursor from './components/CustomCursor';
+import ScrollProgress from './components/ScrollProgress';
+import './App.css';
+
+const Home = () => {
+  const [showCursor, setShowCursor] = useState(false);
+
+  useEffect(() => {
+    // Check if device is not mobile
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    setShowCursor(!isMobile);
+  }, []);
+
+  return (
+    <div className="relative">
+      {showCursor && <CustomCursor />}
+      <ScrollProgress />
+      <Hero />
+      <About />
+      <AudioPlayer />
+      <VideoGallery />
+      <ImageGallery />
+      <Events />
+      <Testimonials />
+      <Contact />
+    </div>
+  );
+};
+
+function App() {
+  return (
+    <div className="App">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
+}
+
+export default App;
