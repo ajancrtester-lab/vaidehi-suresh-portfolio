@@ -12,8 +12,8 @@ body {
     'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #f5f1e8;
-  color: #000000;
+  background: #0a0a0a;
+  color: #ffffff;
   cursor: none;
 }
 
@@ -38,17 +38,17 @@ code {
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.5);
-  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.3);
+  border-left: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #c9a961, #000000);
+  background: linear-gradient(to bottom, #800020, #d4af37);
   border-radius: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #d4af37, #333333);
+  background: linear-gradient(to bottom, #9b2335, #f4c542);
 }
 
 /* Smooth scrolling */
@@ -58,43 +58,48 @@ html {
 
 /* Selection color */
 ::selection {
-  background: #c9a961;
-  color: #ffffff;
+  background: #d4af37;
+  color: #0a0a0a;
 }
 
 ::-moz-selection {
-  background: #c9a961;
-  color: #ffffff;
+  background: #d4af37;
+  color: #0a0a0a;
 }
 
 /* Focus visible for accessibility */
 *:focus-visible {
-  outline: 2px solid #c9a961;
+  outline: 2px solid #d4af37;
   outline-offset: 2px;
 }
 
 @layer base {
   :root {
-    --background: 43 20% 94%;
-    --foreground: 0 0% 0%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 0%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 0%;
-    --primary: 0 0% 0%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 43 30% 80%;
-    --secondary-foreground: 0 0% 0%;
-    --muted: 43 20% 90%;
-    --muted-foreground: 0 0% 40%;
-    --accent: 43 40% 70%;
-    --accent-foreground: 0 0% 0%;
+    --background: 0 0% 4%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 4%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 4%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 43 74% 53%;
+    --primary-foreground: 0 0% 4%;
+    --secondary: 345 100% 31%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 64%;
+    --accent: 43 74% 53%;
+    --accent-foreground: 0 0% 4%;
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 0% / 0.1;
-    --input: 0 0% 90%;
-    --ring: 0 0% 0%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 43 74% 53% / 0.3;
+    --input: 0 0% 15%;
+    --ring: 43 74% 53%;
     --radius: 0rem;
+    
+    /* Kerala temple theme colors */
+    --kerala-gold: 43 74% 53%;
+    --kerala-maroon: 345 100% 31%;
+    --kerala-green: 142 45% 25%;
   }
 }
 

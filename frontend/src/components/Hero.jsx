@@ -1,21 +1,57 @@
-import { motion } from 'framer-motion';
-import { Play, ArrowDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Play, ChevronDown, Sparkles } from 'lucide-react';
 import { Button } from './ui/button';
 import { artistInfo } from '../mock';
 import { useEffect, useState } from 'react';
 
 const Hero = () => {
-  const [floatingElements, setFloatingElements] = useState([]);
+  const [particles, setParticles] = useState([]);
+  const [jasminePetals, setJasminePetals] = useState([]);
+  const [diyas, setDiyas] = useState([]);
+  const [templeMotifs, setTempleMotifs] = useState([]);
 
   useEffect(() => {
-    // Minimal floating elements (just 8 subtle dots)
-    const elements = Array.from({ length: 8 }, (_, i) => ({
+    // Lotus petals (reduced for balance)
+    const particleCount = 20;
+    const generatedParticles = Array.from({ length: particleCount }, (_, i) => ({
       id: i,
-      left: 10 + (i * 80) / 8,
-      delay: i * 0.5,
-      duration: 8 + Math.random() * 4
+      left: Math.random() * 100,
+      delay: Math.random() * 5,
+      duration: 10 + Math.random() * 15,
+      size: 15 + Math.random() * 25
     }));
-    setFloatingElements(elements);
+    setParticles(generatedParticles);
+
+    // Jasmine flowers (reduced)
+    const jasmineCount = 15;
+    const generatedJasmine = Array.from({ length: jasmineCount }, (_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      delay: Math.random() * 6,
+      duration: 12 + Math.random() * 10,
+      size: 8 + Math.random() * 12
+    }));
+    setJasminePetals(generatedJasmine);
+
+    // Floating diyas/oil lamps (reduced)
+    const diyaCount = 6;
+    const generatedDiyas = Array.from({ length: diyaCount }, (_, i) => ({
+      id: i,
+      left: 10 + (i * 80) / diyaCount,
+      delay: Math.random() * 3,
+      yOffset: Math.random() * 200
+    }));
+    setDiyas(generatedDiyas);
+
+    // Temple architectural motifs (reduced)
+    const motifCount = 4;
+    const generatedMotifs = Array.from({ length: motifCount }, (_, i) => ({
+      id: i,
+      left: (i * 100) / motifCount,
+      delay: Math.random() * 4,
+      duration: 15 + Math.random() * 10
+    }));
+    setTempleMotifs(generatedMotifs);
   }, []);
 
   const scrollToAudio = () => {
@@ -24,163 +60,397 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-screen bg-[#f5f1e8] overflow-hidden">
-      {/* Subtle gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#f5f1e8] via-white to-[#f5f1e8]" />
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Base Gradient Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black via-[#1a0a0a] to-[#0a0a0a]">
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-tr from-[#800020]/20 via-[#0a3d0a]/10 to-[#d4af37]/10"
+          animate={{
+            opacity: [0.3, 0.6, 0.3],
+            scale: [1, 1.1, 1]
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: 'easeInOut'
+          }}
+        />
+      </div>
 
-      {/* Minimal floating dots */}
-      <div className="absolute inset-0 pointer-events-none">
-        {floatingElements.map((el) => (
+      {/* Video Grid Background */}
+      <div className="absolute inset-0 grid grid-cols-3 gap-1 opacity-10">
+        {[1, 2, 3, 4, 5, 6].map((i) => (
           <motion.div
-            key={el.id}
-            className="absolute w-2 h-2 rounded-full bg-[#c9a961]/20"
+            key={i}
+            className="relative overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0.05, 0.15, 0.05] }}
+            transition={{ duration: 5 + i, repeat: Infinity, delay: i * 0.5 }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-[#800020]/20 to-transparent" />
+            <img
+              src={`https://images.unsplash.com/photo-${[
+                '1598000938546-d8b840f69952',
+                '1604608672516-f1b9b1a0b0f0',
+                '1582510003544-4d00b7f74220',
+                '1599930113854-d6d7fd521f10',
+                '1610118370450-0881b2f5ccb5',
+                '1584714268709-c3dd9c92b378'
+              ][i - 1]}?w=600&h=800&fit=crop`}
+              alt="Temple"
+              className="w-full h-full object-cover blur-sm"
+            />
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Kerala Temple Architecture Silhouettes */}
+      <div className="absolute bottom-0 left-0 right-0 h-48 opacity-20">
+        <svg viewBox="0 0 1920 200" className="w-full h-full" preserveAspectRatio="none">
+          <path
+            d="M0,100 L200,80 L240,60 L280,80 L400,100 L500,90 L540,70 L580,90 L700,100 L800,85 L840,65 L880,85 L1000,100 L1100,90 L1140,70 L1180,90 L1300,100 L1400,85 L1440,65 L1480,85 L1600,100 L1700,90 L1740,70 L1780,90 L1920,100 L1920,200 L0,200 Z"
+            fill="#d4af37"
+            opacity="0.3"
+          />
+        </svg>
+      </div>
+
+      {/* Lotus Petals (Reduced) */}
+      <div className="absolute inset-0 pointer-events-none">
+        {particles.map((particle) => (
+          <motion.div
+            key={`lotus-${particle.id}`}
+            className="absolute"
             style={{
-              left: `${el.left}%`,
-              top: '20%'
+              left: `${particle.left}%`,
+              top: '-10%',
+              width: `${particle.size}px`,
+              height: `${particle.size}px`
             }}
             animate={{
-              y: [0, -100, 0],
-              opacity: [0.2, 0.4, 0.2]
+              y: ['0vh', '110vh'],
+              x: [0, Math.sin(particle.id) * 80, 0],
+              rotate: [0, 360],
+              opacity: [0, 0.7, 0]
             }}
             transition={{
-              duration: el.duration,
-              delay: el.delay,
+              duration: particle.duration,
+              delay: particle.delay,
+              repeat: Infinity,
+              ease: 'linear'
+            }}
+          >
+            <svg viewBox="0 0 100 100" className="w-full h-full">
+              <path
+                d="M50,10 Q60,30 50,50 Q40,30 50,10 M50,50 Q70,60 50,90 Q60,60 50,50 M50,50 Q30,60 50,90 Q40,60 50,50"
+                fill="#d4af37"
+                opacity="0.6"
+              />
+            </svg>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Jasmine Flowers (Reduced) */}
+      <div className="absolute inset-0 pointer-events-none">
+        {jasminePetals.map((petal) => (
+          <motion.div
+            key={`jasmine-${petal.id}`}
+            className="absolute"
+            style={{
+              left: `${petal.left}%`,
+              top: '-5%',
+              width: `${petal.size}px`,
+              height: `${petal.size}px`
+            }}
+            animate={{
+              y: ['0vh', '110vh'],
+              x: [0, Math.cos(petal.id) * 60, 0],
+              rotate: [0, 180, 360],
+              opacity: [0, 0.8, 0]
+            }}
+            transition={{
+              duration: petal.duration,
+              delay: petal.delay,
               repeat: Infinity,
               ease: 'easeInOut'
             }}
-          />
+          >
+            <div className="w-full h-full rounded-full bg-white shadow-lg shadow-white/50" />
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Floating Diyas (Reduced) */}
+      <div className="absolute inset-0 pointer-events-none">
+        {diyas.map((diya) => (
+          <motion.div
+            key={`diya-${diya.id}`}
+            className="absolute"
+            style={{
+              left: `${diya.left}%`,
+              top: `${20 + diya.yOffset}px`
+            }}
+            animate={{
+              y: [0, -20, 0],
+              opacity: [0.3, 0.7, 0.3]
+            }}
+            transition={{
+              duration: 3,
+              delay: diya.delay,
+              repeat: Infinity,
+              ease: 'easeInOut'
+            }}
+          >
+            {/* Nilavilakku (Kerala Lamp) */}
+            <svg width="30" height="40" viewBox="0 0 30 40">
+              {/* Lamp base */}
+              <ellipse cx="15" cy="35" rx="8" ry="3" fill="#d4af37" opacity="0.8" />
+              <rect x="13" y="25" width="4" height="10" fill="#d4af37" opacity="0.8" />
+              {/* Lamp bowl */}
+              <ellipse cx="15" cy="25" rx="10" ry="5" fill="#d4af37" opacity="0.9" />
+              {/* Flame */}
+              <motion.path
+                d="M15,20 Q13,15 15,10 Q17,15 15,20 Z"
+                fill="#ff6b35"
+                opacity="0.9"
+                animate={{
+                  d: [
+                    'M15,20 Q13,15 15,10 Q17,15 15,20 Z',
+                    'M15,20 Q12,15 15,8 Q18,15 15,20 Z',
+                    'M15,20 Q13,15 15,10 Q17,15 15,20 Z'
+                  ],
+                  opacity: [0.9, 1, 0.9]
+                }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+              />
+              {/* Flame glow */}
+              <motion.circle
+                cx="15"
+                cy="12"
+                r="6"
+                fill="#ffd700"
+                opacity="0.3"
+                className="blur-md"
+                animate={{
+                  scale: [1, 1.3, 1],
+                  opacity: [0.3, 0.5, 0.3]
+                }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              />
+            </svg>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Temple Bell Motifs (Reduced) */}
+      <div className="absolute inset-0 pointer-events-none opacity-20">
+        {templeMotifs.map((motif) => (
+          <motion.div
+            key={`motif-${motif.id}`}
+            className="absolute top-10"
+            style={{ left: `${motif.left}%` }}
+            animate={{
+              y: [0, 30, 0],
+              rotate: [-5, 5, -5],
+              opacity: [0.1, 0.3, 0.1]
+            }}
+            transition={{
+              duration: motif.duration,
+              delay: motif.delay,
+              repeat: Infinity,
+              ease: 'easeInOut'
+            }}
+          >
+            <Sparkles className="h-8 w-8 text-[#d4af37]" />
+          </motion.div>
         ))}
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 min-h-screen flex items-center">
-        <div className="max-w-7xl mx-auto px-8 py-20 w-full">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Left: Large Typography */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 flex items-center justify-between gap-12">
+        {/* Left: Artist Photo */}
+        <motion.div
+          initial={{ opacity: 0, x: -100 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1, delay: 0.3 }}
+          className="flex-1 max-w-xl"
+        >
+          <div className="relative group">
+            {/* Decorative frame */}
             <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="order-2 lg:order-1"
-            >
-              {/* Small accent line */}
+              className="absolute -inset-8 border-4 border-[#d4af37]/30"
+              animate={{
+                boxShadow: [
+                  '0 0 30px rgba(212, 175, 55, 0.3)',
+                  '0 0 60px rgba(212, 175, 55, 0.5)',
+                  '0 0 30px rgba(212, 175, 55, 0.3)'
+                ]
+              }}
+              transition={{ duration: 3, repeat: Infinity }}
+            />
+            
+            {/* Corner decorations (Kerala temple style) */}
+            <div className="absolute -top-4 -left-4 w-12 h-12 border-t-4 border-l-4 border-[#d4af37]" />
+            <div className="absolute -top-4 -right-4 w-12 h-12 border-t-4 border-r-4 border-[#d4af37]" />
+            <div className="absolute -bottom-4 -left-4 w-12 h-12 border-b-4 border-l-4 border-[#d4af37]" />
+            <div className="absolute -bottom-4 -right-4 w-12 h-12 border-b-4 border-r-4 border-[#d4af37]" />
+
+            {/* Main photo */}
+            <div className="relative overflow-hidden">
               <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: '60px' }}
-                transition={{ duration: 0.8, delay: 0.5 }}
-                className="h-px bg-black mb-8"
+                className="absolute inset-0 bg-gradient-to-t from-[#800020]/60 via-transparent to-transparent z-10"
+                animate={{ opacity: [0.6, 0.8, 0.6] }}
+                transition={{ duration: 3, repeat: Infinity }}
               />
-
-              {/* Name - Extra Large */}
-              <h1 className="font-cormorant text-7xl lg:text-8xl xl:text-9xl font-light text-black mb-6 leading-none tracking-tight">
-                {artistInfo.name}
-              </h1>
-
-              {/* Role */}
-              <p className="text-xl text-gray-600 mb-8 tracking-wide uppercase font-light">
-                Sopana Sangeetham Artist
-              </p>
-
-              {/* Tagline */}
-              <p className="text-2xl text-gray-800 mb-12 leading-relaxed font-light max-w-lg">
-                {artistInfo.tagline}
-              </p>
-
-              {/* CTA Button - Minimal */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1 }}
-              >
-                <Button
-                  onClick={scrollToAudio}
-                  className="bg-black text-white hover:bg-gray-800 px-10 py-7 text-base font-light tracking-wider uppercase transition-all duration-300 shadow-lg hover:shadow-2xl"
-                >
-                  <Play className="mr-3 h-4 w-4" fill="white" />
-                  Listen
-                </Button>
-              </motion.div>
-
-              {/* Stats - Minimal */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.2 }}
-                className="flex gap-12 mt-16 pt-12 border-t border-black/10"
-              >
-                <div>
-                  <div className="text-4xl font-light text-black mb-1">{artistInfo.yearsOfExperience}</div>
-                  <div className="text-xs text-gray-500 tracking-widest uppercase">Years</div>
-                </div>
-                <div>
-                  <div className="text-4xl font-light text-black mb-1">{artistInfo.templesPerformed}+</div>
-                  <div className="text-xs text-gray-500 tracking-widest uppercase">Temples</div>
-                </div>
-                <div>
-                  <div className="text-4xl font-light text-black mb-1">50+</div>
-                  <div className="text-xs text-gray-500 tracking-widest uppercase">Ragas</div>
-                </div>
-              </motion.div>
-            </motion.div>
-
-            {/* Right: Large Artist Photo */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.4 }}
-              className="order-1 lg:order-2"
-            >
-              <div className="relative">
-                {/* Main Image */}
-                <div className="relative overflow-hidden shadow-2xl">
-                  <img
-                    src="https://images.unsplash.com/photo-1598000938546-d8b840f69952?w=800&h=1000&fit=crop"
-                    alt="Vaidehi Suresh"
-                    className="w-full h-[700px] object-cover"
-                  />
-                  
-                  {/* Subtle overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                </div>
-
-                {/* Floating label */}
+              <img
+                src="https://images.unsplash.com/photo-1598000938546-d8b840f69952?w=700&h=900&fit=crop"
+                alt="Vaidehi Suresh - Sopana Sangeetham Artist"
+                className="w-full h-[600px] object-cover relative z-0"
+              />
+              
+              {/* Bottom gradient overlay with name */}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-8 z-20">
                 <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1.2 }}
-                  className="absolute -left-8 bottom-12 bg-white shadow-xl px-8 py-6"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1 }}
                 >
-                  <p className="text-xs tracking-widest uppercase text-gray-500 mb-1">Kerala</p>
-                  <p className="text-lg font-light text-black">Thrissur</p>
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-12 h-px bg-[#d4af37]" />
+                    <Sparkles className="h-4 w-4 text-[#d4af37]" />
+                    <div className="w-12 h-px bg-[#d4af37]" />
+                  </div>
+                  <p className="text-white/80 text-sm tracking-[0.3em] uppercase mb-1">Sopana Sangeetham</p>
+                  <h3 className="font-cormorant text-3xl font-bold text-[#d4af37]">Artist</h3>
                 </motion.div>
-
-                {/* Accent square */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1.4 }}
-                  className="absolute -right-6 -top-6 w-32 h-32 border border-[#c9a961]/30"
-                />
               </div>
+            </div>
+
+            {/* Floating accent elements */}
+            <motion.div
+              className="absolute -right-6 top-1/4 w-20 h-20"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+            >
+              <svg viewBox="0 0 100 100" className="w-full h-full opacity-30">
+                <circle cx="50" cy="50" r="40" fill="none" stroke="#d4af37" strokeWidth="1" />
+                <circle cx="50" cy="50" r="30" fill="none" stroke="#d4af37" strokeWidth="1" />
+                <circle cx="50" cy="50" r="20" fill="none" stroke="#d4af37" strokeWidth="1" />
+              </svg>
             </motion.div>
           </div>
-        </div>
+        </motion.div>
+
+        {/* Right: Text Content */}
+        <motion.div
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1, delay: 0.5 }}
+          className="flex-1 max-w-2xl"
+        >
+          <motion.div
+            className="inline-block mb-6"
+            animate={{ scale: [1, 1.05, 1] }}
+            transition={{ duration: 3, repeat: Infinity }}
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 rounded-full bg-[#d4af37] animate-pulse" />
+              <div className="w-20 h-px bg-gradient-to-r from-[#d4af37] to-transparent" />
+            </div>
+          </motion.div>
+
+          <h1 className="font-cormorant text-7xl md:text-8xl font-bold text-[#d4af37] mb-6 tracking-wide leading-tight">
+            {artistInfo.name}
+          </h1>
+
+          <motion.p
+            className="text-2xl md:text-3xl text-gray-300 mb-6 font-light leading-relaxed"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1 }}
+          >
+            {artistInfo.tagline}
+          </motion.p>
+
+          <motion.div
+            className="flex items-center gap-4 mb-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2 }}
+          >
+            <div className="h-px flex-1 bg-gradient-to-r from-[#800020] via-[#d4af37] to-transparent" />
+            <span className="text-gray-500 text-sm tracking-widest">KERALA TRADITION</span>
+          </motion.div>
+
+          <motion.p
+            className="text-gray-400 text-lg leading-relaxed mb-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.4 }}
+          >
+            Carrying forward the divine musical heritage of Kerala's sacred temples. 
+            Each raga, each note, is a prayer echoing through centuries of devotion.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.6 }}
+            className="flex gap-4"
+          >
+            <Button
+              onClick={scrollToAudio}
+              className="bg-gradient-to-r from-[#800020] to-[#9b2335] hover:from-[#9b2335] hover:to-[#800020] text-white px-10 py-7 text-lg border-2 border-[#d4af37]/30 shadow-2xl shadow-[#d4af37]/20 hover:shadow-[#d4af37]/40 group relative overflow-hidden"
+            >
+              <motion.div
+                className="absolute inset-0 bg-[#d4af37]/20"
+                initial={{ x: '-100%' }}
+                whileHover={{ x: '100%' }}
+                transition={{ duration: 0.5 }}
+              />
+              <Play className="mr-2 h-6 w-6 relative z-10" />
+              <span className="relative z-10">Listen Now</span>
+            </Button>
+          </motion.div>
+
+          {/* Stats inline */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.8 }}
+            className="flex gap-8 mt-10 pt-10 border-t border-[#d4af37]/20"
+          >
+            <div>
+              <div className="font-cormorant text-4xl font-bold text-[#d4af37] mb-1">{artistInfo.yearsOfExperience}+</div>
+              <div className="text-gray-500 text-xs tracking-wider uppercase">Years</div>
+            </div>
+            <div>
+              <div className="font-cormorant text-4xl font-bold text-[#d4af37] mb-1">{artistInfo.templesPerformed}+</div>
+              <div className="text-gray-500 text-xs tracking-wider uppercase">Temples</div>
+            </div>
+            <div>
+              <div className="font-cormorant text-4xl font-bold text-[#d4af37] mb-1">50+</div>
+              <div className="text-gray-500 text-xs tracking-wider uppercase">Ragas</div>
+            </div>
+          </motion.div>
+        </motion.div>
       </div>
 
-      {/* Scroll Indicator - Minimal */}
+      {/* Scroll indicator */}
       <motion.div
-        className="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-20"
-        animate={{ y: [0, 10, 0] }}
+        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20"
+        animate={{ y: [0, 15, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-px h-12 bg-black/20" />
-          <ArrowDown className="h-5 w-5 text-black/30" strokeWidth={1} />
+        <div className="flex flex-col items-center gap-2">
+          <span className="text-[#d4af37] text-xs tracking-widest uppercase">Scroll</span>
+          <ChevronDown className="h-6 w-6 text-[#d4af37]/70" />
         </div>
       </motion.div>
 
-      {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
+      {/* Bottom gradient fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#0a0a0a] to-transparent z-10" />
     </section>
   );
 };
