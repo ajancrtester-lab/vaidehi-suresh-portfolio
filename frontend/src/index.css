@@ -95,6 +95,11 @@ html {
     --input: 0 0% 15%;
     --ring: 43 74% 53%;
     --radius: 0rem;
+    
+    /* Kerala temple theme colors */
+    --kerala-gold: 43 74% 53%;
+    --kerala-maroon: 345 100% 31%;
+    --kerala-green: 142 45% 25%;
   }
 }
 
