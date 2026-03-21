@@ -35,26 +35,26 @@ const CustomCursor = () => {
 
   return (
     <>
-      {/* Main cursor */}
+      {/* Main cursor - minimalist */}
       <motion.div
-        className="fixed top-0 left-0 w-4 h-4 pointer-events-none z-[9999] mix-blend-difference"
+        className="fixed top-0 left-0 w-2 h-2 pointer-events-none z-[9999]"
         animate={{
-          x: mousePosition.x - 8,
-          y: mousePosition.y - 8,
-          scale: isHovering ? 1.5 : 1
+          x: mousePosition.x - 4,
+          y: mousePosition.y - 4,
+          scale: isHovering ? 2 : 1
         }}
         transition={{ type: 'spring', stiffness: 500, damping: 28 }}
       >
-        <div className="w-full h-full rounded-full bg-[#d4af37]" />
+        <div className="w-full h-full rounded-full bg-black" />
       </motion.div>
 
-      {/* Cursor trail */}
+      {/* Cursor ring - subtle */}
       <motion.div
-        className="fixed top-0 left-0 w-8 h-8 pointer-events-none z-[9998] border border-[#d4af37]/50 rounded-full"
+        className="fixed top-0 left-0 w-8 h-8 pointer-events-none z-[9998] border border-black/20 rounded-full"
         animate={{
           x: mousePosition.x - 16,
           y: mousePosition.y - 16,
-          scale: isHovering ? 1.8 : 1
+          scale: isHovering ? 1.5 : 1
         }}
         transition={{ type: 'spring', stiffness: 150, damping: 15 }}
       />

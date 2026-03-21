@@ -1,6 +1,6 @@
 .App {
   min-height: 100vh;
-  background: #0a0a0a;
+  background: #f5f1e8;
   position: relative;
   overflow-x: hidden;
 }
@@ -27,7 +27,7 @@ button:focus-visible,
 a:focus-visible,
 input:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid #d4af37;
+  outline: 2px solid #c9a961;
   outline-offset: 2px;
 }
 
@@ -48,54 +48,44 @@ input[type='range'] {
 }
 
 input[type='range']::-webkit-slider-track {
-  background: rgba(212, 175, 55, 0.2);
-  height: 4px;
-  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.1);
+  height: 2px;
+  border-radius: 1px;
 }
 
 input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 16px;
-  height: 16px;
-  background: #d4af37;
+  width: 14px;
+  height: 14px;
+  background: #000000;
   border-radius: 50%;
   cursor: pointer;
   margin-top: -6px;
 }
 
 input[type='range']::-moz-range-track {
-  background: rgba(212, 175, 55, 0.2);
-  height: 4px;
-  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.1);
+  height: 2px;
+  border-radius: 1px;
 }
 
 input[type='range']::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
-  background: #d4af37;
+  width: 14px;
+  height: 14px;
+  background: #000000;
   border-radius: 50%;
   cursor: pointer;
   border: none;
 }
 
-/* Animation for loading states */
-@keyframes shimmer {
-  0% {
-    background-position: -1000px 0;
-  }
-  100% {
-    background-position: 1000px 0;
-  }
+/* Minimal shadow effects */
+.shadow-minimal {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
-.shimmer {
-  animation: shimmer 2s infinite linear;
-  background: linear-gradient(
-    to right,
-    rgba(10, 10, 10, 0.9) 0%,
-    rgba(212, 175, 55, 0.1) 50%,
-    rgba(10, 10, 10, 0.9) 100%
-  );
-  background-size: 1000px 100%;
+/* Clean separator */
+.separator-minimal {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.1), transparent);
 }
