@@ -1,4 +1,5 @@
 from fastapi import FastAPI, APIRouter, HTTPException, Query
+from fastapi.responses import HTMLResponse
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -82,8 +83,11 @@ class AdminLogin(BaseModel):
 
 # ============== Utility Functions ==============
 
-def generate_artist_whatsapp_message(booking: Booking) -> str:
-    """Generate WhatsApp message to send to artist"""
+def generate_artist_whatsapp_message(booking: Booking, base_url: str) -> str:
+    """Generate WhatsApp message to send to artist with action links"""
+    accept_link = f"{base_url}/api/bookings/{booking.id}/quick-accept"
+    decline_link = f"{base_url}/api/bookings/{booking.id}/quick-decline"
+    
     message = f"""🎵 New Performance Booking Request!
 
 Name: {booking.name}
@@ -95,7 +99,12 @@ Location: {booking.location}
 Duration: {booking.duration or 'Not specified'}
 Message: {booking.message or 'None'}
 
-To manage this booking, visit your dashboard."""
+━━━━━━━━━━━━━━━━━━━━
+QUICK ACTIONS:
+✅ Accept: {accept_link}
+❌ Decline: {decline_link}
+
+Or visit dashboard to manage."""
     
     return f"https://wa.me/{ARTIST_WHATSAPP}?text={quote(message)}"
 
@@ -172,8 +181,11 @@ async def create_booking(booking_data: BookingCreate):
         if not result.inserted_id:
             raise HTTPException(status_code=500, detail="Failed to create booking")
         
-        # Generate WhatsApp link for artist
-        whatsapp_link = generate_artist_whatsapp_message(booking)
+        # Get base URL from environment or use default
+        base_url = os.environ.get('BACKEND_URL', 'http://localhost:8001')
+        
+        # Generate WhatsApp link for artist with action links
+        whatsapp_link = generate_artist_whatsapp_message(booking, base_url)
         
         return {
             "success": True,
@@ -235,6 +247,320 @@ async def get_bookings(
     except Exception as e:
         logging.error(f"Error fetching bookings: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.get("/bookings/{booking_id}/quick-accept", response_class=HTMLResponse)
+async def quick_accept_booking(booking_id: str):
+    """Quick accept booking from WhatsApp link (no password required)"""
+    try:
+        # Find the booking
+        booking = await db.bookings.find_one({"id": booking_id})
+        
+        if not booking:
+            return HTMLResponse(content=f"""
+                <html>
+                    <head>
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <style>
+                            body {{ font-family: Arial; text-align: center; padding: 50px; background: #0a0a0a; color: white; }}
+                            .error {{ color: #ff6b6b; font-size: 20px; }}
+                        </style>
+                    </head>
+                    <body>
+                        <div class="error">❌ Booking not found</div>
+                    </body>
+                </html>
+            """, status_code=404)
+        
+        # Check if already processed
+        if booking.get('status') != 'pending':
+            return HTMLResponse(content=f"""
+                <html>
+                    <head>
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <style>
+                            body {{ font-family: Arial; text-align: center; padding: 50px; background: #0a0a0a; color: white; }}
+                            .info {{ color: #ffd700; font-size: 20px; }}
+                        </style>
+                    </head>
+                    <body>
+                        <div class="info">ℹ️ Booking already {booking.get('status')}</div>
+                    </body>
+                </html>
+            """)
+        
+        # Update status to accepted
+        update_result = await db.bookings.update_one(
+            {"id": booking_id},
+            {
+                "$set": {
+                    "status": "accepted",
+                    "updatedAt": datetime.now(timezone.utc).isoformat()
+                }
+            }
+        )
+        
+        if update_result.modified_count == 0:
+            return HTMLResponse(content=f"""
+                <html>
+                    <head>
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <style>
+                            body {{ font-family: Arial; text-align: center; padding: 50px; background: #0a0a0a; color: white; }}
+                            .error {{ color: #ff6b6b; font-size: 20px; }}
+                        </style>
+                    </head>
+                    <body>
+                        <div class="error">❌ Failed to update booking</div>
+                    </body>
+                </html>
+            """, status_code=500)
+        
+        # Create Booking object for WhatsApp message generation
+        booking_obj = Booking(**{
+            "id": booking['id'],
+            "name": booking['name'],
+            "phone": booking['phone'],
+            "email": booking['email'],
+            "eventType": booking['eventType'],
+            "eventDate": booking['eventDate'],
+            "location": booking['location'],
+            "duration": booking.get('duration'),
+            "message": booking.get('message'),
+            "status": "accepted"
+        })
+        
+        # Generate WhatsApp link for booker
+        whatsapp_link = generate_booker_whatsapp_message(booking_obj, "accepted")
+        
+        # Return HTML that auto-opens WhatsApp
+        return HTMLResponse(content=f"""
+            <html>
+                <head>
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <style>
+                        body {{ 
+                            font-family: Arial; 
+                            text-align: center; 
+                            padding: 50px; 
+                            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 100%);
+                            color: white; 
+                        }}
+                        .success {{ 
+                            color: #4CAF50; 
+                            font-size: 24px; 
+                            margin-bottom: 20px;
+                            animation: fadeIn 0.5s;
+                        }}
+                        .info {{ 
+                            color: #d4af37; 
+                            font-size: 16px; 
+                            margin: 20px 0;
+                        }}
+                        .button {{ 
+                            display: inline-block;
+                            padding: 15px 30px;
+                            background: linear-gradient(135deg, #800020, #9b2335);
+                            color: white;
+                            text-decoration: none;
+                            border-radius: 5px;
+                            margin-top: 20px;
+                            font-size: 16px;
+                        }}
+                        @keyframes fadeIn {{
+                            from {{ opacity: 0; transform: translateY(-20px); }}
+                            to {{ opacity: 1; transform: translateY(0); }}
+                        }}
+                    </style>
+                    <script>
+                        setTimeout(function() {{
+                            window.location.href = '{whatsapp_link}';
+                        }}, 2000);
+                    </script>
+                </head>
+                <body>
+                    <div class="success">✅ Booking Accepted Successfully!</div>
+                    <div class="info">Opening WhatsApp to notify the customer...</div>
+                    <div class="info">Booking for: {booking['name']}</div>
+                    <div class="info">Event: {booking['eventType']} on {booking['eventDate']}</div>
+                    <a href="{whatsapp_link}" class="button">Click here if WhatsApp doesn't open</a>
+                </body>
+            </html>
+        """)
+    
+    except Exception as e:
+        logging.error(f"Error in quick accept: {str(e)}")
+        return HTMLResponse(content=f"""
+            <html>
+                <head>
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <style>
+                        body {{ font-family: Arial; text-align: center; padding: 50px; background: #0a0a0a; color: white; }}
+                        .error {{ color: #ff6b6b; font-size: 20px; }}
+                    </style>
+                </head>
+                <body>
+                    <div class="error">❌ Error: {str(e)}</div>
+                </body>
+            </html>
+        """, status_code=500)
+
+
+@api_router.get("/bookings/{booking_id}/quick-decline", response_class=HTMLResponse)
+async def quick_decline_booking(booking_id: str):
+    """Quick decline booking from WhatsApp link (no password required)"""
+    try:
+        # Find the booking
+        booking = await db.bookings.find_one({"id": booking_id})
+        
+        if not booking:
+            return HTMLResponse(content=f"""
+                <html>
+                    <head>
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <style>
+                            body {{ font-family: Arial; text-align: center; padding: 50px; background: #0a0a0a; color: white; }}
+                            .error {{ color: #ff6b6b; font-size: 20px; }}
+                        </style>
+                    </head>
+                    <body>
+                        <div class="error">❌ Booking not found</div>
+                    </body>
+                </html>
+            """, status_code=404)
+        
+        # Check if already processed
+        if booking.get('status') != 'pending':
+            return HTMLResponse(content=f"""
+                <html>
+                    <head>
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <style>
+                            body {{ font-family: Arial; text-align: center; padding: 50px; background: #0a0a0a; color: white; }}
+                            .info {{ color: #ffd700; font-size: 20px; }}
+                        </style>
+                    </head>
+                    <body>
+                        <div class="info">ℹ️ Booking already {booking.get('status')}</div>
+                    </body>
+                </html>
+            """)
+        
+        # Update status to declined
+        update_result = await db.bookings.update_one(
+            {"id": booking_id},
+            {
+                "$set": {
+                    "status": "declined",
+                    "updatedAt": datetime.now(timezone.utc).isoformat()
+                }
+            }
+        )
+        
+        if update_result.modified_count == 0:
+            return HTMLResponse(content=f"""
+                <html>
+                    <head>
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <style>
+                            body {{ font-family: Arial; text-align: center; padding: 50px; background: #0a0a0a; color: white; }}
+                            .error {{ color: #ff6b6b; font-size: 20px; }}
+                        </style>
+                    </head>
+                    <body>
+                        <div class="error">❌ Failed to update booking</div>
+                    </body>
+                </html>
+            """, status_code=500)
+        
+        # Create Booking object for WhatsApp message generation
+        booking_obj = Booking(**{
+            "id": booking['id'],
+            "name": booking['name'],
+            "phone": booking['phone'],
+            "email": booking['email'],
+            "eventType": booking['eventType'],
+            "eventDate": booking['eventDate'],
+            "location": booking['location'],
+            "duration": booking.get('duration'),
+            "message": booking.get('message'),
+            "status": "declined"
+        })
+        
+        # Generate WhatsApp link for booker
+        whatsapp_link = generate_booker_whatsapp_message(booking_obj, "declined")
+        
+        # Return HTML that auto-opens WhatsApp
+        return HTMLResponse(content=f"""
+            <html>
+                <head>
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <style>
+                        body {{ 
+                            font-family: Arial; 
+                            text-align: center; 
+                            padding: 50px; 
+                            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 100%);
+                            color: white; 
+                        }}
+                        .warning {{ 
+                            color: #ff6b6b; 
+                            font-size: 24px; 
+                            margin-bottom: 20px;
+                            animation: fadeIn 0.5s;
+                        }}
+                        .info {{ 
+                            color: #d4af37; 
+                            font-size: 16px; 
+                            margin: 20px 0;
+                        }}
+                        .button {{ 
+                            display: inline-block;
+                            padding: 15px 30px;
+                            background: linear-gradient(135deg, #800020, #9b2335);
+                            color: white;
+                            text-decoration: none;
+                            border-radius: 5px;
+                            margin-top: 20px;
+                            font-size: 16px;
+                        }}
+                        @keyframes fadeIn {{
+                            from {{ opacity: 0; transform: translateY(-20px); }}
+                            to {{ opacity: 1; transform: translateY(0); }}
+                        }}
+                    </style>
+                    <script>
+                        setTimeout(function() {{
+                            window.location.href = '{whatsapp_link}';
+                        }}, 2000);
+                    </script>
+                </head>
+                <body>
+                    <div class="warning">❌ Booking Declined</div>
+                    <div class="info">Opening WhatsApp to notify the customer...</div>
+                    <div class="info">Booking for: {booking['name']}</div>
+                    <div class="info">Event: {booking['eventType']} on {booking['eventDate']}</div>
+                    <a href="{whatsapp_link}" class="button">Click here if WhatsApp doesn't open</a>
+                </body>
+            </html>
+        """)
+    
+    except Exception as e:
+        logging.error(f"Error in quick decline: {str(e)}")
+        return HTMLResponse(content=f"""
+            <html>
+                <head>
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <style>
+                        body {{ font-family: Arial; text-align: center; padding: 50px; background: #0a0a0a; color: white; }}
+                        .error {{ color: #ff6b6b; font-size: 20px; }}
+                    </style>
+                </head>
+                <body>
+                    <div class="error">❌ Error: {str(e)}</div>
+                </body>
+            </html>
+        """, status_code=500)
 
 
 @api_router.put("/bookings/{booking_id}/status")

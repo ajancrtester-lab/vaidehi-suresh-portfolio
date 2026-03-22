@@ -260,7 +260,7 @@ export const testimonials = [
 ];
 
 export const contactInfo = {
-  whatsapp: "+919876543210",
+  whatsapp: "917559926388",
   email: "vaidehi.suresh@example.com",
   location: "Thrissur, Kerala, India"
 };

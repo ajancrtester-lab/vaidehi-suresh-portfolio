@@ -86,7 +86,7 @@ To manage this booking, visit your dashboard.`;
       });
 
       // Open WhatsApp in new tab
-      window.open(data.whatsappLink, '_blank');
+      window.open(generateWhatsAppMessage(), '_blank');
 
       // Reset form
       setFormData({
