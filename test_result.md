@@ -177,6 +177,42 @@ backend:
         agent: "testing"
         comment: "✅ PASS - Gallery endpoint working correctly. Returns empty array as expected (no gallery items added yet)."
 
+  - task: "WhatsApp booking flow - Complete integration"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ PASS - Complete WhatsApp booking flow tested and working. CRITICAL ISSUE FOUND AND FIXED: BACKEND_URL was set to localhost instead of production URL. Fixed to https://sopana-artist.preview.emergentagent.com. All components verified: booking creation with WhatsApp links, message format with proper URLs, quick-accept/decline endpoints, HTML responses with auto-redirect, status persistence. Message format includes all required elements: booking details, emojis, action links on separate lines."
+
+  - task: "GET /api/bookings/{id}/quick-accept - Quick accept endpoint"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ PASS - Quick accept endpoint working correctly. Returns HTML page with success message, auto-redirects to WhatsApp for customer notification, updates booking status to 'accepted' in database."
+
+  - task: "GET /api/bookings/{id}/quick-decline - Quick decline endpoint"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ PASS - Quick decline endpoint working correctly. Returns HTML page with decline message, auto-redirects to WhatsApp for customer notification, updates booking status to 'declined' in database."
+
 frontend:
   - task: "Frontend testing"
     implemented: false
@@ -198,7 +234,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "All backend APIs tested and working"
+    - "WhatsApp booking flow testing completed - all components working"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
@@ -206,3 +242,5 @@ test_plan:
 agent_communication:
   - agent: "testing"
     message: "Comprehensive backend API testing completed. All 9 test cases passed (100% success rate). Booking system APIs are fully functional: create bookings, retrieve bookings, admin login, status updates, and error handling all working correctly. Backend is ready for production use."
+  - agent: "testing"
+    message: "WhatsApp booking flow testing completed. CRITICAL ISSUE FOUND AND FIXED: Backend .env had incorrect BACKEND_URL (localhost instead of production URL). Fixed BACKEND_URL to https://sopana-artist.preview.emergentagent.com. All WhatsApp flow components now working: booking creation, message format, quick-accept/decline endpoints, status persistence, and HTML redirects. Complete flow tested and verified functional."

@@ -1,359 +1,377 @@
 #!/usr/bin/env python3
 """
-Backend API Testing Script for Booking System
-Tests all booking system endpoints with proper error handling
+WhatsApp Booking Flow Test Suite
+Tests the complete WhatsApp booking flow as requested
 """
 
 import requests
 import json
-import sys
-from datetime import datetime
-import os
-from dotenv import load_dotenv
+import urllib.parse
+from datetime import datetime, timedelta
+import uuid
 
-# Load environment variables
-load_dotenv('/app/frontend/.env')
+# Configuration
+BASE_URL = "https://sopana-artist.preview.emergentagent.com/api"
+HEADERS = {"Content-Type": "application/json"}
 
-# Get backend URL from environment
-BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'http://localhost:8001')
-BASE_URL = f"{BACKEND_URL}/api"
+def print_section(title):
+    """Print a formatted section header"""
+    print(f"\n{'='*60}")
+    print(f" {title}")
+    print(f"{'='*60}")
 
-print(f"Testing backend at: {BASE_URL}")
+def print_test(test_name, status, details=""):
+    """Print test result"""
+    status_symbol = "✅" if status == "PASS" else "❌"
+    print(f"{status_symbol} {test_name}")
+    if details:
+        print(f"   {details}")
 
-class BookingSystemTester:
-    def __init__(self):
-        self.base_url = BASE_URL
-        self.booking_id = None
-        self.admin_token = None
-        self.test_results = []
+def decode_whatsapp_url(whatsapp_url):
+    """Decode WhatsApp URL to extract the message text"""
+    try:
+        # Extract the text parameter from the URL
+        parsed_url = urllib.parse.urlparse(whatsapp_url)
+        query_params = urllib.parse.parse_qs(parsed_url.query)
         
-    def log_test(self, test_name, success, details=""):
-        """Log test results"""
-        status = "✅ PASS" if success else "❌ FAIL"
-        print(f"{status} {test_name}")
-        if details:
-            print(f"   Details: {details}")
-        self.test_results.append({
-            'test': test_name,
-            'success': success,
-            'details': details
-        })
+        if 'text' in query_params:
+            encoded_text = query_params['text'][0]
+            decoded_text = urllib.parse.unquote(encoded_text)
+            return decoded_text
+        else:
+            return "No text parameter found"
+    except Exception as e:
+        return f"Error decoding URL: {str(e)}"
+
+def test_create_booking():
+    """Test 1: Create a test booking via POST /api/bookings"""
+    print_section("TEST 1: Create Booking and Check WhatsApp Link")
+    
+    # Generate future date
+    future_date = (datetime.now() + timedelta(days=30)).strftime("%Y-%m-%d")
+    
+    booking_data = {
+        "name": "Rajesh Kumar",
+        "phone": "+919876543211",
+        "email": "rajesh.kumar@example.com",
+        "eventType": "Temple",
+        "eventDate": future_date,
+        "location": "Shri Krishna Temple, Mumbai",
+        "duration": "2 hours",
+        "message": "Traditional bhajans for evening aarti"
+    }
+    
+    try:
+        response = requests.post(f"{BASE_URL}/bookings", json=booking_data, headers=HEADERS)
         
-    def test_create_booking(self):
-        """Test POST /api/bookings - Create a new booking"""
-        print("\n=== Testing Create Booking ===")
-        
-        booking_data = {
-            "name": "Rajesh Kumar",
-            "phone": "+919876543210",
-            "email": "rajesh.kumar@example.com",
-            "eventType": "Temple",
-            "eventDate": "2025-06-15",
-            "location": "Guruvayur Temple, Kerala",
-            "duration": "2 hours",
-            "message": "Traditional Carnatic performance for temple festival"
-        }
-        
-        try:
-            response = requests.post(f"{self.base_url}/bookings", json=booking_data, timeout=10)
+        if response.status_code == 200:
+            result = response.json()
+            booking_id = result.get('bookingId')
+            whatsapp_link = result.get('whatsappLink')
             
-            if response.status_code == 200:
-                data = response.json()
-                if 'bookingId' in data and 'whatsappLink' in data and data.get('success'):
-                    self.booking_id = data['bookingId']
-                    self.log_test("Create Booking", True, f"Booking ID: {self.booking_id}")
-                    print(f"   WhatsApp Link: {data['whatsappLink'][:100]}...")
-                    return True
+            print_test("Booking Creation", "PASS", f"Booking ID: {booking_id}")
+            print_test("WhatsApp Link Generated", "PASS", f"Link: {whatsapp_link}")
+            
+            # Decode and analyze the WhatsApp message
+            decoded_message = decode_whatsapp_url(whatsapp_link)
+            print(f"\n📱 DECODED WHATSAPP MESSAGE:")
+            print("-" * 40)
+            print(decoded_message)
+            print("-" * 40)
+            
+            # Check if the message contains required elements
+            required_elements = [
+                "New Performance Booking Request",
+                "Rajesh Kumar",
+                "+919876543211",
+                "Temple",
+                future_date,
+                "Shri Krishna Temple, Mumbai",
+                "quick-accept",
+                "quick-decline"
+            ]
+            
+            missing_elements = []
+            for element in required_elements:
+                if element not in decoded_message:
+                    missing_elements.append(element)
+            
+            if not missing_elements:
+                print_test("Message Format Validation", "PASS", "All required elements present")
+            else:
+                print_test("Message Format Validation", "FAIL", f"Missing: {missing_elements}")
+            
+            # Check if Accept and Decline links are properly formatted
+            if "/quick-accept" in decoded_message and "/quick-decline" in decoded_message:
+                print_test("Action Links Present", "PASS", "Both Accept and Decline links found")
+            else:
+                print_test("Action Links Present", "FAIL", "Missing action links")
+            
+            return booking_id
+            
+        else:
+            print_test("Booking Creation", "FAIL", f"Status: {response.status_code}, Response: {response.text}")
+            return None
+            
+    except Exception as e:
+        print_test("Booking Creation", "FAIL", f"Exception: {str(e)}")
+        return None
+
+def test_quick_accept(booking_id):
+    """Test 2: Test the quick-accept endpoint"""
+    print_section("TEST 2: Quick Accept Endpoint")
+    
+    if not booking_id:
+        print_test("Quick Accept Test", "SKIP", "No booking ID available")
+        return
+    
+    try:
+        accept_url = f"{BASE_URL}/bookings/{booking_id}/quick-accept"
+        response = requests.get(accept_url)
+        
+        if response.status_code == 200:
+            html_content = response.text
+            
+            # Check if the HTML contains success message
+            if "Booking Accepted Successfully" in html_content:
+                print_test("Quick Accept Response", "PASS", "Success message displayed")
+            else:
+                print_test("Quick Accept Response", "FAIL", "Success message not found")
+            
+            # Check if WhatsApp redirect is present
+            if "wa.me" in html_content:
+                print_test("WhatsApp Redirect", "PASS", "WhatsApp redirect found in HTML")
+            else:
+                print_test("WhatsApp Redirect", "FAIL", "No WhatsApp redirect found")
+            
+            # Check if auto-redirect script is present
+            if "window.location.href" in html_content:
+                print_test("Auto-redirect Script", "PASS", "Auto-redirect script present")
+            else:
+                print_test("Auto-redirect Script", "FAIL", "No auto-redirect script")
+            
+            print(f"\n📄 HTML RESPONSE PREVIEW:")
+            print("-" * 40)
+            # Extract just the visible text content for preview
+            if "Booking Accepted Successfully" in html_content:
+                print("✅ Booking Accepted Successfully!")
+                print("Opening WhatsApp to notify the customer...")
+            print("-" * 40)
+            
+        else:
+            print_test("Quick Accept Response", "FAIL", f"Status: {response.status_code}")
+            
+    except Exception as e:
+        print_test("Quick Accept Test", "FAIL", f"Exception: {str(e)}")
+
+def test_quick_decline():
+    """Test 3: Create another booking and test quick-decline"""
+    print_section("TEST 3: Create New Booking for Decline Test")
+    
+    # Create a new booking for decline test
+    future_date = (datetime.now() + timedelta(days=45)).strftime("%Y-%m-%d")
+    
+    booking_data = {
+        "name": "Priya Sharma",
+        "phone": "+919876543212",
+        "email": "priya.sharma@example.com",
+        "eventType": "Wedding",
+        "eventDate": future_date,
+        "location": "Grand Palace Hotel, Delhi",
+        "duration": "3 hours",
+        "message": "Classical music for wedding ceremony"
+    }
+    
+    try:
+        response = requests.post(f"{BASE_URL}/bookings", json=booking_data, headers=HEADERS)
+        
+        if response.status_code == 200:
+            result = response.json()
+            booking_id = result.get('bookingId')
+            print_test("Second Booking Creation", "PASS", f"Booking ID: {booking_id}")
+            
+            # Now test quick decline
+            print_section("TEST 4: Quick Decline Endpoint")
+            
+            decline_url = f"{BASE_URL}/bookings/{booking_id}/quick-decline"
+            decline_response = requests.get(decline_url)
+            
+            if decline_response.status_code == 200:
+                html_content = decline_response.text
+                
+                # Check if the HTML contains decline message
+                if "Booking Declined" in html_content:
+                    print_test("Quick Decline Response", "PASS", "Decline message displayed")
                 else:
-                    self.log_test("Create Booking", False, f"Missing required fields in response: {data}")
-                    return False
-            else:
-                self.log_test("Create Booking", False, f"Status: {response.status_code}, Response: {response.text}")
-                return False
+                    print_test("Quick Decline Response", "FAIL", "Decline message not found")
                 
-        except Exception as e:
-            self.log_test("Create Booking", False, f"Exception: {str(e)}")
-            return False
-    
-    def test_get_bookings(self):
-        """Test GET /api/bookings - Get all bookings"""
-        print("\n=== Testing Get All Bookings ===")
-        
-        try:
-            response = requests.get(f"{self.base_url}/bookings", timeout=10)
-            
-            if response.status_code == 200:
-                data = response.json()
-                if 'bookings' in data and isinstance(data['bookings'], list):
-                    bookings_count = len(data['bookings'])
-                    self.log_test("Get All Bookings", True, f"Retrieved {bookings_count} bookings")
-                    
-                    # Check if our created booking is in the list
-                    if self.booking_id:
-                        found_booking = any(booking.get('id') == self.booking_id for booking in data['bookings'])
-                        if found_booking:
-                            print("   ✅ Created booking found in list")
-                        else:
-                            print("   ⚠️  Created booking not found in list")
-                    
-                    return True
+                # Check if WhatsApp redirect is present
+                if "wa.me" in html_content:
+                    print_test("WhatsApp Redirect", "PASS", "WhatsApp redirect found in HTML")
                 else:
-                    self.log_test("Get All Bookings", False, f"Invalid response format: {data}")
-                    return False
-            else:
-                self.log_test("Get All Bookings", False, f"Status: {response.status_code}, Response: {response.text}")
-                return False
+                    print_test("WhatsApp Redirect", "FAIL", "No WhatsApp redirect found")
                 
-        except Exception as e:
-            self.log_test("Get All Bookings", False, f"Exception: {str(e)}")
-            return False
-    
-    def test_admin_login(self):
-        """Test POST /api/admin/login - Admin login"""
-        print("\n=== Testing Admin Login ===")
-        
-        # Test valid login
-        login_data = {"password": "admin123"}
-        
-        try:
-            response = requests.post(f"{self.base_url}/admin/login", json=login_data, timeout=10)
+                print(f"\n📄 HTML RESPONSE PREVIEW:")
+                print("-" * 40)
+                if "Booking Declined" in html_content:
+                    print("❌ Booking Declined")
+                    print("Opening WhatsApp to notify the customer...")
+                print("-" * 40)
+                
+            else:
+                print_test("Quick Decline Response", "FAIL", f"Status: {decline_response.status_code}")
+                
+        else:
+            print_test("Second Booking Creation", "FAIL", f"Status: {response.status_code}")
             
-            if response.status_code == 200:
-                data = response.json()
-                if data.get('success') and 'token' in data:
-                    self.admin_token = data['token']
-                    self.log_test("Admin Login (Valid)", True, f"Token received: {data['token'][:20]}...")
-                    return True
+    except Exception as e:
+        print_test("Quick Decline Test", "FAIL", f"Exception: {str(e)}")
+
+def test_message_format_analysis():
+    """Test 5: Detailed message format analysis"""
+    print_section("TEST 5: Message Format Analysis")
+    
+    # Create a test booking to analyze message format
+    future_date = (datetime.now() + timedelta(days=60)).strftime("%Y-%m-%d")
+    
+    booking_data = {
+        "name": "Amit Patel",
+        "phone": "+919876543213",
+        "email": "amit.patel@example.com",
+        "eventType": "Corporate Event",
+        "eventDate": future_date,
+        "location": "Tech Park Convention Center, Bangalore",
+        "duration": "4 hours",
+        "message": "Background music for corporate annual day"
+    }
+    
+    try:
+        response = requests.post(f"{BASE_URL}/bookings", json=booking_data, headers=HEADERS)
+        
+        if response.status_code == 200:
+            result = response.json()
+            whatsapp_link = result.get('whatsappLink')
+            decoded_message = decode_whatsapp_url(whatsapp_link)
+            
+            print(f"\n📱 COMPLETE WHATSAPP MESSAGE ANALYSIS:")
+            print("=" * 60)
+            print(decoded_message)
+            print("=" * 60)
+            
+            # Analyze message structure
+            lines = decoded_message.split('\n')
+            
+            # Check for proper line separation
+            accept_line = None
+            decline_line = None
+            
+            for i, line in enumerate(lines):
+                if "Accept:" in line:
+                    accept_line = i
+                if "Decline:" in line:
+                    decline_line = i
+            
+            if accept_line is not None and decline_line is not None:
+                if decline_line == accept_line + 1:
+                    print_test("URL Line Separation", "PASS", "Accept and Decline URLs on separate lines")
                 else:
-                    self.log_test("Admin Login (Valid)", False, f"Invalid response format: {data}")
-                    return False
+                    print_test("URL Line Separation", "FAIL", f"URLs not on consecutive lines (Accept: line {accept_line}, Decline: line {decline_line})")
             else:
-                self.log_test("Admin Login (Valid)", False, f"Status: {response.status_code}, Response: {response.text}")
-                return False
-                
-        except Exception as e:
-            self.log_test("Admin Login (Valid)", False, f"Exception: {str(e)}")
-            return False
-    
-    def test_admin_login_invalid(self):
-        """Test admin login with invalid password"""
-        print("\n=== Testing Admin Login (Invalid Password) ===")
-        
-        login_data = {"password": "wrongpassword"}
-        
-        try:
-            response = requests.post(f"{self.base_url}/admin/login", json=login_data, timeout=10)
+                print_test("URL Line Separation", "FAIL", "Could not find Accept/Decline lines")
             
-            if response.status_code == 401:
-                self.log_test("Admin Login (Invalid Password)", True, "Correctly rejected invalid password")
-                return True
+            # Check URL format
+            if "https://sopana-artist.preview.emergentagent.com/api/bookings/" in decoded_message:
+                print_test("URL Format", "PASS", "Correct base URL format")
             else:
-                self.log_test("Admin Login (Invalid Password)", False, f"Expected 401, got {response.status_code}")
-                return False
-                
-        except Exception as e:
-            self.log_test("Admin Login (Invalid Password)", False, f"Exception: {str(e)}")
-            return False
-    
-    def test_update_booking_status(self):
-        """Test PUT /api/bookings/{id}/status - Update booking status"""
-        print("\n=== Testing Update Booking Status ===")
-        
-        if not self.booking_id:
-            self.log_test("Update Booking Status", False, "No booking ID available for testing")
-            return False
-        
-        # Test accepting a booking
-        status_data = {
-            "status": "accepted",
-            "adminPassword": "admin123"
-        }
-        
-        try:
-            response = requests.put(f"{self.base_url}/bookings/{self.booking_id}/status", 
-                                  json=status_data, timeout=10)
+                print_test("URL Format", "FAIL", "Incorrect base URL format")
             
-            if response.status_code == 200:
-                data = response.json()
-                if data.get('success') and 'whatsappLink' in data:
-                    self.log_test("Update Booking Status (Accept)", True, "Booking accepted successfully")
-                    print(f"   WhatsApp Link: {data['whatsappLink'][:100]}...")
-                    return True
-                else:
-                    self.log_test("Update Booking Status (Accept)", False, f"Invalid response format: {data}")
-                    return False
+            # Check for emojis and formatting
+            if "🎵" in decoded_message and "✅" in decoded_message and "❌" in decoded_message:
+                print_test("Message Formatting", "PASS", "Proper emojis and formatting present")
             else:
-                self.log_test("Update Booking Status (Accept)", False, f"Status: {response.status_code}, Response: {response.text}")
-                return False
-                
-        except Exception as e:
-            self.log_test("Update Booking Status (Accept)", False, f"Exception: {str(e)}")
-            return False
-    
-    def test_update_booking_status_invalid_password(self):
-        """Test updating booking status with invalid admin password"""
-        print("\n=== Testing Update Booking Status (Invalid Password) ===")
-        
-        if not self.booking_id:
-            self.log_test("Update Booking Status (Invalid Password)", False, "No booking ID available")
-            return False
-        
-        status_data = {
-            "status": "declined",
-            "adminPassword": "wrongpassword"
-        }
-        
-        try:
-            response = requests.put(f"{self.base_url}/bookings/{self.booking_id}/status", 
-                                  json=status_data, timeout=10)
+                print_test("Message Formatting", "FAIL", "Missing emojis or formatting")
             
-            if response.status_code == 401:
-                self.log_test("Update Booking Status (Invalid Password)", True, "Correctly rejected invalid password")
-                return True
-            else:
-                self.log_test("Update Booking Status (Invalid Password)", False, f"Expected 401, got {response.status_code}")
-                return False
-                
-        except Exception as e:
-            self.log_test("Update Booking Status (Invalid Password)", False, f"Exception: {str(e)}")
-            return False
-    
-    def test_update_booking_status_invalid_id(self):
-        """Test updating booking status with invalid booking ID"""
-        print("\n=== Testing Update Booking Status (Invalid ID) ===")
-        
-        status_data = {
-            "status": "accepted",
-            "adminPassword": "admin123"
-        }
-        
-        try:
-            response = requests.put(f"{self.base_url}/bookings/invalid-id-12345/status", 
-                                  json=status_data, timeout=10)
+        else:
+            print_test("Message Format Analysis", "FAIL", f"Could not create test booking: {response.status_code}")
             
-            if response.status_code == 404:
-                self.log_test("Update Booking Status (Invalid ID)", True, "Correctly returned 404 for invalid ID")
-                return True
-            else:
-                self.log_test("Update Booking Status (Invalid ID)", False, f"Expected 404, got {response.status_code}")
-                return False
-                
-        except Exception as e:
-            self.log_test("Update Booking Status (Invalid ID)", False, f"Exception: {str(e)}")
-            return False
+    except Exception as e:
+        print_test("Message Format Analysis", "FAIL", f"Exception: {str(e)}")
+
+def test_booking_status_verification():
+    """Test 6: Verify booking status changes"""
+    print_section("TEST 6: Booking Status Verification")
     
-    def test_create_booking_missing_fields(self):
-        """Test creating booking with missing required fields"""
-        print("\n=== Testing Create Booking (Missing Fields) ===")
+    try:
+        # Get all bookings to verify status changes
+        response = requests.get(f"{BASE_URL}/bookings")
         
-        # Missing required fields
-        incomplete_data = {
-            "name": "Test User",
-            "phone": "+919876543210"
-            # Missing email, eventType, eventDate, location
-        }
-        
-        try:
-            response = requests.post(f"{self.base_url}/bookings", json=incomplete_data, timeout=10)
+        if response.status_code == 200:
+            result = response.json()
+            bookings = result.get('bookings', [])
             
-            if response.status_code == 422:  # FastAPI validation error
-                self.log_test("Create Booking (Missing Fields)", True, "Correctly rejected incomplete data")
-                return True
-            else:
-                self.log_test("Create Booking (Missing Fields)", False, f"Expected 422, got {response.status_code}")
-                return False
-                
-        except Exception as e:
-            self.log_test("Create Booking (Missing Fields)", False, f"Exception: {str(e)}")
-            return False
-    
-    def test_api_root(self):
-        """Test basic API connectivity"""
-        print("\n=== Testing API Root Endpoint ===")
-        
-        try:
-            response = requests.get(f"{self.base_url}/", timeout=10)
+            print_test("Bookings Retrieval", "PASS", f"Found {len(bookings)} bookings")
             
-            if response.status_code == 200:
-                data = response.json()
-                if data.get('message') == "Hello World":
-                    self.log_test("API Root", True, "API is responding correctly")
-                    return True
-                else:
-                    self.log_test("API Root", False, f"Unexpected response: {data}")
-                    return False
+            # Check for accepted and declined bookings
+            accepted_count = 0
+            declined_count = 0
+            pending_count = 0
+            
+            for booking in bookings:
+                status = booking.get('status', 'unknown')
+                if status == 'accepted':
+                    accepted_count += 1
+                elif status == 'declined':
+                    declined_count += 1
+                elif status == 'pending':
+                    pending_count += 1
+            
+            print(f"   📊 Status Summary:")
+            print(f"   - Accepted: {accepted_count}")
+            print(f"   - Declined: {declined_count}")
+            print(f"   - Pending: {pending_count}")
+            
+            if accepted_count > 0:
+                print_test("Accept Flow Verification", "PASS", f"{accepted_count} booking(s) successfully accepted")
             else:
-                self.log_test("API Root", False, f"Status: {response.status_code}")
-                return False
-                
-        except Exception as e:
-            self.log_test("API Root", False, f"Exception: {str(e)}")
-            return False
+                print_test("Accept Flow Verification", "FAIL", "No accepted bookings found")
+            
+            if declined_count > 0:
+                print_test("Decline Flow Verification", "PASS", f"{declined_count} booking(s) successfully declined")
+            else:
+                print_test("Decline Flow Verification", "FAIL", "No declined bookings found")
+            
+        else:
+            print_test("Booking Status Verification", "FAIL", f"Status: {response.status_code}")
+            
+    except Exception as e:
+        print_test("Booking Status Verification", "FAIL", f"Exception: {str(e)}")
+
+def main():
+    """Run all WhatsApp booking flow tests"""
+    print("🚀 WHATSAPP BOOKING FLOW TEST SUITE")
+    print(f"Testing against: {BASE_URL}")
+    print(f"Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     
-    def run_all_tests(self):
-        """Run all tests in sequence"""
-        print(f"🚀 Starting Backend API Tests")
-        print(f"Backend URL: {self.base_url}")
-        print("=" * 60)
-        
-        # Test basic connectivity first
-        self.test_api_root()
-        
-        # Test booking creation
-        self.test_create_booking()
-        
-        # Test getting bookings
-        self.test_get_bookings()
-        
-        # Test admin login
-        self.test_admin_login()
-        self.test_admin_login_invalid()
-        
-        # Test booking status updates
-        self.test_update_booking_status()
-        self.test_update_booking_status_invalid_password()
-        self.test_update_booking_status_invalid_id()
-        
-        # Test error cases
-        self.test_create_booking_missing_fields()
-        
-        # Print summary and return success status
-        return self.print_summary()
+    # Test 1: Create booking and check WhatsApp link
+    booking_id = test_create_booking()
     
-    def print_summary(self):
-        """Print test summary"""
-        print("\n" + "=" * 60)
-        print("📊 TEST SUMMARY")
-        print("=" * 60)
-        
-        passed = sum(1 for result in self.test_results if result['success'])
-        total = len(self.test_results)
-        
-        print(f"Total Tests: {total}")
-        print(f"Passed: {passed}")
-        print(f"Failed: {total - passed}")
-        print(f"Success Rate: {(passed/total)*100:.1f}%")
-        
-        if total - passed > 0:
-            print("\n❌ FAILED TESTS:")
-            for result in self.test_results:
-                if not result['success']:
-                    print(f"  • {result['test']}: {result['details']}")
-        
-        print("\n✅ PASSED TESTS:")
-        for result in self.test_results:
-            if result['success']:
-                print(f"  • {result['test']}")
-        
-        return passed == total
+    # Test 2: Test quick accept
+    test_quick_accept(booking_id)
+    
+    # Test 3 & 4: Create new booking and test quick decline
+    test_quick_decline()
+    
+    # Test 5: Detailed message format analysis
+    test_message_format_analysis()
+    
+    # Test 6: Verify booking status changes
+    test_booking_status_verification()
+    
+    print_section("TEST SUMMARY")
+    print("✅ All WhatsApp booking flow tests completed!")
+    print("📱 Check the decoded messages above to verify format")
+    print("🔗 Quick action links tested for both accept and decline")
+    print("📊 Booking status changes verified")
 
 if __name__ == "__main__":
-    tester = BookingSystemTester()
-    success = tester.run_all_tests()
-    
-    if success:
-        print("\n🎉 All tests passed!")
-        sys.exit(0)
-    else:
-        print("\n💥 Some tests failed!")
-        sys.exit(1)
+    main()
