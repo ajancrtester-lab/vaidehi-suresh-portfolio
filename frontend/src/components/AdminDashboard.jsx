@@ -28,13 +28,17 @@ const AdminDashboard = () => {
   const loadBookings = async () => {
     setIsLoading(true);
     try {
-      // TODO: Replace with actual API call
-      // const response = await fetch(`/api/bookings?month=${selectedMonth}&year=${selectedYear}`);
-      // const data = await response.json();
+      const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+      const response = await fetch(
+        `${BACKEND_URL}/api/bookings?month=${selectedMonth + 1}&year=${selectedYear}`
+      );
       
-      // Using mock data for now
-      await new Promise(resolve => setTimeout(resolve, 500));
-      setBookings(mockBookings);
+      if (!response.ok) {
+        throw new Error('Failed to load bookings');
+      }
+      
+      const data = await response.json();
+      setBookings(data.bookings || []);
     } catch (error) {
       toast({
         title: "Error",
@@ -46,16 +50,30 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Simple password check (replace with proper authentication)
-    if (password === 'admin123') {
-      setIsAuthenticated(true);
-      toast({
-        title: "Welcome!",
-        description: "Successfully logged in to dashboard"
+    try {
+      const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+      const response = await fetch(`${BACKEND_URL}/api/admin/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password })
       });
-    } else {
+
+      if (!response.ok) {
+        throw new Error('Invalid password');
+      }
+
+      const data = await response.json();
+      
+      if (data.success) {
+        setIsAuthenticated(true);
+        toast({
+          title: "Welcome!",
+          description: "Successfully logged in to dashboard"
+        });
+      }
+    } catch (error) {
       toast({
         title: "Access Denied",
         description: "Incorrect password",
@@ -78,35 +96,21 @@ const AdminDashboard = () => {
       const booking = bookings.find(b => b.id === bookingId);
       if (!booking) return;
 
-      // Generate WhatsApp message for the booker
-      const message = newStatus === 'accepted'
-        ? `✅ Booking Confirmed!
+      const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+      const response = await fetch(`${BACKEND_URL}/api/bookings/${bookingId}/status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          status: newStatus, 
+          adminPassword: password 
+        })
+      });
 
-Dear ${booking.name},
+      if (!response.ok) {
+        throw new Error('Failed to update status');
+      }
 
-Your booking request for ${booking.eventType} on ${booking.eventDate} at ${booking.location} has been ACCEPTED by Vaidehi Suresh.
-
-We look forward to performing at your event!
-
-- Vaidehi Suresh Team`
-        : `❌ Booking Update
-
-Dear ${booking.name},
-
-Unfortunately, we are unable to confirm your booking request for ${booking.eventType} on ${booking.eventDate}.
-
-Please contact us to discuss alternative dates.
-
-- Vaidehi Suresh Team`;
-
-      const whatsappLink = `https://wa.me/${booking.phone}?text=${encodeURIComponent(message)}`;
-
-      // TODO: Update status via API
-      // await fetch(`/api/bookings/${bookingId}/status`, {
-      //   method: 'PUT',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ status: newStatus, adminPassword: password })
-      // });
+      const data = await response.json();
 
       // Update local state
       setBookings(prev => prev.map(b => 
@@ -114,7 +118,7 @@ Please contact us to discuss alternative dates.
       ));
 
       // Open WhatsApp
-      window.open(whatsappLink, '_blank');
+      window.open(data.whatsappLink, '_blank');
 
       toast({
         title: "Status Updated",

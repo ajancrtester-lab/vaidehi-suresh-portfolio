@@ -65,18 +65,19 @@ To manage this booking, visit your dashboard.`;
     }
 
     try {
-      // TODO: Replace with actual API call
-      // const response = await fetch('/api/bookings', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(formData)
-      // });
+      // Call backend API
+      const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+      const response = await fetch(`${BACKEND_URL}/api/bookings`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
 
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      if (!response.ok) {
+        throw new Error('Failed to submit booking');
+      }
 
-      // Generate WhatsApp link
-      const whatsappLink = generateWhatsAppMessage();
+      const data = await response.json();
 
       // Show success message
       toast({
@@ -85,7 +86,7 @@ To manage this booking, visit your dashboard.`;
       });
 
       // Open WhatsApp in new tab
-      window.open(whatsappLink, '_blank');
+      window.open(data.whatsappLink, '_blank');
 
       // Reset form
       setFormData({
