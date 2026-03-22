@@ -10,6 +10,8 @@ import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import CustomCursor from './components/CustomCursor';
 import ScrollProgress from './components/ScrollProgress';
+import AdminDashboard from './components/AdminDashboard';
+import { Toaster } from './components/ui/toaster';
 import './App.css';
 
 const Home = () => {
@@ -43,8 +45,10 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
       </BrowserRouter>
+      <Toaster />
     </div>
   );
 }

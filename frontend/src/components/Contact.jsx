@@ -2,23 +2,12 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { contactInfo, artistInfo } from '../mock';
-import { MessageCircle, Calendar, MapPin, Mail } from 'lucide-react';
-import { Button } from './ui/button';
+import { MessageCircle, MapPin, Mail } from 'lucide-react';
+import BookingForm from './BookingForm';
 
 const Contact = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
-
-  const handleWhatsAppClick = () => {
-    const message = encodeURIComponent(
-      `Hello ${artistInfo.name}, I would like to inquire about booking a performance.`
-    );
-    window.open(`https://wa.me/${contactInfo.whatsapp}?text=${message}`, '_blank');
-  };
-
-  const handleBookingClick = () => {
-    window.open(contactInfo.bookingPlatform, '_blank');
-  };
 
   return (
     <section
@@ -104,36 +93,6 @@ const Contact = () => {
                 </div>
               </div>
             </div>
-          </motion.div>
-
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col justify-center space-y-6"
-          >
-            <div className="relative group">
-              <div className="absolute -inset-2 bg-gradient-to-r from-[#800020]/50 to-[#d4af37]/50 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <Button
-                onClick={handleWhatsAppClick}
-                className="relative w-full bg-gradient-to-r from-[#800020] to-[#9b2335] hover:from-[#9b2335] hover:to-[#800020] text-white py-8 text-lg border border-[#d4af37]/30 shadow-lg shadow-[#800020]/20 hover:shadow-xl hover:shadow-[#800020]/40"
-              >
-                <MessageCircle className="mr-2 h-6 w-6" />
-                Message on WhatsApp
-              </Button>
-            </div>
-
-            <div className="relative group">
-              <div className="absolute -inset-2 bg-gradient-to-r from-[#d4af37]/50 to-[#800020]/50 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <Button
-                onClick={handleBookingClick}
-                className="relative w-full bg-black border-2 border-[#d4af37] hover:bg-[#d4af37] hover:text-black text-[#d4af37] py-8 text-lg transition-all duration-300"
-              >
-                <Calendar className="mr-2 h-6 w-6" />
-                Book a Performance
-              </Button>
-            </div>
 
             <div className="mt-8 p-6 border border-[#d4af37]/20 bg-black/50">
               <p className="text-gray-400 text-sm text-center italic">
@@ -144,6 +103,15 @@ const Contact = () => {
                 - {artistInfo.name}
               </p>
             </div>
+          </motion.div>
+
+          {/* Booking Form */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            <BookingForm />
           </motion.div>
         </div>
 

@@ -304,9 +304,9 @@ const Hero = () => {
                 transition={{ duration: 3, repeat: Infinity }}
               />
               <img
-                src="https://images.unsplash.com/photo-1598000938546-d8b840f69952?w=700&h=900&fit=crop"
+                src="/images/IMG_5748.JPG.jpeg"
                 alt="Vaidehi Suresh - Sopana Sangeetham Artist"
-                className="w-full h-[600px] object-cover relative z-0"
+                className="w-full h-[600px] object-cover relative z-5"
               />
               
               {/* Bottom gradient overlay with name */}

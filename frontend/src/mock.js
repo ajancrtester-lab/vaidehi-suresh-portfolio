@@ -86,36 +86,79 @@ export const videoPerformances = [
   }
 ];
 
+// Gallery with external links (YouTube, Instagram)
 export const gallery = [
   {
     id: 1,
-    url: "https://images.unsplash.com/photo-1598000938546-d8b840f69952?w=800&h=600&fit=crop",
-    caption: "Performance at Sabarimala Temple"
+    thumbnail: "https://images.unsplash.com/photo-1598000938546-d8b840f69952?w=400&h=400&fit=crop",
+    linkType: "youtube",
+    externalLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    title: "Sabarimala Temple Performance",
+    caption: "Annual pilgrimage concert"
   },
   {
     id: 2,
-    url: "https://images.unsplash.com/photo-1610118370450-0881b2f5ccb5?w=800&h=600&fit=crop",
-    caption: "Devotional gathering at Guruvayur"
+    thumbnail: "https://images.unsplash.com/photo-1610118370450-0881b2f5ccb5?w=400&h=400&fit=crop",
+    linkType: "instagram-post",
+    externalLink: "https://www.instagram.com/p/example123/",
+    title: "Guruvayur Devotional",
+    caption: "Sacred morning prayers"
   },
   {
     id: 3,
-    url: "https://images.unsplash.com/photo-1584714268709-c3dd9c92b378?w=800&h=600&fit=crop",
-    caption: "Traditional temple ceremony"
+    thumbnail: "https://images.unsplash.com/photo-1584714268709-c3dd9c92b378?w=400&h=400&fit=crop",
+    linkType: "instagram-reel",
+    externalLink: "https://www.instagram.com/reel/example456/",
+    title: "Traditional Ceremony",
+    caption: "Temple festival highlights"
   },
   {
     id: 4,
-    url: "https://images.unsplash.com/photo-1599930113854-d6d7fd521f10?w=800&h=600&fit=crop",
-    caption: "Festival performance"
+    thumbnail: "https://images.unsplash.com/photo-1599930113854-d6d7fd521f10?w=400&h=400&fit=crop",
+    linkType: "youtube",
+    externalLink: "https://www.youtube.com/watch?v=example789",
+    title: "Festival Performance",
+    caption: "Thrissur Pooram 2024"
   },
   {
     id: 5,
-    url: "https://images.unsplash.com/photo-1604608672516-f1b9b1a0b0f0?w=800&h=450&fit=crop",
-    caption: "Temple architecture backdrop"
+    thumbnail: "https://images.unsplash.com/photo-1604608672516-f1b9b1a0b0f0?w=400&h=400&fit=crop",
+    linkType: "instagram-post",
+    externalLink: "https://www.instagram.com/p/example101/",
+    title: "Temple Architecture",
+    caption: "Sacred spaces of Kerala"
   },
   {
     id: 6,
-    url: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=800&h=600&fit=crop",
-    caption: "Evening prayers session"
+    thumbnail: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=400&h=400&fit=crop",
+    linkType: "instagram-reel",
+    externalLink: "https://www.instagram.com/reel/example112/",
+    title: "Evening Prayers",
+    caption: "Devotional session"
+  },
+  {
+    id: 7,
+    thumbnail: "https://images.unsplash.com/photo-1528991435120-e73e05a58897?w=400&h=400&fit=crop",
+    linkType: "youtube",
+    externalLink: "https://www.youtube.com/watch?v=example131",
+    title: "Raga Recital",
+    caption: "Classical temple music"
+  },
+  {
+    id: 8,
+    thumbnail: "https://images.unsplash.com/photo-1599930113854-d6d7fd521f10?w=400&h=400&fit=crop",
+    linkType: "instagram-post",
+    externalLink: "https://www.instagram.com/p/example415/",
+    title: "Cultural Heritage",
+    caption: "Preserving tradition"
+  },
+  {
+    id: 9,
+    thumbnail: "https://images.unsplash.com/photo-1610118370450-0881b2f5ccb5?w=400&h=400&fit=crop",
+    linkType: "youtube",
+    externalLink: "https://www.youtube.com/watch?v=example161",
+    title: "Temple Music Series",
+    caption: "Episode 5 - Madhyamavati"
   }
 ];
 
@@ -218,7 +261,62 @@ export const testimonials = [
 
 export const contactInfo = {
   whatsapp: "+919876543210",
-  bookingPlatform: "https://www.bookmyshow.com",
   email: "vaidehi.suresh@example.com",
   location: "Thrissur, Kerala, India"
 };
+
+// Mock bookings data (for frontend development)
+export const mockBookings = [
+  {
+    id: "1",
+    name: "Rajesh Kumar",
+    phone: "+919876543211",
+    email: "rajesh@example.com",
+    eventType: "Temple",
+    eventDate: "2025-05-15",
+    location: "Thiruvananthapuram Temple",
+    duration: "2 hours",
+    message: "Looking for a devotional evening performance",
+    status: "pending",
+    createdAt: "2025-03-15T10:30:00Z"
+  },
+  {
+    id: "2",
+    name: "Priya Nair",
+    phone: "+919876543212",
+    email: "priya@example.com",
+    eventType: "Cultural",
+    eventDate: "2025-04-20",
+    location: "Kochi Cultural Center",
+    duration: "3 hours",
+    message: "Cultural festival performance needed",
+    status: "accepted",
+    createdAt: "2025-03-10T14:20:00Z"
+  },
+  {
+    id: "3",
+    name: "Suresh Menon",
+    phone: "+919876543213",
+    email: "suresh@example.com",
+    eventType: "Private",
+    eventDate: "2025-06-01",
+    location: "Private Residence, Thrissur",
+    duration: "1.5 hours",
+    message: "Family function - traditional music",
+    status: "declined",
+    createdAt: "2025-03-12T09:15:00Z"
+  },
+  {
+    id: "4",
+    name: "Lakshmi Pillai",
+    phone: "+919876543214",
+    email: "lakshmi@example.com",
+    eventType: "Temple",
+    eventDate: "2025-07-10",
+    location: "Guruvayur Temple",
+    duration: "2.5 hours",
+    message: "Annual temple festival",
+    status: "pending",
+    createdAt: "2025-03-18T16:45:00Z"
+  }
+];
