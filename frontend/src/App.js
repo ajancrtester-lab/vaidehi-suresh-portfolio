@@ -5,12 +5,15 @@ import About from './components/About';
 import AudioPlayer from './components/AudioPlayer';
 import VideoGallery from './components/VideoGallery';
 import ImageGallery from './components/ImageGallery';
-import Events from './components/Events';
+import Services from './components/Services';
+import Achievements from './components/Achievements';
+import Training from './components/Training';
 import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import CustomCursor from './components/CustomCursor';
 import ScrollProgress from './components/ScrollProgress';
 import AdminDashboard from './components/AdminDashboard';
+import SEO from './components/SEO';
 import { Toaster } from './components/ui/toaster';
 import './App.css';
 
@@ -25,14 +28,17 @@ const Home = () => {
 
   return (
     <div className="relative">
+      <SEO />
       {showCursor && <CustomCursor />}
       <ScrollProgress />
       <Hero />
       <About />
+      <Services />
+      <Achievements />
+      <Training />
       <AudioPlayer />
       <VideoGallery />
       <ImageGallery />
-      <Events />
       <Testimonials />
       <Contact />
     </div>
