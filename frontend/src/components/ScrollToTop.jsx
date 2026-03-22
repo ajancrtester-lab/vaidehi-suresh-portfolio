@@ -63,7 +63,7 @@ const ScrollToTop = () => {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
             onClick={scrollToBottom}
-            className="fixed bottom-8 right-8 z-50 group"
+            className="fixed bottom-24 right-8 z-50 group"
             aria-label="Scroll to bottom"
           >
             {/* Outer glow effect */}
@@ -95,7 +95,7 @@ const ScrollToTop = () => {
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.3 }}
             onClick={scrollToTop}
-            className="fixed bottom-8 right-8 z-50 group"
+            className="fixed bottom-24 right-8 z-50 group"
             aria-label="Scroll to top"
           >
             {/* Outer glow effect */}
