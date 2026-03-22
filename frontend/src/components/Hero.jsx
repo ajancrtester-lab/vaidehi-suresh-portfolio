@@ -268,18 +268,19 @@ const Hero = () => {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 flex items-center justify-between gap-12">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-0">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
         {/* Left: Artist Photo */}
         <motion.div
-          initial={{ opacity: 0, x: -100 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.3 }}
-          className="flex-1 max-w-xl"
+          className="w-full lg:flex-1 lg:max-w-xl order-2 lg:order-1"
         >
-          <div className="relative group">
+          <div className="relative group max-w-md mx-auto lg:max-w-none">
             {/* Decorative frame */}
             <motion.div
-              className="absolute -inset-8 border-4 border-[#d4af37]/30"
+              className="absolute -inset-4 sm:-inset-6 lg:-inset-8 border-2 sm:border-4 border-[#d4af37]/30"
               animate={{
                 boxShadow: [
                   '0 0 30px rgba(212, 175, 55, 0.3)',
@@ -291,10 +292,10 @@ const Hero = () => {
             />
             
             {/* Corner decorations (Kerala temple style) */}
-            <div className="absolute -top-4 -left-4 w-12 h-12 border-t-4 border-l-4 border-[#d4af37]" />
-            <div className="absolute -top-4 -right-4 w-12 h-12 border-t-4 border-r-4 border-[#d4af37]" />
-            <div className="absolute -bottom-4 -left-4 w-12 h-12 border-b-4 border-l-4 border-[#d4af37]" />
-            <div className="absolute -bottom-4 -right-4 w-12 h-12 border-b-4 border-r-4 border-[#d4af37]" />
+            <div className="absolute -top-2 -left-2 sm:-top-3 sm:-left-3 lg:-top-4 lg:-left-4 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 border-t-2 border-l-2 sm:border-t-4 sm:border-l-4 border-[#d4af37]" />
+            <div className="absolute -top-2 -right-2 sm:-top-3 sm:-right-3 lg:-top-4 lg:-right-4 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 border-t-2 border-r-2 sm:border-t-4 sm:border-r-4 border-[#d4af37]" />
+            <div className="absolute -bottom-2 -left-2 sm:-bottom-3 sm:-left-3 lg:-bottom-4 lg:-left-4 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 border-b-2 border-l-2 sm:border-b-4 sm:border-l-4 border-[#d4af37]" />
+            <div className="absolute -bottom-2 -right-2 sm:-bottom-3 sm:-right-3 lg:-bottom-4 lg:-right-4 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 border-b-2 border-r-2 sm:border-b-4 sm:border-r-4 border-[#d4af37]" />
 
             {/* Main photo */}
             <div className="relative overflow-hidden">
@@ -306,30 +307,30 @@ const Hero = () => {
               <img
                 src="/images/IMG_5748.JPG.jpeg"
                 alt="Vaidehi Suresh - Sopana Sangeetham Artist"
-                className="w-full h-[600px] object-cover relative z-5"
+                className="w-full h-[450px] sm:h-[550px] lg:h-[600px] object-cover object-center relative z-0"
               />
               
               {/* Bottom gradient overlay with name */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-8 z-20">
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-4 sm:p-6 lg:p-8 z-20">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1 }}
                 >
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-12 h-px bg-[#d4af37]" />
-                    <Sparkles className="h-4 w-4 text-[#d4af37]" />
-                    <div className="w-12 h-px bg-[#d4af37]" />
+                  <div className="flex items-center gap-2 sm:gap-3 mb-2">
+                    <div className="w-8 sm:w-10 lg:w-12 h-px bg-[#d4af37]" />
+                    <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 text-[#d4af37]" />
+                    <div className="w-8 sm:w-10 lg:w-12 h-px bg-[#d4af37]" />
                   </div>
-                  <p className="text-white/80 text-sm tracking-[0.3em] uppercase mb-1">Sopana Sangeetham</p>
-                  <h3 className="font-cormorant text-3xl font-bold text-[#d4af37]">Artist</h3>
+                  <p className="text-white/80 text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] uppercase mb-1">Sopana Sangeetham</p>
+                  <h3 className="font-cormorant text-2xl sm:text-3xl font-bold text-[#d4af37]">Artist</h3>
                 </motion.div>
               </div>
             </div>
 
-            {/* Floating accent elements */}
+            {/* Floating accent elements - hide on mobile */}
             <motion.div
-              className="absolute -right-6 top-1/4 w-20 h-20"
+              className="hidden lg:block absolute -right-6 top-1/4 w-20 h-20"
               animate={{ rotate: 360 }}
               transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
             >
@@ -344,10 +345,10 @@ const Hero = () => {
 
         {/* Right: Text Content */}
         <motion.div
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.5 }}
-          className="flex-1 max-w-2xl"
+          className="w-full lg:flex-1 lg:max-w-2xl order-1 lg:order-2 text-center lg:text-left"
         >
           <motion.div
             className="inline-block mb-6"
@@ -360,12 +361,12 @@ const Hero = () => {
             </div>
           </motion.div>
 
-          <h1 className="font-cormorant text-7xl md:text-8xl font-bold text-[#d4af37] mb-6 tracking-wide leading-tight">
+          <h1 className="font-cormorant text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-[#d4af37] mb-4 sm:mb-6 tracking-wide leading-tight">
             {artistInfo.name}
           </h1>
 
           <motion.p
-            className="text-2xl md:text-3xl text-gray-300 mb-6 font-light leading-relaxed"
+            className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-300 mb-4 sm:mb-6 font-light leading-relaxed"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
@@ -374,17 +375,18 @@ const Hero = () => {
           </motion.p>
 
           <motion.div
-            className="flex items-center gap-4 mb-8"
+            className="flex items-center gap-2 sm:gap-4 mb-6 sm:mb-8 justify-center lg:justify-start"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.2 }}
           >
-            <div className="h-px flex-1 bg-gradient-to-r from-[#800020] via-[#d4af37] to-transparent" />
-            <span className="text-gray-500 text-sm tracking-widest">KERALA TRADITION</span>
+            <div className="h-px flex-1 lg:flex-1 bg-gradient-to-r from-[#800020] via-[#d4af37] to-transparent" />
+            <span className="text-gray-500 text-xs sm:text-sm tracking-widest">KERALA TRADITION</span>
+            <div className="h-px flex-1 lg:hidden bg-gradient-to-l from-[#800020] via-[#d4af37] to-transparent" />
           </motion.div>
 
           <motion.p
-            className="text-gray-400 text-lg leading-relaxed mb-8"
+            className="text-gray-400 text-base sm:text-lg leading-relaxed mb-6 sm:mb-8 max-w-2xl mx-auto lg:mx-0"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.4 }}
@@ -397,11 +399,11 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.6 }}
-            className="flex gap-4"
+            className="flex justify-center lg:justify-start gap-4"
           >
             <Button
               onClick={scrollToAudio}
-              className="bg-gradient-to-r from-[#800020] to-[#9b2335] hover:from-[#9b2335] hover:to-[#800020] text-white px-10 py-7 text-lg border-2 border-[#d4af37]/30 shadow-2xl shadow-[#d4af37]/20 hover:shadow-[#d4af37]/40 group relative overflow-hidden"
+              className="bg-gradient-to-r from-[#800020] to-[#9b2335] hover:from-[#9b2335] hover:to-[#800020] text-white px-6 sm:px-10 py-5 sm:py-7 text-base sm:text-lg border-2 border-[#d4af37]/30 shadow-2xl shadow-[#d4af37]/20 hover:shadow-[#d4af37]/40 group relative overflow-hidden"
             >
               <motion.div
                 className="absolute inset-0 bg-[#d4af37]/20"
@@ -409,7 +411,7 @@ const Hero = () => {
                 whileHover={{ x: '100%' }}
                 transition={{ duration: 0.5 }}
               />
-              <Play className="mr-2 h-6 w-6 relative z-10" />
+              <Play className="mr-2 h-5 w-5 sm:h-6 sm:w-6 relative z-10" />
               <span className="relative z-10">Listen Now</span>
             </Button>
           </motion.div>
@@ -419,22 +421,23 @@ const Hero = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.8 }}
-            className="flex gap-8 mt-10 pt-10 border-t border-[#d4af37]/20"
+            className="flex gap-4 sm:gap-8 mt-8 sm:mt-10 pt-8 sm:pt-10 border-t border-[#d4af37]/20 justify-center lg:justify-start"
           >
             <div>
-              <div className="font-cormorant text-4xl font-bold text-[#d4af37] mb-1">{artistInfo.yearsOfExperience}+</div>
+              <div className="font-cormorant text-3xl sm:text-4xl font-bold text-[#d4af37] mb-1">{artistInfo.yearsOfExperience}+</div>
               <div className="text-gray-500 text-xs tracking-wider uppercase">Years</div>
             </div>
             <div>
-              <div className="font-cormorant text-4xl font-bold text-[#d4af37] mb-1">{artistInfo.templesPerformed}+</div>
+              <div className="font-cormorant text-3xl sm:text-4xl font-bold text-[#d4af37] mb-1">{artistInfo.templesPerformed}+</div>
               <div className="text-gray-500 text-xs tracking-wider uppercase">Temples</div>
             </div>
             <div>
-              <div className="font-cormorant text-4xl font-bold text-[#d4af37] mb-1">50+</div>
+              <div className="font-cormorant text-3xl sm:text-4xl font-bold text-[#d4af37] mb-1">50+</div>
               <div className="text-gray-500 text-xs tracking-wider uppercase">Ragas</div>
             </div>
           </motion.div>
         </motion.div>
+      </div>
       </div>
 
       {/* Scroll indicator */}
