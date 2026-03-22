@@ -214,6 +214,18 @@ backend:
         comment: "✅ PASS - Quick decline endpoint working correctly. Returns HTML page with decline message, auto-redirects to WhatsApp for customer notification, updates booking status to 'declined' in database."
 
 frontend:
+  - task: "Smart Scroll Button - Scroll Down/Up functionality"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/ScrollToTop.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ PASS - Smart scroll button working perfectly. At top of page (scrollTop < 300px), gold 'Scroll Down' button with ChevronDown icon appears in bottom-right corner. Clicking scrolls smoothly to bottom. At bottom, maroon 'Scroll Up' button with ChevronUp icon appears. Clicking scrolls smoothly to top. At middle position (scrollTop > 300px), only Scroll Up button shows. Button positioning (fixed bottom-8 right-8), animations, and tooltips all working correctly. Tested on desktop viewport (1920x1080)."
+
   - task: "Booking form submission"
     implemented: true
     working: true
@@ -225,6 +237,9 @@ frontend:
       - working: true
         agent: "testing"
         comment: "✅ PASS - Booking form submission working. Form accepts all required fields (name, phone, email, event type, date, location, duration, message). Successfully creates booking in database via POST /api/bookings. Success toast notification displays correctly. Date validation working (prevents past dates)."
+      - working: true
+        agent: "testing"
+        comment: "✅ PASS - Comprehensive retest completed. Form submission fully functional with all components working: (1) All form fields accept input correctly, (2) Shadcn Select component for event type works properly, (3) Date validation enforces future dates only (correctly rejected 2025-09-15 as past date, accepted 2026-09-15), (4) API request successfully sent to /api/bookings with 200 OK response, (5) Success toast 'Booking Request Submitted!' displays correctly with message about WhatsApp and quick action links, (6) Form resets after successful submission, (7) No critical console errors. Tested with realistic data (Pradeep Kumar, Temple booking for Vadakkunnathan Temple). WhatsApp link opening via window.open() cannot be fully verified in headless mode but backend integration confirmed working from previous tests."
 
   - task: "WhatsApp link integration - CRITICAL BUG"
     implemented: true
@@ -303,13 +318,14 @@ frontend:
 
 metadata:
   created_by: "testing_agent"
-  version: "1.1"
-  test_sequence: 2
+  version: "1.2"
+  test_sequence: 3
   run_ui: true
 
 test_plan:
   current_focus:
-    - "All critical features tested and working"
+    - "Smart Scroll Button - Tested and working"
+    - "Booking Form Submission - Retested and working"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
@@ -323,3 +339,5 @@ agent_communication:
     message: "Complete end-to-end UI testing completed for WhatsApp booking flow. CRITICAL BUG FOUND: Frontend BookingForm.jsx (line 89) ignores backend WhatsApp link and generates its own message without quick-accept/decline URLs. This breaks the entire quick-action flow. Backend correctly generates proper WhatsApp messages with action links, but frontend discards them. All other components working: booking form submission, admin dashboard (login, stats, filtering, tabs), quick-accept/decline endpoints. Dashboard correctly filters by event month/year. Tested bookings: Rajesh Kumar (accepted), Priya Menon (declined)."
   - agent: "testing"
     message: "CRITICAL BUG FIX VERIFIED! WhatsApp booking flow now fully functional. Frontend correctly uses backend-generated WhatsApp link with quick-accept/decline URLs. Complete test results: (1) Booking form creates booking successfully, (2) WhatsApp message includes proper quick-action URLs with production domain, (3) Quick-accept endpoint updates status to 'accepted' and displays success page, (4) Booking persists in database with correct status. Verified booking ID 268616eb-00ef-4cc5-9971-2dcba9ebd4c2 shows status 'accepted' via API query. Dashboard month filtering working as designed (shows current month bookings). All high-priority features tested and working correctly."
+  - agent: "testing"
+    message: "NEW FEATURE TESTING COMPLETED - Smart Scroll Button: Tested smart scroll button functionality (ScrollToTop.jsx component). All tests passed: (1) Scroll Down button (gold with ChevronDown) appears at top of page, (2) Clicking scrolls smoothly to bottom, (3) Scroll Up button (maroon with ChevronUp) appears at bottom, (4) Clicking scrolls smoothly to top, (5) At middle position, only Scroll Up button shows. Button positioning, animations, and tooltips working correctly. BOOKING FORM RETESTED: Comprehensive retest of booking form submission completed. All components working: form fields, event type selection (shadcn Select), date validation (enforces future dates), API integration (POST /api/bookings returns 200 OK), success toast display, form reset after submission. No critical console errors. Tested with realistic data (Pradeep Kumar, Temple booking for 2026-09-15). All requested features tested and working correctly."

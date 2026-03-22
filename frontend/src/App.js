@@ -12,6 +12,7 @@ import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import CustomCursor from './components/CustomCursor';
 import ScrollProgress from './components/ScrollProgress';
+import ScrollToTop from './components/ScrollToTop';
 import AdminDashboard from './components/AdminDashboard';
 import SEO from './components/SEO';
 import { Toaster } from './components/ui/toaster';
@@ -31,6 +32,7 @@ const Home = () => {
       <SEO />
       {showCursor && <CustomCursor />}
       <ScrollProgress />
+      <ScrollToTop />
       <Hero />
       <About />
       <Services />
