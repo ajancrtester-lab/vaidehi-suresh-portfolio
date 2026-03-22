@@ -32,23 +32,6 @@ const BookingForm = () => {
     setFormData(prev => ({ ...prev, eventType: value }));
   };
 
-  const generateWhatsAppMessage = () => {
-    const message = `🎵 New Performance Booking Request!
-
-Name: ${formData.name}
-Phone: ${formData.phone}
-Email: ${formData.email}
-Event Type: ${formData.eventType}
-Date: ${formData.eventDate}
-Location: ${formData.location}
-Duration: ${formData.duration || 'Not specified'}
-Message: ${formData.message}
-
-To manage this booking, visit your dashboard.`;
-    
-    return `https://wa.me/${contactInfo.whatsapp}?text=${encodeURIComponent(message)}`;
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -82,11 +65,13 @@ To manage this booking, visit your dashboard.`;
       // Show success message
       toast({
         title: "Booking Request Submitted!",
-        description: "We'll send the details to the artist via WhatsApp",
+        description: "Opening WhatsApp with booking details and quick action links",
       });
 
-      // Open WhatsApp in new tab
-      window.open(generateWhatsAppMessage(), '_blank');
+      // Open WhatsApp with backend-generated link (includes quick-accept/decline URLs)
+      if (data.whatsappLink) {
+        window.open(data.whatsappLink, '_blank');
+      }
 
       // Reset form
       setFormData({

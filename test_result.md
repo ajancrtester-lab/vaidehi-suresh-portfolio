@@ -228,15 +228,18 @@ frontend:
 
   - task: "WhatsApp link integration - CRITICAL BUG"
     implemented: true
-    working: false
+    working: true
     file: "/app/frontend/src/components/BookingForm.jsx"
-    stuck_count: 1
+    stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: false
         agent: "testing"
         comment: "❌ CRITICAL BUG - Frontend ignores backend WhatsApp link. BookingForm.jsx line 89 uses client-side generateWhatsAppMessage() instead of data.whatsappLink from backend response. Backend correctly generates WhatsApp message with quick-accept/decline URLs, but frontend discards it and generates simple message without action links. FIX: Change line 89 from 'window.open(generateWhatsAppMessage(), '_blank')' to 'window.open(data.whatsappLink, '_blank')'. This breaks the entire quick-accept/decline flow as artist never receives the action links."
+      - working: true
+        agent: "testing"
+        comment: "✅ PASS - CRITICAL BUG FIXED! Frontend now correctly uses backend WhatsApp link (data.whatsappLink). Complete end-to-end test verified: (1) Booking form submission creates booking with ID 268616eb-00ef-4cc5-9971-2dcba9ebd4c2, (2) WhatsApp link contains proper message format with quick-accept and quick-decline URLs using production URL (sopana-artist.preview.emergentagent.com), (3) Quick-accept endpoint successfully updates booking status to 'accepted' in database, (4) WhatsApp redirect page displays success message. Verified via API query that booking exists with status 'accepted'. Dashboard filtering by current month (March 2026) prevents April 2026 booking from displaying, but this is expected behavior. All core WhatsApp booking flow components working correctly."
 
   - task: "Admin dashboard - Login"
     implemented: true
@@ -306,9 +309,8 @@ metadata:
 
 test_plan:
   current_focus:
-    - "WhatsApp link integration bug - Frontend must use backend WhatsApp link"
-  stuck_tasks:
-    - "WhatsApp link integration - CRITICAL BUG"
+    - "All critical features tested and working"
+  stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
@@ -319,3 +321,5 @@ agent_communication:
     message: "WhatsApp booking flow testing completed. CRITICAL ISSUE FOUND AND FIXED: Backend .env had incorrect BACKEND_URL (localhost instead of production URL). Fixed BACKEND_URL to https://sopana-artist.preview.emergentagent.com. All WhatsApp flow components now working: booking creation, message format, quick-accept/decline endpoints, status persistence, and HTML redirects. Complete flow tested and verified functional."
   - agent: "testing"
     message: "Complete end-to-end UI testing completed for WhatsApp booking flow. CRITICAL BUG FOUND: Frontend BookingForm.jsx (line 89) ignores backend WhatsApp link and generates its own message without quick-accept/decline URLs. This breaks the entire quick-action flow. Backend correctly generates proper WhatsApp messages with action links, but frontend discards them. All other components working: booking form submission, admin dashboard (login, stats, filtering, tabs), quick-accept/decline endpoints. Dashboard correctly filters by event month/year. Tested bookings: Rajesh Kumar (accepted), Priya Menon (declined)."
+  - agent: "testing"
+    message: "CRITICAL BUG FIX VERIFIED! WhatsApp booking flow now fully functional. Frontend correctly uses backend-generated WhatsApp link with quick-accept/decline URLs. Complete test results: (1) Booking form creates booking successfully, (2) WhatsApp message includes proper quick-action URLs with production domain, (3) Quick-accept endpoint updates status to 'accepted' and displays success page, (4) Booking persists in database with correct status. Verified booking ID 268616eb-00ef-4cc5-9971-2dcba9ebd4c2 shows status 'accepted' via API query. Dashboard month filtering working as designed (shows current month bookings). All high-priority features tested and working correctly."
