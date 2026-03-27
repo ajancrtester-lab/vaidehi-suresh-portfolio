@@ -3,95 +3,100 @@
  * Replaces all mock.js usage with real backend API calls
  */
 
-const API_URL = process.env.REACT_APP_BACKEND_URL;
+const API_URL = process.env.REACT_APP_BACKEND_URL || '';
+
+// Helper function with error handling
+const fetchWithErrorHandling = async (endpoint, errorMessage) => {
+  try {
+    const url = API_URL ? `${API_URL}${endpoint}` : endpoint;
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${errorMessage}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(`${errorMessage}:`, error);
+    throw error;
+  }
+};
 
 // Artist Info
 export const fetchArtistInfo = async () => {
   try {
-    const response = await fetch(`${API_URL}/api/artist-info`);
-    if (!response.ok) throw new Error('Failed to fetch artist info');
-    const data = await response.json();
+    const data = await fetchWithErrorHandling('/api/artist-info', 'Failed to fetch artist info');
     return data.artistInfo;
   } catch (error) {
-    console.error('Error fetching artist info:', error);
-    throw error;
+    // Return fallback data instead of throwing
+    return {
+      name: 'Vaidehi Suresh',
+      tagline: 'Sopana Sangeetham Artist',
+      yearsOfExperience: 15,
+      templesPerformed: 750,
+      contactInfo: {
+        whatsapp: '917559926388',
+        email: 'contact@example.com',
+        location: 'Thrissur, Kerala'
+      }
+    };
   }
 };
 
 // Audio Tracks
 export const fetchAudioTracks = async () => {
   try {
-    const response = await fetch(`${API_URL}/api/audio-tracks`);
-    if (!response.ok) throw new Error('Failed to fetch audio tracks');
-    const data = await response.json();
-    return data.tracks;
+    const data = await fetchWithErrorHandling('/api/audio-tracks', 'Failed to fetch audio tracks');
+    return data.tracks || [];
   } catch (error) {
-    console.error('Error fetching audio tracks:', error);
-    throw error;
+    return []; // Return empty array on error
   }
 };
 
 // Video Performances
 export const fetchVideoPerformances = async () => {
   try {
-    const response = await fetch(`${API_URL}/api/video-performances`);
-    if (!response.ok) throw new Error('Failed to fetch videos');
-    const data = await response.json();
-    return data.videos;
+    const data = await fetchWithErrorHandling('/api/video-performances', 'Failed to fetch videos');
+    return data.videos || [];
   } catch (error) {
-    console.error('Error fetching videos:', error);
-    throw error;
+    return [];
   }
 };
 
 // Gallery
 export const fetchGallery = async () => {
   try {
-    const response = await fetch(`${API_URL}/api/gallery`);
-    if (!response.ok) throw new Error('Failed to fetch gallery');
-    const data = await response.json();
-    return data.gallery;
+    const data = await fetchWithErrorHandling('/api/gallery', 'Failed to fetch gallery');
+    return data.gallery || [];
   } catch (error) {
-    console.error('Error fetching gallery:', error);
-    throw error;
+    return [];
   }
 };
 
 // Testimonials
 export const fetchTestimonials = async () => {
   try {
-    const response = await fetch(`${API_URL}/api/testimonials`);
-    if (!response.ok) throw new Error('Failed to fetch testimonials');
-    const data = await response.json();
-    return data.testimonials;
+    const data = await fetchWithErrorHandling('/api/testimonials', 'Failed to fetch testimonials');
+    return data.testimonials || [];
   } catch (error) {
-    console.error('Error fetching testimonials:', error);
-    throw error;
+    return [];
   }
 };
 
 // Bookings
 export const fetchBookings = async () => {
   try {
-    const response = await fetch(`${API_URL}/api/bookings`);
-    if (!response.ok) throw new Error('Failed to fetch bookings');
-    const data = await response.json();
-    return data.bookings;
+    const data = await fetchWithErrorHandling('/api/bookings', 'Failed to fetch bookings');
+    return data.bookings || [];
   } catch (error) {
-    console.error('Error fetching bookings:', error);
-    throw error;
+    return [];
   }
 };
 
 // Content
 export const fetchContent = async () => {
   try {
-    const response = await fetch(`${API_URL}/api/content`);
-    if (!response.ok) throw new Error('Failed to fetch content');
-    const data = await response.json();
-    return data.content;
+    const data = await fetchWithErrorHandling('/api/content', 'Failed to fetch content');
+    return data.content || {};
   } catch (error) {
-    console.error('Error fetching content:', error);
-    throw error;
+    return {};
   }
 };

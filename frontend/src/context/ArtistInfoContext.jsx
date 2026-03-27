@@ -47,7 +47,19 @@ export const ArtistInfoProvider = ({ children }) => {
 
   return (
     <ArtistInfoContext.Provider value={{ artistInfo, contactInfo, loading }}>
-      {children}
+      {loading ? (
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          height: '100vh', 
+          background: '#0a0a0a', 
+          color: '#d4af37',
+          fontSize: '20px'
+        }}>
+          Loading...
+        </div>
+      ) : children}
     </ArtistInfoContext.Provider>
   );
 };
