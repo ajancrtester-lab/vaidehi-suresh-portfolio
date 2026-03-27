@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Clock, MapPin, User, Phone, Mail, Check, X, ExternalLink, LogOut, Eye } from 'lucide-react';
+import { Calendar, Clock, MapPin, User, Phone, Mail, Check, X, ExternalLink, LogOut, Eye, Edit, Save } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Badge } from './ui/badge';
+import { Textarea } from './ui/textarea';
 import { mockBookings, contactInfo } from '../mock';
 import { toast } from '../hooks/use-toast';
+import { content as defaultContent } from '../content/bilingual';
 
 const AdminDashboard = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -17,13 +19,37 @@ const AdminDashboard = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [isLoading, setIsLoading] = useState(false);
+  const [editingContent, setEditingContent] = useState(null);
+  const [contentData, setContentData] = useState({
+    en: { ...defaultContent.en },
+    ml: { ...defaultContent.ml }
+  });
 
   // Load bookings (mock data for now)
   useEffect(() => {
     if (isAuthenticated) {
       loadBookings();
+      loadContent();
     }
   }, [isAuthenticated, selectedMonth, selectedYear]);
+
+  const loadContent = async () => {
+    try {
+      const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+      const response = await fetch(`${BACKEND_URL}/api/content`);
+      
+      if (response.ok) {
+        const data = await response.json();
+        // Merge with default content
+        setContentData({
+          en: { ...defaultContent.en, ...data.content?.en },
+          ml: { ...defaultContent.ml, ...data.content?.ml }
+        });
+      }
+    } catch (error) {
+      console.log('Using default content');
+    }
+  };
 
   const loadBookings = async () => {
     setIsLoading(true);
@@ -89,6 +115,50 @@ const AdminDashboard = () => {
       title: "Logged Out",
       description: "You have been logged out successfully"
     });
+  };
+
+  const handleContentUpdate = async (section, language, data) => {
+    try {
+      const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+      const response = await fetch(
+        `${BACKEND_URL}/api/content?admin_password=admin123`,
+        {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            section,
+            language,
+            data
+          })
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to update content');
+      }
+
+      toast({
+        title: "Success",
+        description: "Content updated successfully"
+      });
+
+      // Update local state
+      setContentData(prev => ({
+        ...prev,
+        [language]: {
+          ...prev[language],
+          [section]: data
+        }
+      }));
+
+      setEditingContent(null);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update content",
+        variant: "destructive"
+      });
+    }
   };
 
   const handleStatusChange = async (bookingId, newStatus) => {
@@ -263,44 +333,62 @@ const AdminDashboard = () => {
           </Card>
         </div>
 
-        {/* Bookings List */}
-        <Tabs defaultValue="all" className="w-full">
-          <TabsList className="grid w-full max-w-md grid-cols-4 mb-8 bg-black/50 border border-[#d4af37]/30">
-            <TabsTrigger value="all">All</TabsTrigger>
-            <TabsTrigger value="pending">Pending</TabsTrigger>
-            <TabsTrigger value="accepted">Accepted</TabsTrigger>
-            <TabsTrigger value="declined">Declined</TabsTrigger>
+        {/* Main Tabs */}
+        <Tabs defaultValue="bookings" className="w-full">
+          <TabsList className="grid w-full max-w-lg grid-cols-2 mb-8 bg-black/50 border border-[#d4af37]/30">
+            <TabsTrigger value="bookings">Bookings</TabsTrigger>
+            <TabsTrigger value="content">Content Management</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="all">
-            <BookingsList 
-              bookings={bookings} 
-              onStatusChange={handleStatusChange}
-              getStatusBadge={getStatusBadge}
-            />
+          {/* Bookings Tab */}
+          <TabsContent value="bookings">
+            <Tabs defaultValue="all" className="w-full">
+              <TabsList className="grid w-full max-w-md grid-cols-4 mb-8 bg-black/50 border border-[#d4af37]/30">
+                <TabsTrigger value="all">All</TabsTrigger>
+                <TabsTrigger value="pending">Pending</TabsTrigger>
+                <TabsTrigger value="accepted">Accepted</TabsTrigger>
+                <TabsTrigger value="declined">Declined</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="all">
+                <BookingsList 
+                  bookings={bookings} 
+                  onStatusChange={handleStatusChange}
+                  getStatusBadge={getStatusBadge}
+                />
+              </TabsContent>
+
+              <TabsContent value="pending">
+                <BookingsList 
+                  bookings={getBookingsByStatus('pending')} 
+                  onStatusChange={handleStatusChange}
+                  getStatusBadge={getStatusBadge}
+                />
+              </TabsContent>
+
+              <TabsContent value="accepted">
+                <BookingsList 
+                  bookings={getBookingsByStatus('accepted')} 
+                  onStatusChange={handleStatusChange}
+                  getStatusBadge={getStatusBadge}
+                />
+              </TabsContent>
+
+              <TabsContent value="declined">
+                <BookingsList 
+                  bookings={getBookingsByStatus('declined')} 
+                  onStatusChange={handleStatusChange}
+                  getStatusBadge={getStatusBadge}
+                />
+              </TabsContent>
+            </Tabs>
           </TabsContent>
 
-          <TabsContent value="pending">
-            <BookingsList 
-              bookings={getBookingsByStatus('pending')} 
-              onStatusChange={handleStatusChange}
-              getStatusBadge={getStatusBadge}
-            />
-          </TabsContent>
-
-          <TabsContent value="accepted">
-            <BookingsList 
-              bookings={getBookingsByStatus('accepted')} 
-              onStatusChange={handleStatusChange}
-              getStatusBadge={getStatusBadge}
-            />
-          </TabsContent>
-
-          <TabsContent value="declined">
-            <BookingsList 
-              bookings={getBookingsByStatus('declined')} 
-              onStatusChange={handleStatusChange}
-              getStatusBadge={getStatusBadge}
+          {/* Content Management Tab */}
+          <TabsContent value="content">
+            <ContentManagement 
+              contentData={contentData}
+              onContentUpdate={handleContentUpdate}
             />
           </TabsContent>
         </Tabs>
@@ -400,6 +488,138 @@ const BookingsList = ({ bookings, onStatusChange, getStatusBadge }) => {
           </CardContent>
         </Card>
       ))}
+    </div>
+  );
+};
+
+// Content Management Component
+const ContentManagement = ({ contentData, onContentUpdate }) => {
+  const [selectedLang, setSelectedLang] = useState('en');
+  const [editedData, setEditedData] = useState({});
+  const [activeSection, setActiveSection] = useState('about');
+
+  const sections = [
+    { key: 'about', label: 'About Section', fields: ['title', 'subtitle', 'quote'] },
+    { key: 'achievements', label: 'Achievements', fields: ['title', 'subtitle'] },
+    { key: 'training', label: 'Training & Education', fields: ['title', 'subtitle', 'formalEducation', 'musicEducation', 'gurusTitle'] }
+  ];
+
+  const handleFieldChange = (section, field, value) => {
+    setEditedData(prev => ({
+      ...prev,
+      [section]: {
+        ...(prev[section] || {}),
+        [field]: value
+      }
+    }));
+  };
+
+  const handleSave = (section) => {
+    const dataToSave = editedData[section] || {};
+    const mergedData = {
+      ...contentData[selectedLang][section],
+      ...dataToSave
+    };
+    
+    onContentUpdate(section, selectedLang, mergedData);
+    setEditedData(prev => {
+      const newData = { ...prev };
+      delete newData[section];
+      return newData;
+    });
+  };
+
+  const getValue = (section, field) => {
+    if (editedData[section] && editedData[section][field] !== undefined) {
+      return editedData[section][field];
+    }
+    return contentData[selectedLang][section]?.[field] || '';
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Language Selector */}
+      <Card className="border-[#d4af37]/30 bg-black/50">
+        <CardHeader>
+          <CardTitle className="text-[#d4af37]">Content Management</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex gap-4 mb-6">
+            <Button
+              onClick={() => setSelectedLang('en')}
+              variant={selectedLang === 'en' ? 'default' : 'outline'}
+              className={selectedLang === 'en' ? 'bg-[#d4af37] text-black' : 'border-[#d4af37]/30'}
+            >
+              English
+            </Button>
+            <Button
+              onClick={() => setSelectedLang('ml')}
+              variant={selectedLang === 'ml' ? 'default' : 'outline'}
+              className={selectedLang === 'ml' ? 'bg-[#d4af37] text-black' : 'border-[#d4af37]/30'}
+            >
+              Malayalam (മലയാളം)
+            </Button>
+          </div>
+
+          <p className="text-gray-400 text-sm">
+            Currently editing: <span className="text-[#d4af37]">{selectedLang === 'en' ? 'English' : 'Malayalam'}</span>
+          </p>
+        </CardContent>
+      </Card>
+
+      {/* Section Editors */}
+      {sections.map(section => (
+        <Card key={section.key} className="border-[#d4af37]/30 bg-black/50">
+          <CardHeader>
+            <div className="flex justify-between items-center">
+              <CardTitle className="text-[#d4af37]">{section.label}</CardTitle>
+              <Button
+                onClick={() => handleSave(section.key)}
+                size="sm"
+                className="bg-green-600 hover:bg-green-700"
+                disabled={!editedData[section.key]}
+              >
+                <Save className="h-4 w-4 mr-2" />
+                Save Changes
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {section.fields.map(field => (
+              <div key={field}>
+                <Label className="text-gray-300 mb-2 block capitalize">
+                  {field.replace(/([A-Z])/g, ' $1').trim()}
+                </Label>
+                {field === 'quote' || field === 'description' ? (
+                  <Textarea
+                    value={getValue(section.key, field)}
+                    onChange={(e) => handleFieldChange(section.key, field, e.target.value)}
+                    className="bg-black/50 border-[#d4af37]/30 text-white min-h-[100px]"
+                    placeholder={`Enter ${field}...`}
+                  />
+                ) : (
+                  <Input
+                    value={getValue(section.key, field)}
+                    onChange={(e) => handleFieldChange(section.key, field, e.target.value)}
+                    className="bg-black/50 border-[#d4af37]/30 text-white"
+                    placeholder={`Enter ${field}...`}
+                  />
+                )}
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      ))}
+
+      {/* Info Card */}
+      <Card className="border-blue-500/30 bg-blue-500/5">
+        <CardContent className="p-4">
+          <p className="text-sm text-gray-400">
+            <strong className="text-blue-400">Note:</strong> Changes will be reflected on the website immediately after saving. 
+            Make sure to save your changes for both English and Malayalam versions.
+          </p>
+        </CardContent>
+      </Card>
     </div>
   );
 };
