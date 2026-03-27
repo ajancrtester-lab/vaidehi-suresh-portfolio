@@ -8,7 +8,7 @@ import { Slider } from './ui/slider';
 
 const AudioPlayer = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const isInView = useInView(ref, { once: true, margin: '0px' });
   const audioRef = useRef(null);
 
   const [audioTracks, setAudioTracks] = useState([]);
@@ -156,7 +156,7 @@ const AudioPlayer = () => {
       <div className="max-w-6xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
@@ -182,7 +182,7 @@ const AudioPlayer = () => {
           {/* Audio Player */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             className="relative"
           >
@@ -262,7 +262,7 @@ const AudioPlayer = () => {
           {/* Playlist */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
             className="space-y-3 max-h-[600px] overflow-y-auto custom-scrollbar pr-2"
           >

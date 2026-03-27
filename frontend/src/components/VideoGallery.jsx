@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
 
 const VideoGallery = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const isInView = useInView(ref, { once: true, margin: '0px' });
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [videoPerformances, setVideoPerformances] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -76,7 +76,7 @@ const VideoGallery = () => {
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
@@ -103,7 +103,7 @@ const VideoGallery = () => {
             <motion.div
               key={video.id}
               initial={{ opacity: 0, y: 50 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
             >
               <Dialog>

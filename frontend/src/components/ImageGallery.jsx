@@ -6,7 +6,7 @@ import { ExternalLink, Youtube, Instagram, Play } from 'lucide-react';
 
 const ImageGallery = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const isInView = useInView(ref, { once: true, margin: '0px' });
   const [gallery, setGallery] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -100,7 +100,7 @@ const ImageGallery = () => {
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
@@ -130,7 +130,7 @@ const ImageGallery = () => {
               target="_blank"
               rel="noopener noreferrer"
               initial={{ opacity: 0, scale: 0.9 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
               className="group cursor-pointer relative overflow-hidden block"
             >
@@ -177,7 +177,7 @@ const ImageGallery = () => {
 
         <motion.p
           initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
+          animate={isInView ? { opacity: 1 } : { opacity: 1 }}
           transition={{ delay: 1.5 }}
           className="text-center text-gray-500 text-sm mt-12"
         >
