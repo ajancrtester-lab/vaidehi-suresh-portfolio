@@ -15,6 +15,7 @@ import CustomCursor from './components/CustomCursor';
 import ScrollProgress from './components/ScrollProgress';
 import ScrollToTop from './components/ScrollToTop';
 import LanguageToggle from './components/LanguageToggle';
+import BackgroundMusic from './components/BackgroundMusic';
 import AdminDashboard from './components/AdminDashboard';
 import SEO from './components/SEO';
 import { Toaster } from './components/ui/toaster';
@@ -36,6 +37,7 @@ const Home = () => {
       <ScrollProgress />
       <ScrollToTop />
       <LanguageToggle />
+      <BackgroundMusic />
       <Hero />
       <About />
       <Services />
