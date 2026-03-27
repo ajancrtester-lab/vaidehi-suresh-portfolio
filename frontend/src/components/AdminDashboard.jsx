@@ -139,7 +139,7 @@ const AdminDashboard = () => {
 
       toast({
         title: "Success",
-        description: "Content updated successfully"
+        description: "Content updated successfully! Changes will appear on the main site."
       });
 
       // Update local state
@@ -151,6 +151,9 @@ const AdminDashboard = () => {
         }
       }));
 
+      // Trigger content refresh on main site via custom event
+      window.dispatchEvent(new Event('contentUpdated'));
+      
       setEditingContent(null);
     } catch (error) {
       toast({
@@ -544,20 +547,32 @@ const ContentManagement = ({ contentData, onContentUpdate }) => {
           <CardTitle className="text-[#d4af37]">Content Management</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex gap-4 mb-6">
+          <div className="flex gap-4 mb-6 items-center justify-between">
+            <div className="flex gap-4">
+              <Button
+                onClick={() => setSelectedLang('en')}
+                variant={selectedLang === 'en' ? 'default' : 'outline'}
+                className={selectedLang === 'en' ? 'bg-[#d4af37] text-black' : 'border-[#d4af37]/30'}
+              >
+                English
+              </Button>
+              <Button
+                onClick={() => setSelectedLang('ml')}
+                variant={selectedLang === 'ml' ? 'default' : 'outline'}
+                className={selectedLang === 'ml' ? 'bg-[#d4af37] text-black' : 'border-[#d4af37]/30'}
+              >
+                Malayalam (മലയാളം)
+              </Button>
+            </div>
+            
             <Button
-              onClick={() => setSelectedLang('en')}
-              variant={selectedLang === 'en' ? 'default' : 'outline'}
-              className={selectedLang === 'en' ? 'bg-[#d4af37] text-black' : 'border-[#d4af37]/30'}
+              onClick={() => window.open('/', '_blank')}
+              variant="outline"
+              size="sm"
+              className="border-blue-500/50 text-blue-400 hover:bg-blue-500/10"
             >
-              English
-            </Button>
-            <Button
-              onClick={() => setSelectedLang('ml')}
-              variant={selectedLang === 'ml' ? 'default' : 'outline'}
-              className={selectedLang === 'ml' ? 'bg-[#d4af37] text-black' : 'border-[#d4af37]/30'}
-            >
-              Malayalam (മലയാളം)
+              <ExternalLink className="h-4 w-4 mr-2" />
+              Preview Website
             </Button>
           </div>
 
@@ -612,11 +627,20 @@ const ContentManagement = ({ contentData, onContentUpdate }) => {
       ))}
 
       {/* Info Card */}
-      <Card className="border-blue-500/30 bg-blue-500/5">
+      <Card className="border-green-500/30 bg-green-500/5">
         <CardContent className="p-4">
           <p className="text-sm text-gray-400">
-            <strong className="text-blue-400">Note:</strong> Changes will be reflected on the website immediately after saving. 
-            Make sure to save your changes for both English and Malayalam versions.
+            <strong className="text-green-400">💡 How it works:</strong>
+            <br />
+            1. Edit content above and click "Save Changes"
+            <br />
+            2. Changes are saved to database instantly
+            <br />
+            3. Main website automatically refreshes content
+            <br />
+            4. Click "Preview Website" button to see your changes in a new tab
+            <br />
+            <span className="text-yellow-400">⚠️ Remember:</span> Save changes for both English AND Malayalam versions!
           </p>
         </CardContent>
       </Card>

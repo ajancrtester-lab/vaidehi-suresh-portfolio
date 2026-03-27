@@ -24,50 +24,66 @@ export const LanguageProvider = ({ children }) => {
     }
   }, []);
 
-  // Fetch content from backend and merge with default
-  useEffect(() => {
-    const fetchContent = async () => {
-      try {
-        const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-        const response = await fetch(`${BACKEND_URL}/api/content`);
+  // Function to fetch and refresh content
+  const refreshContent = async () => {
+    try {
+      const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+      const response = await fetch(`${BACKEND_URL}/api/content`);
+      
+      if (response.ok) {
+        const data = await response.json();
         
-        if (response.ok) {
-          const data = await response.json();
-          
-          // Merge backend content with default content
-          const mergedContent = {
-            en: { ...defaultContent.en },
-            ml: { ...defaultContent.ml }
-          };
+        // Merge backend content with default content
+        const mergedContent = {
+          en: { ...defaultContent.en },
+          ml: { ...defaultContent.ml }
+        };
 
-          // Merge each section from backend
-          if (data.content) {
-            Object.keys(data.content).forEach(lang => {
-              if (mergedContent[lang]) {
-                Object.keys(data.content[lang] || {}).forEach(section => {
-                  if (mergedContent[lang][section]) {
-                    mergedContent[lang][section] = {
-                      ...mergedContent[lang][section],
-                      ...data.content[lang][section]
-                    };
-                  } else {
-                    mergedContent[lang][section] = data.content[lang][section];
-                  }
-                });
-              }
-            });
-          }
-
-          setContent(mergedContent);
+        // Merge each section from backend
+        if (data.content) {
+          Object.keys(data.content).forEach(lang => {
+            if (mergedContent[lang]) {
+              Object.keys(data.content[lang] || {}).forEach(section => {
+                if (mergedContent[lang][section]) {
+                  mergedContent[lang][section] = {
+                    ...mergedContent[lang][section],
+                    ...data.content[lang][section]
+                  };
+                } else {
+                  mergedContent[lang][section] = data.content[lang][section];
+                }
+              });
+            }
+          });
         }
-      } catch (error) {
-        console.log('Using default content:', error);
-      } finally {
-        setIsLoading(false);
+
+        setContent(mergedContent);
+        console.log('✅ Content refreshed successfully');
       }
+    } catch (error) {
+      console.log('Using default content:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Fetch content on initial mount
+  useEffect(() => {
+    refreshContent();
+  }, []);
+
+  // Listen for content update events
+  useEffect(() => {
+    const handleContentUpdate = () => {
+      console.log('🔄 Content update event received, refreshing...');
+      refreshContent();
     };
 
-    fetchContent();
+    window.addEventListener('contentUpdated', handleContentUpdate);
+    
+    return () => {
+      window.removeEventListener('contentUpdated', handleContentUpdate);
+    };
   }, []);
 
   // Save language preference
@@ -78,7 +94,7 @@ export const LanguageProvider = ({ children }) => {
   };
 
   return (
-    <LanguageContext.Provider value={{ language, toggleLanguage, content, isLoading }}>
+    <LanguageContext.Provider value={{ language, toggleLanguage, content, isLoading, refreshContent }}>
       {children}
     </LanguageContext.Provider>
   );
