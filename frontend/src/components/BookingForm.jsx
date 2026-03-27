@@ -6,12 +6,13 @@ import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Label } from './ui/label';
-import { contactInfo } from '../mock';
 import { toast } from '../hooks/use-toast';
 import { useLanguage } from '../context/LanguageContext';
+import { useArtistInfo } from '../context/ArtistInfoContext';
 
 const BookingForm = () => {
   const { language, content } = useLanguage();
+  const { contactInfo } = useArtistInfo();
   const t = content[language];
   const [formData, setFormData] = useState({
     name: '',

@@ -1,13 +1,14 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, ChevronDown, Sparkles } from 'lucide-react';
 import { Button } from './ui/button';
-import { artistInfo } from '../mock';
 import { useEffect, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { useArtistInfo } from '../context/ArtistInfoContext';
 import Idakka3D from './Idakka3D';
 
 const Hero = () => {
   const { language, content } = useLanguage();
+  const { artistInfo, loading } = useArtistInfo();
   const t = content[language];
   const [particles, setParticles] = useState([]);
   const [jasminePetals, setJasminePetals] = useState([]);
@@ -432,11 +433,15 @@ const Hero = () => {
             className="flex gap-4 sm:gap-8 mt-8 sm:mt-10 pt-8 sm:pt-10 border-t border-[#d4af37]/20 justify-center lg:justify-start"
           >
             <div>
-              <div className="font-cormorant text-3xl sm:text-4xl font-bold text-[#d4af37] mb-1">{t.yearsOfExperience}+</div>
+              <div className="font-cormorant text-3xl sm:text-4xl font-bold text-[#d4af37] mb-1">
+                {artistInfo?.yearsOfExperience || t.yearsOfExperience}+
+              </div>
               <div className={`text-gray-500 text-xs tracking-wider uppercase ${language === 'ml' ? 'malayalam-text' : ''}`}>{t.stats.years}</div>
             </div>
             <div>
-              <div className="font-cormorant text-3xl sm:text-4xl font-bold text-[#d4af37] mb-1">{t.templesPerformed}+</div>
+              <div className="font-cormorant text-3xl sm:text-4xl font-bold text-[#d4af37] mb-1">
+                {artistInfo?.templesPerformed || t.templesPerformed}+
+              </div>
               <div className={`text-gray-500 text-xs tracking-wider uppercase ${language === 'ml' ? 'malayalam-text' : ''}`}>{t.stats.temples}</div>
             </div>
             <div>

@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
-import { videoPerformances } from '../mock';
+import { useRef, useState, useEffect } from 'react';
+import { fetchVideoPerformances } from '../services/api';
 import { Play } from 'lucide-react';
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
 
@@ -9,6 +9,40 @@ const VideoGallery = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const [selectedVideo, setSelectedVideo] = useState(null);
+  const [videoPerformances, setVideoPerformances] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch videos from API
+  useEffect(() => {
+    const loadVideos = async () => {
+      try {
+        setLoading(true);
+        const videos = await fetchVideoPerformances();
+        setVideoPerformances(videos);
+      } catch (error) {
+        console.error('Failed to load videos:', error);
+        setVideoPerformances([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadVideos();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="relative py-32 px-6 bg-gradient-to-b from-[#1a0a0a] to-[#0a0a0a]">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="text-[#d4af37] text-xl">Loading videos...</div>
+        </div>
+      </section>
+    );
+  }
+
+  if (videoPerformances.length === 0) {
+    return null; // Hide section if no videos
+  }
 
   return (
     <section

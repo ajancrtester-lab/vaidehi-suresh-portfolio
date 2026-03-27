@@ -97,6 +97,44 @@ class PortfolioContent(BaseModel):
     updatedAt: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 
+# Media & Gallery Models
+class AudioTrack(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    title: str
+    raga: str
+    duration: str
+    temple: str
+    audioUrl: str
+    order: int = 0
+    isActive: bool = True
+
+class VideoPerformance(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    title: str
+    venue: str
+    date: str
+    thumbnail: str
+    videoUrl: str
+    order: int = 0
+    isActive: bool = True
+
+class Testimonial(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
+    role: str
+    temple: str
+    quote: str
+    image: str
+    order: int = 0
+    isActive: bool = True
+
+
 # ============== Utility Functions ==============
 
 def generate_artist_whatsapp_message(booking: Booking, base_url: str) -> str:
@@ -273,13 +311,13 @@ async def quick_accept_booking(booking_id: str):
         booking = await db.bookings.find_one({"id": booking_id})
         
         if not booking:
-            return HTMLResponse(content=f"""
+            return HTMLResponse(content="""
                 <html>
                     <head>
                         <meta name="viewport" content="width=device-width, initial-scale=1.0">
                         <style>
-                            body {{ font-family: Arial; text-align: center; padding: 50px; background: #0a0a0a; color: white; }}
-                            .error {{ color: #ff6b6b; font-size: 20px; }}
+                            body { font-family: Arial; text-align: center; padding: 50px; background: #0a0a0a; color: white; }
+                            .error { color: #ff6b6b; font-size: 20px; }
                         </style>
                     </head>
                     <body>
@@ -317,13 +355,13 @@ async def quick_accept_booking(booking_id: str):
         )
         
         if update_result.modified_count == 0:
-            return HTMLResponse(content=f"""
+            return HTMLResponse(content="""
                 <html>
                     <head>
                         <meta name="viewport" content="width=device-width, initial-scale=1.0">
                         <style>
-                            body {{ font-family: Arial; text-align: center; padding: 50px; background: #0a0a0a; color: white; }}
-                            .error {{ color: #ff6b6b; font-size: 20px; }}
+                            body { font-family: Arial; text-align: center; padding: 50px; background: #0a0a0a; color: white; }
+                            .error { color: #ff6b6b; font-size: 20px; }
                         </style>
                     </head>
                     <body>
@@ -430,13 +468,13 @@ async def quick_decline_booking(booking_id: str):
         booking = await db.bookings.find_one({"id": booking_id})
         
         if not booking:
-            return HTMLResponse(content=f"""
+            return HTMLResponse(content="""
                 <html>
                     <head>
                         <meta name="viewport" content="width=device-width, initial-scale=1.0">
                         <style>
-                            body {{ font-family: Arial; text-align: center; padding: 50px; background: #0a0a0a; color: white; }}
-                            .error {{ color: #ff6b6b; font-size: 20px; }}
+                            body { font-family: Arial; text-align: center; padding: 50px; background: #0a0a0a; color: white; }
+                            .error { color: #ff6b6b; font-size: 20px; }
                         </style>
                     </head>
                     <body>
@@ -474,13 +512,13 @@ async def quick_decline_booking(booking_id: str):
         )
         
         if update_result.modified_count == 0:
-            return HTMLResponse(content=f"""
+            return HTMLResponse(content="""
                 <html>
                     <head>
                         <meta name="viewport" content="width=device-width, initial-scale=1.0">
                         <style>
-                            body {{ font-family: Arial; text-align: center; padding: 50px; background: #0a0a0a; color: white; }}
-                            .error {{ color: #ff6b6b; font-size: 20px; }}
+                            body { font-family: Arial; text-align: center; padding: 50px; background: #0a0a0a; color: white; }
+                            .error { color: #ff6b6b; font-size: 20px; }
                         </style>
                     </head>
                     <body>
@@ -747,6 +785,64 @@ async def update_content(content_update: ContentUpdate, admin_password: str = Qu
         return {"message": "Content updated successfully", "content": content_obj.model_dump()}
     except Exception as e:
         logging.error(f"Error updating content: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# ============== Media & Gallery Routes ==============
+
+@api_router.get("/audio-tracks")
+async def get_audio_tracks():
+    """Get all active audio tracks"""
+    try:
+        tracks = await db.audio_tracks.find({"isActive": True}, {"_id": 0}).sort("order", 1).to_list(100)
+        return {"tracks": tracks}
+    except Exception as e:
+        logging.error(f"Error fetching audio tracks: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.get("/video-performances")
+async def get_video_performances():
+    """Get all active video performances"""
+    try:
+        videos = await db.video_performances.find({"isActive": True}, {"_id": 0}).sort("order", 1).to_list(100)
+        return {"videos": videos}
+    except Exception as e:
+        logging.error(f"Error fetching videos: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.get("/testimonials")
+async def get_testimonials():
+    """Get all active testimonials"""
+    try:
+        testimonials = await db.testimonials.find({"isActive": True}, {"_id": 0}).sort("order", 1).to_list(100)
+        return {"testimonials": testimonials}
+    except Exception as e:
+        logging.error(f"Error fetching testimonials: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.get("/artist-info")
+async def get_artist_info():
+    """Get artist basic information"""
+    try:
+        # Return basic artist info (can be made dynamic later)
+        artist_info = {
+            "name": "Vaidehi Suresh",
+            "tagline": "Preserving the Sacred Melodies of Kerala Temples",
+            "description": "A dedicated practitioner of Sopana Sangeetham, carrying forward the ancient tradition of temple music with devotion and artistry.",
+            "yearsOfExperience": 15,
+            "templesPerformed": 750,
+            "contactInfo": {
+                "whatsapp": "917559926388",
+                "email": "vaidehi.suresh@example.com",
+                "location": "Thrissur, Kerala, India"
+            }
+        }
+        return {"artistInfo": artist_info}
+    except Exception as e:
+        logging.error(f"Error fetching artist info: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 

@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
-import { audioTracks } from '../mock';
+import { fetchAudioTracks } from '../services/api';
 import { Play, Pause, SkipBack, SkipForward, Volume2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Slider } from './ui/slider';
@@ -11,11 +11,31 @@ const AudioPlayer = () => {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const audioRef = useRef(null);
 
+  const [audioTracks, setAudioTracks] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [currentTrack, setCurrentTrack] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(70);
+
+  // Fetch audio tracks from API
+  useEffect(() => {
+    const loadAudioTracks = async () => {
+      try {
+        setLoading(true);
+        const tracks = await fetchAudioTracks();
+        setAudioTracks(tracks);
+      } catch (error) {
+        console.error('Failed to load audio tracks:', error);
+        setAudioTracks([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadAudioTracks();
+  }, []);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -88,6 +108,28 @@ const AudioPlayer = () => {
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
+
+  // Show loading state
+  if (loading) {
+    return (
+      <section className="relative py-32 px-6 bg-gradient-to-b from-[#0a0a0a] to-[#1a0a0a]">
+        <div className="max-w-6xl mx-auto text-center">
+          <div className="text-[#d4af37] text-xl">Loading audio tracks...</div>
+        </div>
+      </section>
+    );
+  }
+
+  // Show empty state if no tracks
+  if (audioTracks.length === 0) {
+    return (
+      <section className="relative py-32 px-6 bg-gradient-to-b from-[#0a0a0a] to-[#1a0a0a]">
+        <div className="max-w-6xl mx-auto text-center">
+          <div className="text-gray-400">No audio tracks available</div>
+        </div>
+      </section>
+    );
+  }
 
   const track = audioTracks[currentTrack];
 

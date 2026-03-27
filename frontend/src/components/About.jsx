@@ -1,19 +1,20 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { artistInfo } from '../mock';
 import { Award, Music, Heart } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { useArtistInfo } from '../context/ArtistInfoContext';
 
 const About = () => {
   const { language, content } = useLanguage();
+  const { artistInfo } = useArtistInfo();
   const t = content[language];
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   const stats = [
-    { icon: Music, label: language === 'en' ? 'Years of Practice' : 'വർഷത്തെ പരിശീലനം', value: t.yearsOfExperience },
-    { icon: Award, label: language === 'en' ? 'Temples Performed' : 'ക്ഷേത്രങ്ങളിൽ അവതരണം', value: `${t.templesPerformed}+` },
+    { icon: Music, label: language === 'en' ? 'Years of Practice' : 'വർഷത്തെ പരിശീലനം', value: artistInfo?.yearsOfExperience || t.yearsOfExperience },
+    { icon: Award, label: language === 'en' ? 'Temples Performed' : 'ക്ഷേത്രങ്ങളിൽ അവതരണം', value: `${artistInfo?.templesPerformed || t.templesPerformed}+` },
     { icon: Heart, label: language === 'en' ? 'Devotional Ragas' : 'ഭക്തി രാഗങ്ങൾ', value: '50+' }
   ];
 

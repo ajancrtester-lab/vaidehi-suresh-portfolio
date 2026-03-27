@@ -1,0 +1,53 @@
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { fetchArtistInfo } from '../services/api';
+
+const ArtistInfoContext = createContext();
+
+export const useArtistInfo = () => {
+  const context = useContext(ArtistInfoContext);
+  if (!context) {
+    throw new Error('useArtistInfo must be used within ArtistInfoProvider');
+  }
+  return context;
+};
+
+export const ArtistInfoProvider = ({ children }) => {
+  const [artistInfo, setArtistInfo] = useState(null);
+  const [contactInfo, setContactInfo] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadArtistInfo = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchArtistInfo();
+        setArtistInfo(data);
+        setContactInfo(data.contactInfo);
+      } catch (error) {
+        console.error('Failed to load artist info:', error);
+        // Fallback data
+        setArtistInfo({
+          name: 'Vaidehi Suresh',
+          tagline: 'Sopana Sangeetham Artist',
+          yearsOfExperience: 15,
+          templesPerformed: 750
+        });
+        setContactInfo({
+          whatsapp: '917559926388',
+          email: 'contact@example.com',
+          location: 'Thrissur, Kerala'
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadArtistInfo();
+  }, []);
+
+  return (
+    <ArtistInfoContext.Provider value={{ artistInfo, contactInfo, loading }}>
+      {children}
+    </ArtistInfoContext.Provider>
+  );
+};

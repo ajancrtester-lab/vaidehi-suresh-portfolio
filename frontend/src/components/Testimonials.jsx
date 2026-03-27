@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { testimonials } from '../mock';
+import { useRef, useEffect, useState } from 'react';
+import { fetchTestimonials } from '../services/api';
 import { Quote } from 'lucide-react';
 import { Card, CardContent } from './ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
@@ -9,6 +9,40 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 const Testimonials = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const [testimonials, setTestimonials] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch testimonials from API
+  useEffect(() => {
+    const loadTestimonials = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchTestimonials();
+        setTestimonials(data);
+      } catch (error) {
+        console.error('Failed to load testimonials:', error);
+        setTestimonials([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadTestimonials();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="relative py-32 px-6 bg-gradient-to-b from-[#0a0a0a] via-[#1a0a0a] to-[#0a0a0a]">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="text-[#d4af37] text-xl">Loading testimonials...</div>
+        </div>
+      </section>
+    );
+  }
+
+  if (testimonials.length === 0) {
+    return null; // Hide section if no testimonials
+  }
 
   return (
     <section

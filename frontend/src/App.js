@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { LanguageProvider } from './context/LanguageContext';
+import { ArtistInfoProvider } from './context/ArtistInfoContext';
 import Hero from './components/Hero';
 import About from './components/About';
 import AudioPlayer from './components/AudioPlayer';
@@ -55,15 +56,17 @@ const Home = () => {
 function App() {
   return (
     <LanguageProvider>
-      <div className="App">
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-          </Routes>
-        </BrowserRouter>
-        <Toaster />
-      </div>
+      <ArtistInfoProvider>
+        <div className="App">
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/admin" element={<AdminDashboard />} />
+            </Routes>
+          </BrowserRouter>
+          <Toaster />
+        </div>
+      </ArtistInfoProvider>
     </LanguageProvider>
   );
 }

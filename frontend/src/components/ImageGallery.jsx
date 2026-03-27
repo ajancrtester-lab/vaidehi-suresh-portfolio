@@ -1,12 +1,32 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
-import { gallery } from '../mock';
+import { useRef, useState, useEffect } from 'react';
+import { fetchGallery } from '../services/api';
 import { ExternalLink, Youtube, Instagram, Play } from 'lucide-react';
 
 const ImageGallery = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const [gallery, setGallery] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch gallery from API
+  useEffect(() => {
+    const loadGallery = async () => {
+      try {
+        setLoading(true);
+        const items = await fetchGallery();
+        setGallery(items);
+      } catch (error) {
+        console.error('Failed to load gallery:', error);
+        setGallery([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadGallery();
+  }, []);
 
   const getLinkIcon = (linkType) => {
     switch (linkType) {
@@ -20,6 +40,20 @@ const ImageGallery = () => {
         return <ExternalLink className="h-5 w-5" />;
     }
   };
+
+  if (loading) {
+    return (
+      <section className="relative py-32 px-6 bg-gradient-to-b from-[#0a0a0a] to-[#1a0a0a]">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="text-[#d4af37] text-xl">Loading gallery...</div>
+        </div>
+      </section>
+    );
+  }
+
+  if (gallery.length === 0) {
+    return null; // Hide section if no gallery items
+  }
 
   const getLinkBadge = (linkType) => {
     switch (linkType) {

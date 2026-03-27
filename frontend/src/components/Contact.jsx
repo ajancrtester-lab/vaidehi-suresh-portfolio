@@ -1,16 +1,26 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { contactInfo, artistInfo } from '../mock';
 import { MessageCircle, MapPin, Mail } from 'lucide-react';
 import BookingForm from './BookingForm';
 import { useLanguage } from '../context/LanguageContext';
+import { useArtistInfo } from '../context/ArtistInfoContext';
 
 const Contact = () => {
   const { language, content } = useLanguage();
+  const { contactInfo, loading } = useArtistInfo();
   const t = content[language];
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+
+  // Default contact info as fallback
+  const defaultContact = {
+    location: 'Thrissur, Kerala, India',
+    email: 'contact@example.com',
+    whatsapp: '917559926388'
+  };
+
+  const contact = contactInfo || defaultContact;
 
   return (
     <section
@@ -72,7 +82,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4 className="text-white font-semibold mb-1">Location</h4>
-                  <p className="text-gray-400 text-sm">{contactInfo.location}</p>
+                  <p className="text-gray-400 text-sm">{contact.location}</p>
                 </div>
               </div>
 
@@ -82,7 +92,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4 className="text-white font-semibold mb-1">Email</h4>
-                  <p className="text-gray-400 text-sm">{contactInfo.email}</p>
+                  <p className="text-gray-400 text-sm">{contact.email}</p>
                 </div>
               </div>
 
@@ -92,7 +102,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4 className="text-white font-semibold mb-1">WhatsApp</h4>
-                  <p className="text-gray-400 text-sm">{contactInfo.whatsapp}</p>
+                  <p className="text-gray-400 text-sm">{contact.whatsapp}</p>
                 </div>
               </div>
             </div>
