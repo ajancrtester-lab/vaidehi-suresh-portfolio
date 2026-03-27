@@ -4,6 +4,7 @@ import { Button } from './ui/button';
 import { artistInfo } from '../mock';
 import { useEffect, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import Idakka3D from './Idakka3D';
 
 const Hero = () => {
   const { language, content } = useLanguage();
@@ -268,6 +269,11 @@ const Hero = () => {
             <Sparkles className="h-8 w-8 text-[#d4af37]" />
           </motion.div>
         ))}
+      </div>
+
+      {/* 3D Idakka Animation - Top Right */}
+      <div className="absolute top-20 right-10 lg:right-20 w-32 h-48 lg:w-40 lg:h-56 pointer-events-none z-20 hidden md:block">
+        <Idakka3D />
       </div>
 
       {/* Main Content */}
