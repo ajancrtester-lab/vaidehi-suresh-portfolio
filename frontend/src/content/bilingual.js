@@ -156,7 +156,7 @@ export const content = {
       title: "Services Offered",
       subtitle: "Bringing Sacred Temple Music to Every Occasion",
       intro: "As a dedicated Sopana Sangeetham artist, I offer authentic Kerala temple music performances for various occasions. With 15+ years of experience, I bring the divine melodies of traditional ragas to temples, cultural events, and private ceremonies across Kerala.",
-      footer: "is a renowned Sopana Sangeetham artist from Thrissur, Kerala, specializing in traditional temple music performances. With expertise in classical ragas like Madhyamavati, Mohana, and Bhairavi, she brings authentic devotional music to temples across Kerala including Sabarimala, Guruvayur, and Padmanabhaswamy Temple. Available for bookings throughout Kerala and India.",
+      footer: "is a renowned Sopana Sangeetham artist from Thrissur, Kerala, specializing in traditional temple music performances. With expertise in classical ragas like Madhyamavati, Mohana, and Bhairavi, she brings authentic devotional music to temples across Kerala including Guruvayur, Thrissur Pooram, and other major temple festivals. Available for bookings throughout Kerala and India.",
       items: [
         {
           title: "Temple Ceremonies & Festivals",
@@ -180,8 +180,8 @@ export const content = {
         },
         {
           title: "Annual Temple Performances",
-          description: "Regular annual performances at major Kerala temples including Sabarimala, Guruvayur, and Thrissur Pooram. Maintaining the living tradition of temple music through consistent yearly engagements.",
-          keywords: "Sabarimala music, Guruvayur performance, Thrissur Pooram, Annual temple events"
+          description: "Regular annual performances at major Kerala temples including Guruvayur, Thrissur Pooram, and other prestigious temple festivals. Maintaining the living tradition of temple music through consistent yearly engagements.",
+          keywords: "Guruvayur performance, Thrissur Pooram, Kerala temple music, Annual temple events"
         },
         {
           title: "Special Occasion Music",
@@ -349,7 +349,7 @@ export const content = {
       title: "നൽകുന്ന സേവനങ്ങൾ",
       subtitle: "എല്ലാ അവസരങ്ങളിലേക്കും പവിത്രമായ ക്ഷേത്ര സംഗീതം എത്തിക്കുന്നു",
       intro: "സമർപ്പിത സോപാന സംഗീത കലാകാരി എന്ന നിലയിൽ, വിവിധ അവസരങ്ങളിൽ ആധികാരിക കേരള ക്ഷേത്ര സംഗീത അവതരണങ്ങൾ ഞാൻ നൽകുന്നു. 15+ വർഷത്തെ അനുഭവത്തോടെ, കേരളത്തിലുടനീളമുള്ള ക്ഷേത്രങ്ങളിലേക്കും സാംസ്കാരിക പരിപാടികളിലേക്കും സ്വകാര്യ ചടങ്ങുകളിലേക്കും പരമ്പരാഗത രാഗങ്ങളുടെ ദിവ്യമായ സ്വരങ്ങൾ ഞാൻ കൊണ്ടുവരുന്നു.",
-      footer: "തൃശൂർ, കേരളത്തിൽ നിന്നുള്ള പ്രശസ്ത സോപാന സംഗീത കലാകാരിയാണ്, പരമ്പരാഗത ക്ഷേത്ര സംഗീത അവതരണങ്ങളിൽ വൈദഗ്ധ്യമുള്ളവരാണ്. മധ്യമാവതി, മോഹന, ഭൈരവി തുടങ്ങിയ ശാസ്ത്രീയ രാഗങ്ങളിൽ വൈദഗ്ധ്യമുള്ളവരാണ്, ശബരിമല, ഗുരുവായൂർ, പത്മനാഭസ്വാമി ക്ഷേത്രം ഉൾപ്പെടെ കേരളത്തിലുടനീളമുള്ള ക്ഷേത്രങ്ങളിലേക്ക് ആധികാരിക ഭക്തി സംഗീതം കൊണ്ടുവരുന്നു. കേരളത്തിലുടനീളം ഇന്ത്യയിലും ബുക്കിംഗുകൾക്ക് ലഭ്യമാണ്.",
+      footer: "തൃശൂർ, കേരളത്തിൽ നിന്നുള്ള പ്രശസ്ത സോപാന സംഗീത കലാകാരിയാണ്, പരമ്പരാഗത ക്ഷേത്ര സംഗീത അവതരണങ്ങളിൽ വൈദഗ്ധ്യമുള്ളവരാണ്. മധ്യമാവതി, മോഹന, ഭൈരവി തുടങ്ങിയ ശാസ്ത്രീയ രാഗങ്ങളിൽ വൈദഗ്ധ്യമുള്ളവരാണ്, ഗുരുവായൂർ, തൃശൂർ പൂരം എന്നിവ ഉൾപ്പെടെ കേരളത്തിലുടനീളമുള്ള പ്രധാന ക്ഷേത്രങ്ങളിലേക്ക് ആധികാരിക ഭക്തി സംഗീതം കൊണ്ടുവരുന്നു. കേരളത്തിലുടനീളം ഇന്ത്യയിലും ബുക്കിംഗുകൾക്ക് ലഭ്യമാണ്.",
       items: [
         {
           title: "ക്ഷേത്ര ചടങ്ങുകളും ഉത്സവങ്ങളും",
@@ -373,8 +373,8 @@ export const content = {
         },
         {
           title: "വാർഷിക ക്ഷേത്ര അവതരണങ്ങൾ",
-          description: "ശബരിമല, ഗുരുവായൂർ, തൃശൂർ പൂരം ഉൾപ്പെടെയുള്ള പ്രധാന കേരള ക്ഷേത്രങ്ങളിൽ പതിവ് വാർഷിക അവതരണങ്ങൾ. സ്ഥിരമായ വാർഷിക ഇടപെടലുകളിലൂടെ ക്ഷേത്ര സംഗീതത്തിന്റെ ജീവനുള്ള പാരമ്പര്യം നിലനിർത്തുന്നു.",
-          keywords: "ശബരിമല സംഗീതം, ഗുരുവായൂർ അവതരണം, തൃശൂർ പൂരം, വാർഷിക ക്ഷേത്ര പരിപാടികൾ"
+          description: "ഗുരുവായൂർ, തൃശൂർ പൂരം എന്നിവ ഉൾപ്പെടെയുള്ള പ്രധാന കേരള ക്ഷേത്രങ്ങളിൽ പതിവ് വാർഷിക അവതരണങ്ങൾ. സ്ഥിരമായ വാർഷിക ഇടപെടലുകളിലൂടെ ക്ഷേത്ര സംഗീതത്തിന്റെ ജീവനുള്ള പാരമ്പര്യം നിലനിർത്തുന്നു.",
+          keywords: "ഗുരുവായൂർ അവതരണം, തൃശൂർ പൂരം, കേരള ക്ഷേത്ര സംഗീതം, വാർഷിക ക്ഷേത്ര പരിപാടികൾ"
         },
         {
           title: "പ്രത്യേക അവസര സംഗീതം",
