@@ -1,11 +1,20 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 
 const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
+    // Only hide default cursor on main website, not on admin pages
+    const isAdminPage = location.pathname.startsWith('/admin');
+    
+    if (!isAdminPage) {
+      document.body.style.cursor = 'none';
+    }
+
     const updateMousePosition = (e) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
@@ -27,15 +36,17 @@ const CustomCursor = () => {
     window.addEventListener('mousemove', updateMousePosition);
     document.addEventListener('mouseover', handleMouseOver);
 
-    // Hide default cursor
-    document.body.style.cursor = 'none';
-
     return () => {
       window.removeEventListener('mousemove', updateMousePosition);
       document.removeEventListener('mouseover', handleMouseOver);
       document.body.style.cursor = 'auto';
     };
-  }, []);
+  }, [location.pathname]);
+
+  // Don't render custom cursor on admin pages
+  if (location.pathname.startsWith('/admin')) {
+    return null;
+  }
 
   return (
     <>
