@@ -14,7 +14,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: #0a0a0a;
   color: #ffffff;
-  cursor: none;
 }
 
 /* Malayalam Font Support */
@@ -34,11 +33,6 @@ body.malayalam {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
-
-/* Custom cursor hide default */
-* {
-  cursor: none !important;
 }
 
 /* Cormorant font class */

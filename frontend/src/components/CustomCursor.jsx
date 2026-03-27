@@ -8,10 +8,14 @@ const CustomCursor = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // Only hide default cursor on main website, not on admin pages
+    // Check if on admin page
     const isAdminPage = location.pathname.startsWith('/admin');
     
-    if (!isAdminPage) {
+    // Explicitly set cursor based on page
+    if (isAdminPage) {
+      document.body.style.cursor = 'auto';
+      return; // Don't add event listeners on admin pages
+    } else {
       document.body.style.cursor = 'none';
     }
 
