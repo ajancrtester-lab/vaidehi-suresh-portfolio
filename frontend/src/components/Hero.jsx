@@ -4,10 +4,9 @@ import { Button } from './ui/button';
 import { artistInfo } from '../mock';
 import { useEffect, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import { content } from '../content/bilingual';
 
 const Hero = () => {
-  const { language } = useLanguage();
+  const { language, content } = useLanguage();
   const t = content[language];
   const [particles, setParticles] = useState([]);
   const [jasminePetals, setJasminePetals] = useState([]);

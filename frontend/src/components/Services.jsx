@@ -4,10 +4,9 @@ import { useRef } from 'react';
 import { Music, Users, Home, GraduationCap, Sparkles, Calendar } from 'lucide-react';
 import { Card, CardContent } from './ui/card';
 import { useLanguage } from '../context/LanguageContext';
-import { content } from '../content/bilingual';
 
 const Services = () => {
-  const { language } = useLanguage();
+  const { language, content } = useLanguage();
   const t = content[language];
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });

@@ -9,10 +9,9 @@ import { Label } from './ui/label';
 import { contactInfo } from '../mock';
 import { toast } from '../hooks/use-toast';
 import { useLanguage } from '../context/LanguageContext';
-import { content } from '../content/bilingual';
 
 const BookingForm = () => {
-  const { language } = useLanguage();
+  const { language, content } = useLanguage();
   const t = content[language];
   const [formData, setFormData] = useState({
     name: '',

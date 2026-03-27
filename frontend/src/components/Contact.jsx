@@ -5,10 +5,9 @@ import { contactInfo, artistInfo } from '../mock';
 import { MessageCircle, MapPin, Mail } from 'lucide-react';
 import BookingForm from './BookingForm';
 import { useLanguage } from '../context/LanguageContext';
-import { content } from '../content/bilingual';
 
 const Contact = () => {
-  const { language } = useLanguage();
+  const { language, content } = useLanguage();
   const t = content[language];
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });

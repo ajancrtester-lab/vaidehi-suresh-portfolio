@@ -3,10 +3,9 @@ import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { GraduationCap, User, BookOpen, Music, Sparkles } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
-import { content } from '../content/bilingual';
 
 const Training = () => {
-  const { language } = useLanguage();
+  const { language, content } = useLanguage();
   const t = content[language];
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
