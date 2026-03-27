@@ -40,8 +40,23 @@ const Testimonials = () => {
     );
   }
 
+  // Show section even if no testimonials
   if (testimonials.length === 0) {
-    return null; // Hide section if no testimonials
+    return (
+      <section id="testimonials" className="relative py-32 px-6 bg-gradient-to-b from-[#0a0a0a] via-[#1a0a0a] to-[#0a0a0a]">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="font-cormorant text-5xl md:text-6xl font-bold text-[#d4af37] mb-6">
+            Testimonials
+          </h2>
+          <p className="text-gray-400 text-sm tracking-[0.3em] uppercase mb-8">
+            Words From Devotees & Organizers
+          </p>
+          <div className="text-gray-400">
+            Client testimonials will be added soon.
+          </div>
+        </div>
+      </section>
+    );
   }
 
   return (

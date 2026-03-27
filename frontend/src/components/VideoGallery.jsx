@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 import { fetchVideoPerformances } from '../services/api';
-import { Play } from 'lucide-react';
+import { Play, Instagram } from 'lucide-react';
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
 
 const VideoGallery = () => {
@@ -40,8 +40,32 @@ const VideoGallery = () => {
     );
   }
 
+  // Show section even if no videos
   if (videoPerformances.length === 0) {
-    return null; // Hide section if no videos
+    return (
+      <section id="videos" className="relative py-32 px-6 bg-gradient-to-b from-[#1a0a0a] to-[#0a0a0a]">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="font-cormorant text-5xl md:text-6xl font-bold text-[#d4af37] mb-6">
+            Performance Videos
+          </h2>
+          <p className="text-gray-400 text-sm tracking-[0.3em] uppercase mb-8">
+            Temple Concerts & Festivals
+          </p>
+          <div className="text-gray-400 mb-8">
+            Video performances will be added soon.
+          </div>
+          <a 
+            href="https://www.instagram.com/vaidehi_suresh_" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-[#d4af37] hover:text-[#ffd700] transition-colors"
+          >
+            <Instagram className="h-5 w-5" />
+            Follow on Instagram for latest performances
+          </a>
+        </div>
+      </section>
+    );
   }
 
   return (

@@ -109,7 +109,6 @@ const AudioPlayer = () => {
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  // Show loading state
   if (loading) {
     return (
       <section className="relative py-32 px-6 bg-gradient-to-b from-[#0a0a0a] to-[#1a0a0a]">
@@ -120,12 +119,20 @@ const AudioPlayer = () => {
     );
   }
 
-  // Show empty state if no tracks
+  // Show message if no tracks, but still show the section
   if (audioTracks.length === 0) {
     return (
-      <section className="relative py-32 px-6 bg-gradient-to-b from-[#0a0a0a] to-[#1a0a0a]">
+      <section id="music" className="relative py-32 px-6 bg-gradient-to-b from-[#0a0a0a] to-[#1a0a0a]">
         <div className="max-w-6xl mx-auto text-center">
-          <div className="text-gray-400">No audio tracks available</div>
+          <h2 className="font-cormorant text-5xl md:text-6xl font-bold text-[#d4af37] mb-6">
+            Sacred Melodies
+          </h2>
+          <p className="text-gray-400 text-sm tracking-[0.3em] uppercase mb-8">
+            Devotional Music Collection
+          </p>
+          <div className="text-gray-400">
+            Audio tracks will be added soon. Visit our Instagram for latest performances.
+          </div>
         </div>
       </section>
     );

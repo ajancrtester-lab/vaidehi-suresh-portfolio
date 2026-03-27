@@ -51,8 +51,32 @@ const ImageGallery = () => {
     );
   }
 
+  // Show section even if no gallery items
   if (gallery.length === 0) {
-    return null; // Hide section if no gallery items
+    return (
+      <section id="gallery" className="relative py-32 px-6 bg-gradient-to-b from-[#0a0a0a] to-[#1a0a0a]">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="font-cormorant text-5xl md:text-6xl font-bold text-[#d4af37] mb-6">
+            Gallery
+          </h2>
+          <p className="text-gray-400 text-sm tracking-[0.3em] uppercase mb-8">
+            Moments From Sacred Performances
+          </p>
+          <div className="text-gray-400 mb-8">
+            Gallery items will be added soon.
+          </div>
+          <a 
+            href="https://www.instagram.com/vaidehi_suresh_" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-[#d4af37] hover:text-[#ffd700] transition-colors"
+          >
+            <Instagram className="h-5 w-5" />
+            View photos on Instagram
+          </a>
+        </div>
+      </section>
+    );
   }
 
   const getLinkBadge = (linkType) => {
