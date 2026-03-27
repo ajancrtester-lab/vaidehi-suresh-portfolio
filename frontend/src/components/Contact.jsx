@@ -8,7 +8,7 @@ import { useArtistInfo } from '../context/ArtistInfoContext';
 
 const Contact = () => {
   const { language, content } = useLanguage();
-  const { contactInfo, loading } = useArtistInfo();
+  const { contactInfo, artistInfo } = useArtistInfo();
   const t = content[language];
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
@@ -20,7 +20,12 @@ const Contact = () => {
     whatsapp: '917559926388'
   };
 
+  const defaultArtist = {
+    name: 'Vaidehi Suresh'
+  };
+
   const contact = contactInfo || defaultContact;
+  const artist = artistInfo || defaultArtist;
 
   return (
     <section
@@ -113,7 +118,7 @@ const Contact = () => {
                 Let us create sacred musical moments together."
               </p>
               <p className="text-[#d4af37] text-center mt-4 font-cormorant text-lg">
-                - {artistInfo.name}
+                - {artist.name}
               </p>
             </div>
           </motion.div>
@@ -137,7 +142,7 @@ const Contact = () => {
         >
           <div className="h-px w-20 bg-[#d4af37] mx-auto mb-6" />
           <p className="text-gray-500 text-sm">
-            © 2025 {artistInfo.name}. Preserving the Sacred Traditions of Sopana Sangeetham.
+            © 2025 {artist.name}. Preserving the Sacred Traditions of Sopana Sangeetham.
           </p>
           <p className="text-gray-600 text-xs mt-2">
             Website crafted with devotion
