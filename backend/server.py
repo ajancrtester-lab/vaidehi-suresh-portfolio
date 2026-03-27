@@ -81,6 +81,22 @@ class AdminLogin(BaseModel):
     password: str
 
 
+# Content Management Models
+class ContentUpdate(BaseModel):
+    section: str  # 'about', 'stats', 'achievements', 'education', 'gurus', 'services'
+    language: str  # 'en' or 'ml'
+    data: dict  # The actual content data
+
+class PortfolioContent(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    section: str
+    language: str
+    data: dict
+    updatedAt: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
 # ============== Utility Functions ==============
 
 def generate_artist_whatsapp_message(booking: Booking, base_url: str) -> str:
@@ -668,6 +684,69 @@ async def get_gallery():
         return {"gallery": [GalleryItem(**item).model_dump() for item in gallery_items]}
     except Exception as e:
         logging.error(f"Error fetching gallery: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# ============== Content Management Routes ==============
+
+@api_router.get("/content")
+async def get_content():
+    """Get all portfolio content organized by section and language"""
+    try:
+        content_items = await db.portfolio_content.find({}, {"_id": 0}).to_list(1000)
+        
+        # Organize content by section and language
+        organized_content = {}
+        for item in content_items:
+            section = item.get("section")
+            language = item.get("language")
+            
+            if section not in organized_content:
+                organized_content[section] = {}
+            
+            organized_content[section][language] = item.get("data")
+        
+        return {"content": organized_content}
+    except Exception as e:
+        logging.error(f"Error fetching content: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.put("/content")
+async def update_content(content_update: ContentUpdate, admin_password: str = Query(...)):
+    """Update portfolio content (admin only)"""
+    if not verify_admin_password(admin_password):
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    
+    try:
+        # Check if content exists for this section and language
+        existing = await db.portfolio_content.find_one({
+            "section": content_update.section,
+            "language": content_update.language
+        }, {"_id": 0})
+        
+        content_obj = PortfolioContent(
+            section=content_update.section,
+            language=content_update.language,
+            data=content_update.data
+        )
+        
+        if existing:
+            # Update existing content
+            await db.portfolio_content.update_one(
+                {
+                    "section": content_update.section,
+                    "language": content_update.language
+                },
+                {"$set": content_obj.model_dump()}
+            )
+        else:
+            # Insert new content
+            await db.portfolio_content.insert_one(content_obj.model_dump())
+        
+        return {"message": "Content updated successfully", "content": content_obj.model_dump()}
+    except Exception as e:
+        logging.error(f"Error updating content: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 

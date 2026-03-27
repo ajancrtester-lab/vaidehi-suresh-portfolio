@@ -3,8 +3,12 @@ import { Play, ChevronDown, Sparkles } from 'lucide-react';
 import { Button } from './ui/button';
 import { artistInfo } from '../mock';
 import { useEffect, useState } from 'react';
+import { useLanguage } from '../context/LanguageContext';
+import { content } from '../content/bilingual';
 
 const Hero = () => {
+  const { language } = useLanguage();
+  const t = content[language];
   const [particles, setParticles] = useState([]);
   const [jasminePetals, setJasminePetals] = useState([]);
   const [diyas, setDiyas] = useState([]);
@@ -361,17 +365,17 @@ const Hero = () => {
             </div>
           </motion.div>
 
-          <h1 className="font-cormorant text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-[#d4af37] mb-4 sm:mb-6 tracking-wide leading-tight">
-            {artistInfo.name}
+          <h1 className={`font-cormorant text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-[#d4af37] mb-4 sm:mb-6 tracking-wide leading-tight ${language === 'ml' ? 'malayalam-text' : ''}`}>
+            {t.name}
           </h1>
 
           <motion.p
-            className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-300 mb-4 sm:mb-6 font-light leading-relaxed"
+            className={`text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-300 mb-4 sm:mb-6 font-light leading-relaxed ${language === 'ml' ? 'malayalam-text' : ''}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
           >
-            {artistInfo.tagline}
+            {t.tagline}
           </motion.p>
 
           <motion.div
@@ -386,13 +390,12 @@ const Hero = () => {
           </motion.div>
 
           <motion.p
-            className="text-gray-400 text-base sm:text-lg leading-relaxed mb-6 sm:mb-8 max-w-2xl mx-auto lg:mx-0"
+            className={`text-gray-400 text-base sm:text-lg leading-relaxed mb-6 sm:mb-8 max-w-2xl mx-auto lg:mx-0 ${language === 'ml' ? 'malayalam-text' : ''}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.4 }}
           >
-            Carrying forward the divine musical heritage of Kerala's sacred temples. 
-            Each raga, each note, is a prayer echoing through centuries of devotion.
+            {t.description}
           </motion.p>
 
           <motion.div
@@ -412,7 +415,7 @@ const Hero = () => {
                 transition={{ duration: 0.5 }}
               />
               <Play className="mr-2 h-5 w-5 sm:h-6 sm:w-6 relative z-10" />
-              <span className="relative z-10">Listen Now</span>
+              <span className={`relative z-10 ${language === 'ml' ? 'malayalam-text' : ''}`}>{t.buttons.listenNow}</span>
             </Button>
           </motion.div>
 
@@ -424,16 +427,16 @@ const Hero = () => {
             className="flex gap-4 sm:gap-8 mt-8 sm:mt-10 pt-8 sm:pt-10 border-t border-[#d4af37]/20 justify-center lg:justify-start"
           >
             <div>
-              <div className="font-cormorant text-3xl sm:text-4xl font-bold text-[#d4af37] mb-1">{artistInfo.yearsOfExperience}+</div>
-              <div className="text-gray-500 text-xs tracking-wider uppercase">Years</div>
+              <div className="font-cormorant text-3xl sm:text-4xl font-bold text-[#d4af37] mb-1">{t.yearsOfExperience}+</div>
+              <div className={`text-gray-500 text-xs tracking-wider uppercase ${language === 'ml' ? 'malayalam-text' : ''}`}>{t.stats.years}</div>
             </div>
             <div>
-              <div className="font-cormorant text-3xl sm:text-4xl font-bold text-[#d4af37] mb-1">{artistInfo.templesPerformed}+</div>
-              <div className="text-gray-500 text-xs tracking-wider uppercase">Temples</div>
+              <div className="font-cormorant text-3xl sm:text-4xl font-bold text-[#d4af37] mb-1">{t.templesPerformed}+</div>
+              <div className={`text-gray-500 text-xs tracking-wider uppercase ${language === 'ml' ? 'malayalam-text' : ''}`}>{t.stats.temples}</div>
             </div>
             <div>
               <div className="font-cormorant text-3xl sm:text-4xl font-bold text-[#d4af37] mb-1">50+</div>
-              <div className="text-gray-500 text-xs tracking-wider uppercase">Ragas</div>
+              <div className={`text-gray-500 text-xs tracking-wider uppercase ${language === 'ml' ? 'malayalam-text' : ''}`}>{t.stats.ragas}</div>
             </div>
           </motion.div>
         </motion.div>

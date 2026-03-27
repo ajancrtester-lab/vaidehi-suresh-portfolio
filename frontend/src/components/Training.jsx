@@ -2,55 +2,22 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { GraduationCap, User, BookOpen, Music, Sparkles } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
+import { content } from '../content/bilingual';
 
 const Training = () => {
+  const { language } = useLanguage();
+  const t = content[language];
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
-  const education = [
-    {
-      icon: GraduationCap,
-      title: "Advanced Diploma in Sopana Sangeetham",
-      institution: "Kerala Sangeetha Nataka Akademi",
-      year: "2008-2012",
-      description: "Intensive four-year program specializing in Kerala temple music traditions, classical ragas, and devotional compositions under renowned masters."
-    },
-    {
-      icon: Music,
-      title: "Classical Carnatic Music Training",
-      institution: "Swathi Thirunal Music Academy, Thiruvananthapuram",
-      year: "2005-2008",
-      description: "Foundation in Carnatic classical music, covering essential ragas, talas, and vocal techniques that form the basis of temple music."
-    },
-    {
-      icon: BookOpen,
-      title: "Traditional Temple Music Apprenticeship",
-      institution: "Guruvayur Devaswom",
-      year: "2012-2015",
-      description: "Direct apprenticeship at Guruvayur Temple, learning the authentic traditions of Sopana Sangeetham in its original sacred context."
-    }
-  ];
+  const educationIcons = [GraduationCap, BookOpen, Music];
+  const education = t.training.education.map((item, index) => ({
+    icon: educationIcons[index] || GraduationCap,
+    ...item
+  }));
 
-  const gurus = [
-    {
-      name: "Padmashri P. S. Narayanaswamy",
-      title: "Principal Guru - Sopana Sangeetham",
-      description: "Trained under the legendary maestro of Kerala temple music, learning rare ragas and authentic temple performance traditions.",
-      specialization: "Temple Music Traditions & Classical Ragas"
-    },
-    {
-      name: "Dr. Neyyattinkara Vasudevan",
-      title: "Vocal Technique & Devotional Music",
-      description: "Received training in Carnatic vocal techniques and devotional singing style that forms the foundation of Sopana Sangeetham.",
-      specialization: "Carnatic Vocals & Bhakti Sangeetham"
-    },
-    {
-      name: "Chembai Vaidyanathan Bhagavathar Lineage",
-      title: "Classical Heritage",
-      description: "Connected to the prestigious Chembai tradition through my gurus, maintaining the highest standards of classical music excellence.",
-      specialization: "Classical Purity & Authenticity"
-    }
-  ];
+  const gurus = t.training.gurus;
 
   return (
     <section
@@ -77,12 +44,12 @@ const Training = () => {
             <div className="h-px bg-gradient-to-r from-transparent via-[#d4af37] to-transparent" />
           </motion.div>
 
-          <h2 className="font-cormorant text-5xl md:text-6xl font-bold text-[#d4af37] mb-6">
-            Training & Lineage
+          <h2 className={`font-cormorant text-5xl md:text-6xl font-bold text-[#d4af37] mb-6 ${language === 'ml' ? 'malayalam-text' : ''}`}>
+            {t.training.title}
           </h2>
 
-          <p className="text-gray-400 text-sm tracking-[0.3em] uppercase">
-            A Rich Heritage of Musical Education
+          <p className={`text-gray-400 text-sm tracking-[0.3em] uppercase ${language === 'ml' ? 'malayalam-text' : ''}`}>
+            {t.training.subtitle}
           </p>
         </motion.div>
 
@@ -119,16 +86,13 @@ const Training = () => {
 
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
-                          <h4 className="font-cormorant text-xl font-semibold text-[#d4af37]">
+                          <h4 className={`font-cormorant text-xl font-semibold text-[#d4af37] ${language === 'ml' ? 'malayalam-text' : ''}`}>
                             {edu.title}
                           </h4>
-                          <span className="text-xs text-gray-500 border border-[#d4af37]/30 px-2 py-1">
-                            {edu.year}
-                          </span>
                         </div>
 
-                        <p className="text-gray-400 text-sm mb-2">{edu.institution}</p>
-                        <p className="text-gray-500 text-sm leading-relaxed">{edu.description}</p>
+                        <p className={`text-gray-400 text-sm mb-2 ${language === 'ml' ? 'malayalam-text' : ''}`}>{edu.institution}</p>
+                        <p className={`text-gray-500 text-sm leading-relaxed ${language === 'ml' ? 'malayalam-text' : ''}`}>{edu.description}</p>
                       </div>
                     </div>
                   </div>
@@ -144,9 +108,9 @@ const Training = () => {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ delay: 1 }}
-            className="font-cormorant text-3xl font-semibold text-[#d4af37] mb-8 text-center"
+            className={`font-cormorant text-3xl font-semibold text-[#d4af37] mb-8 text-center ${language === 'ml' ? 'malayalam-text' : ''}`}
           >
-            Gurus & Mentors
+            {t.training.gurusTitle}
           </motion.h3>
 
           <div className="grid md:grid-cols-1 gap-6">
@@ -163,18 +127,18 @@ const Training = () => {
                   <div className="flex items-start gap-4 mb-4">
                     <User className="h-6 w-6 text-[#d4af37] flex-shrink-0 mt-1" />
                     <div className="flex-1">
-                      <h4 className="font-cormorant text-2xl font-bold text-[#d4af37] mb-1">
+                      <h4 className={`font-cormorant text-2xl font-bold text-[#d4af37] mb-1 ${language === 'ml' ? 'malayalam-text' : ''}`}>
                         {guru.name}
                       </h4>
-                      <p className="text-gray-400 text-sm mb-2">{guru.title}</p>
+                      <p className={`text-gray-400 text-sm mb-2 ${language === 'ml' ? 'malayalam-text' : ''}`}>{guru.title}</p>
                     </div>
                   </div>
 
-                  <p className="text-gray-400 leading-relaxed mb-4">{guru.description}</p>
+                  <p className={`text-gray-400 leading-relaxed mb-4 ${language === 'ml' ? 'malayalam-text' : ''}`}>{guru.description}</p>
 
                   <div className="flex items-center gap-2 pt-4 border-t border-[#d4af37]/20">
                     <Sparkles className="h-4 w-4 text-[#d4af37]" />
-                    <span className="text-xs text-gray-500 italic">{guru.specialization}</span>
+                    <span className={`text-xs text-gray-500 italic ${language === 'ml' ? 'malayalam-text' : ''}`}>{guru.specialization}</span>
                   </div>
                 </div>
               </motion.div>

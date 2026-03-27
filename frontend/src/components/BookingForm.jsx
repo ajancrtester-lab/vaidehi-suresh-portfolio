@@ -8,8 +8,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Label } from './ui/label';
 import { contactInfo } from '../mock';
 import { toast } from '../hooks/use-toast';
+import { useLanguage } from '../context/LanguageContext';
+import { content } from '../content/bilingual';
 
 const BookingForm = () => {
+  const { language } = useLanguage();
+  const t = content[language];
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -256,7 +260,7 @@ const BookingForm = () => {
             ) : (
               <>
                 <Send className="mr-2 h-5 w-5" />
-                Submit Booking Request
+                <span className={language === 'ml' ? 'malayalam-text' : ''}>{t.buttons.submitBooking}</span>
               </>
             )}
           </Button>

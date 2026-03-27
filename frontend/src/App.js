@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { LanguageProvider } from './context/LanguageContext';
 import Hero from './components/Hero';
 import About from './components/About';
 import AudioPlayer from './components/AudioPlayer';
@@ -13,6 +14,7 @@ import Contact from './components/Contact';
 import CustomCursor from './components/CustomCursor';
 import ScrollProgress from './components/ScrollProgress';
 import ScrollToTop from './components/ScrollToTop';
+import LanguageToggle from './components/LanguageToggle';
 import AdminDashboard from './components/AdminDashboard';
 import SEO from './components/SEO';
 import { Toaster } from './components/ui/toaster';
@@ -33,6 +35,7 @@ const Home = () => {
       {showCursor && <CustomCursor />}
       <ScrollProgress />
       <ScrollToTop />
+      <LanguageToggle />
       <Hero />
       <About />
       <Services />
@@ -49,15 +52,17 @@ const Home = () => {
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-        </Routes>
-      </BrowserRouter>
-      <Toaster />
-    </div>
+    <LanguageProvider>
+      <div className="App">
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+          </Routes>
+        </BrowserRouter>
+        <Toaster />
+      </div>
+    </LanguageProvider>
   );
 }
 

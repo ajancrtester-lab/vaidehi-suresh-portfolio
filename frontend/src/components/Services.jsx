@@ -3,49 +3,21 @@ import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Music, Users, Home, GraduationCap, Sparkles, Calendar } from 'lucide-react';
 import { Card, CardContent } from './ui/card';
+import { useLanguage } from '../context/LanguageContext';
+import { content } from '../content/bilingual';
 
 const Services = () => {
+  const { language } = useLanguage();
+  const t = content[language];
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
-  const services = [
-    {
-      icon: Music,
-      title: "Temple Ceremonies & Festivals",
-      description: "Authentic Sopana Sangeetham performances for temple rituals, daily poojas, and major festivals. Specializing in traditional Kerala temple music that enhances the divine atmosphere of sacred ceremonies.",
-      keywords: "Temple music, Kerala festivals, Sopana Sangeetham, Religious ceremonies"
-    },
-    {
-      icon: Users,
-      title: "Cultural Events & Concerts",
-      description: "Classical music concerts for cultural organizations, sangeetha sabhas, and heritage events. Presenting the rich tradition of Kerala's temple music to wider audiences with authentic renditions of classical ragas.",
-      keywords: "Classical concert, Cultural events, Kerala music, Traditional performance"
-    },
-    {
-      icon: Home,
-      title: "Private Performances",
-      description: "Intimate devotional music sessions for private functions, family ceremonies, and special occasions. Bringing the sacred melodies of temple music to your home with personalized performances.",
-      keywords: "Private concert, Home ceremony, Devotional music, Family event"
-    },
-    {
-      icon: GraduationCap,
-      title: "Music Workshops & Training",
-      description: "Conducting workshops and training sessions on Sopana Sangeetham, teaching the traditional techniques, ragas, and spiritual aspects of Kerala temple music to aspiring musicians and devotees.",
-      keywords: "Music training, Sopana Sangeetham lessons, Kerala music education, Classical training"
-    },
-    {
-      icon: Calendar,
-      title: "Annual Temple Performances",
-      description: "Regular annual performances at major Kerala temples including Sabarimala, Guruvayur, and Thrissur Pooram. Maintaining the living tradition of temple music through consistent yearly engagements.",
-      keywords: "Sabarimala music, Guruvayur performance, Thrissur Pooram, Annual temple events"
-    },
-    {
-      icon: Sparkles,
-      title: "Special Occasion Music",
-      description: "Devotional music for weddings, housewarming ceremonies, and auspicious occasions. Traditional Sopana Sangeetham renditions that invoke blessings and create a sacred atmosphere for important life events.",
-      keywords: "Wedding music, Auspicious ceremony, Kerala wedding, Traditional blessing music"
-    }
-  ];
+  const serviceIcons = [Music, Users, Home, GraduationCap, Calendar, Sparkles];
+  
+  const services = t.services.items.map((item, index) => ({
+    icon: serviceIcons[index],
+    ...item
+  }));
 
   return (
     <section
@@ -72,17 +44,16 @@ const Services = () => {
             <div className="h-px bg-gradient-to-r from-transparent via-[#d4af37] to-transparent" />
           </motion.div>
 
-          <h2 className="font-cormorant text-5xl md:text-6xl font-bold text-[#d4af37] mb-6">
-            Services Offered
+          <h2 className={`font-cormorant text-5xl md:text-6xl font-bold text-[#d4af37] mb-6 ${language === 'ml' ? 'malayalam-text' : ''}`}>
+            {t.services.title}
           </h2>
 
-          <p className="text-gray-400 text-sm tracking-[0.3em] uppercase mb-4">
-            Bringing Sacred Temple Music to Every Occasion
+          <p className={`text-gray-400 text-sm tracking-[0.3em] uppercase mb-4 ${language === 'ml' ? 'malayalam-text' : ''}`}>
+            {t.services.subtitle}
           </p>
           
-          <p className="text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            As a dedicated Sopana Sangeetham artist, I offer authentic Kerala temple music performances for various occasions. 
-            With 15+ years of experience, I bring the divine melodies of traditional ragas to temples, cultural events, and private ceremonies across Kerala.
+          <p className={`text-gray-300 max-w-3xl mx-auto leading-relaxed ${language === 'ml' ? 'malayalam-text' : ''}`}>
+            {t.services.intro}
           </p>
         </motion.div>
 
@@ -104,16 +75,16 @@ const Services = () => {
                       </div>
                     </div>
 
-                    <h3 className="font-cormorant text-2xl font-semibold text-[#d4af37] mb-3">
+                    <h3 className={`font-cormorant text-2xl font-semibold text-[#d4af37] mb-3 ${language === 'ml' ? 'malayalam-text' : ''}`}>
                       {service.title}
                     </h3>
 
-                    <p className="text-gray-400 text-sm leading-relaxed mb-4">
+                    <p className={`text-gray-400 text-sm leading-relaxed mb-4 ${language === 'ml' ? 'malayalam-text' : ''}`}>
                       {service.description}
                     </p>
 
                     <div className="pt-4 border-t border-[#d4af37]/20">
-                      <p className="text-xs text-gray-500 italic">
+                      <p className={`text-xs text-gray-500 italic ${language === 'ml' ? 'malayalam-text' : ''}`}>
                         {service.keywords}
                       </p>
                     </div>
@@ -131,11 +102,8 @@ const Services = () => {
           transition={{ delay: 1.5 }}
           className="mt-16 text-center"
         >
-          <p className="text-gray-500 text-sm max-w-4xl mx-auto leading-relaxed">
-            <strong className="text-[#d4af37]">Vaidehi Suresh</strong> is a renowned Sopana Sangeetham artist from Thrissur, Kerala, 
-            specializing in traditional temple music performances. With expertise in classical ragas like Madhyamavati, Mohana, and Bhairavi, 
-            she brings authentic devotional music to temples across Kerala including Sabarimala, Guruvayur, and Padmanabhaswamy Temple. 
-            Available for bookings throughout Kerala and India.
+          <p className={`text-gray-500 text-sm max-w-4xl mx-auto leading-relaxed ${language === 'ml' ? 'malayalam-text' : ''}`}>
+            <strong className="text-[#d4af37]">{t.name}</strong> {t.services.footer}
           </p>
         </motion.div>
       </div>

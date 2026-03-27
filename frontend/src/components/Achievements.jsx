@@ -2,55 +2,26 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Award, Trophy, Star, Medal, Music2, Heart } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
+import { content } from '../content/bilingual';
 
 const Achievements = () => {
+  const { language } = useLanguage();
+  const t = content[language];
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
-  const achievements = [
-    {
-      icon: Award,
-      year: "2023",
-      title: "Kerala Sangeetha Nataka Akademi Recognition",
-      description: "Honored for outstanding contribution to preserving and promoting Sopana Sangeetham and traditional Kerala temple music."
-    },
-    {
-      icon: Trophy,
-      year: "2022",
-      title: "Best Temple Music Performance Award",
-      description: "Received at the Annual Kerala Classical Music Festival for exemplary rendition of traditional ragas at Thrissur Pooram."
-    },
-    {
-      icon: Star,
-      year: "2021",
-      title: "Cultural Heritage Ambassador",
-      description: "Appointed as cultural ambassador for promoting Kerala's intangible heritage of Sopana Sangeetham to national and international audiences."
-    },
-    {
-      icon: Medal,
-      year: "2020",
-      title: "Excellence in Traditional Arts",
-      description: "Recognized by the Ministry of Culture for dedication to maintaining the authentic tradition of temple music across Kerala's major temples."
-    },
-    {
-      icon: Music2,
-      year: "2019",
-      title: "Guruvayur Temple Lifetime Performer",
-      description: "Selected for permanent association with Guruvayur Sri Krishna Temple for annual festival performances and special ceremonies."
-    },
-    {
-      icon: Heart,
-      year: "2018",
-      title: "Devotional Music Excellence Award",
-      description: "Honored for bringing spiritual depth and technical mastery to performances at Sabarimala and other major pilgrimage centers."
-    }
-  ];
+  const achievementIcons = [Award];
+  const achievements = t.achievements.items.map((item, index) => ({
+    icon: achievementIcons[index] || Award,
+    ...item
+  }));
 
   const milestones = [
-    { number: "50+", label: "Temples Performed", description: "Across Kerala and South India" },
-    { number: "500+", label: "Performances", description: "Temple ceremonies and cultural events" },
-    { number: "15+", label: "Years Experience", description: "Dedicated to Sopana Sangeetham" },
-    { number: "20+", label: "Ragas Mastered", description: "Traditional and rare compositions" }
+    { number: t.templesPerformed + '+', label: t.achievements.milestones.temples, description: language === 'en' ? "Across Kerala and South India" : "കേരളത്തിലും ദക്ഷിണേന്ത്യയിലും" },
+    { number: "1000+", label: t.achievements.milestones.performances || (language === 'en' ? 'Performances' : 'അവതരണങ്ങൾ'), description: language === 'en' ? "Temple ceremonies and cultural events" : "ക്ഷേത്ര ചടങ്ങുകളും സാംസ്കാരിക പരിപാടികളും" },
+    { number: t.yearsOfExperience + '+', label: t.achievements.milestones.years, description: language === 'en' ? "Dedicated to Sopana Sangeetham" : "സോപാന സംഗീതത്തിന് സമർപ്പിച്ചത്" },
+    { number: "50+", label: t.achievements.milestones.ragas, description: language === 'en' ? "Traditional and rare compositions" : "പരമ്പരാഗതവും അപൂർവവുമായ രചനകൾ" }
   ];
 
   return (
@@ -74,8 +45,8 @@ const Achievements = () => {
             <div className="h-px bg-gradient-to-r from-transparent via-[#d4af37] to-transparent" />
           </motion.div>
 
-          <h2 className="font-cormorant text-5xl md:text-6xl font-bold text-[#d4af37] mb-6">
-            Achievements & Recognition
+          <h2 className={`font-cormorant text-5xl md:text-6xl font-bold text-[#d4af37] mb-6 ${language === 'ml' ? 'malayalam-text' : ''}`}>
+            {t.achievements.title}
           </h2>
 
           <p className="text-gray-400 text-sm tracking-[0.3em] uppercase">
@@ -99,8 +70,8 @@ const Achievements = () => {
                   <div className="text-4xl md:text-5xl font-bold text-[#d4af37] mb-2 font-cormorant">
                     {milestone.number}
                   </div>
-                  <div className="text-white font-semibold mb-1">{milestone.label}</div>
-                  <div className="text-xs text-gray-500">{milestone.description}</div>
+                  <div className={`text-white font-semibold mb-1 ${language === 'ml' ? 'malayalam-text' : ''}`}>{milestone.label}</div>
+                  <div className={`text-xs text-gray-500 ${language === 'ml' ? 'malayalam-text' : ''}`}>{milestone.description}</div>
                 </div>
               </div>
             </motion.div>
@@ -136,11 +107,11 @@ const Achievements = () => {
                         <div className="h-px flex-1 bg-gradient-to-r from-[#d4af37]/50 to-transparent" />
                       </div>
 
-                      <h3 className="font-cormorant text-2xl font-semibold text-[#d4af37] mb-2">
+                      <h3 className={`font-cormorant text-2xl font-semibold text-[#d4af37] mb-2 ${language === 'ml' ? 'malayalam-text' : ''}`}>
                         {achievement.title}
                       </h3>
 
-                      <p className="text-gray-400 leading-relaxed">
+                      <p className={`text-gray-400 leading-relaxed ${language === 'ml' ? 'malayalam-text' : ''}`}>
                         {achievement.description}
                       </p>
                     </div>

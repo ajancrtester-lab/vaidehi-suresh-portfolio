@@ -4,8 +4,12 @@ import { useRef } from 'react';
 import { contactInfo, artistInfo } from '../mock';
 import { MessageCircle, MapPin, Mail } from 'lucide-react';
 import BookingForm from './BookingForm';
+import { useLanguage } from '../context/LanguageContext';
+import { content } from '../content/bilingual';
 
 const Contact = () => {
+  const { language } = useLanguage();
+  const t = content[language];
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
@@ -39,8 +43,8 @@ const Contact = () => {
             Get in Touch
           </h2>
 
-          <p className="text-gray-400 text-sm tracking-[0.3em] uppercase">
-            Book a Performance
+          <p className={`text-gray-400 text-sm tracking-[0.3em] uppercase ${language === 'ml' ? 'malayalam-text' : ''}`}>
+            {t.buttons.bookPerformance}
           </p>
         </motion.div>
 

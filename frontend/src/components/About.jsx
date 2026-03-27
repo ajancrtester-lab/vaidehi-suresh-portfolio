@@ -3,15 +3,19 @@ import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { artistInfo } from '../mock';
 import { Award, Music, Heart } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
+import { content } from '../content/bilingual';
 
 const About = () => {
+  const { language } = useLanguage();
+  const t = content[language];
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   const stats = [
-    { icon: Music, label: 'Years of Practice', value: artistInfo.yearsOfExperience },
-    { icon: Award, label: 'Temples Performed', value: `${artistInfo.templesPerformed}+` },
-    { icon: Heart, label: 'Devotional Ragas', value: '50+' }
+    { icon: Music, label: language === 'en' ? 'Years of Practice' : 'വർഷത്തെ പരിശീലനം', value: t.yearsOfExperience },
+    { icon: Award, label: language === 'en' ? 'Temples Performed' : 'ക്ഷേത്രങ്ങളിൽ അവതരണം', value: `${t.templesPerformed}+` },
+    { icon: Heart, label: language === 'en' ? 'Devotional Ragas' : 'ഭക്തി രാഗങ്ങൾ', value: '50+' }
   ];
 
   return (
@@ -45,12 +49,12 @@ const About = () => {
             <div className="h-px bg-gradient-to-r from-transparent via-[#d4af37] to-transparent" />
           </motion.div>
 
-          <h2 className="font-cormorant text-5xl md:text-6xl font-bold text-[#d4af37] mb-6">
-            The Journey
+          <h2 className={`font-cormorant text-5xl md:text-6xl font-bold text-[#d4af37] mb-6 ${language === 'ml' ? 'malayalam-text' : ''}`}>
+            {t.about.title}
           </h2>
 
-          <p className="text-gray-400 text-sm tracking-[0.3em] uppercase">
-            A Life Devoted to Sacred Music
+          <p className={`text-gray-400 text-sm tracking-[0.3em] uppercase ${language === 'ml' ? 'malayalam-text' : ''}`}>
+            {t.about.subtitle}
           </p>
         </motion.div>
 
@@ -78,22 +82,22 @@ const About = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="space-y-6"
           >
-            <p className="text-gray-300 text-lg leading-relaxed font-light">
-              {artistInfo.description}
+            <p className={`text-gray-300 text-lg leading-relaxed font-light ${language === 'ml' ? 'malayalam-text' : ''}`}>
+              {t.description}
             </p>
 
-            <p className="text-gray-300 text-lg leading-relaxed font-light">
-              Rooted in the sacred traditions of Kerala's temple architecture and rituals, Vaidehi has dedicated her life to mastering the intricate melodies that have echoed through temple corridors for centuries. Her voice carries not just music, but the spiritual essence of devotion.
+            <p className={`text-gray-300 text-lg leading-relaxed font-light ${language === 'ml' ? 'malayalam-text' : ''}`}>
+              {t.performance.description}
             </p>
 
-            <p className="text-gray-300 text-lg leading-relaxed font-light">
-              From the hallowed halls of Sabarimala to the divine atmosphere of Guruvayur, her performances transform spaces into sanctuaries of spiritual resonance. Each raga is rendered with deep reverence and technical mastery.
+            <p className={`text-gray-300 text-lg leading-relaxed font-light ${language === 'ml' ? 'malayalam-text' : ''}`}>
+              {t.performance.national}
             </p>
 
             <div className="pt-6">
               <div className="h-px w-full bg-gradient-to-r from-[#d4af37]/50 via-transparent to-transparent mb-6" />
-              <p className="text-[#d4af37] italic font-cormorant text-xl">
-                "Music is my prayer, the temple is my home, and devotion is my guide."
+              <p className={`text-[#d4af37] italic font-cormorant text-xl ${language === 'ml' ? 'malayalam-text' : ''}`}>
+                "{t.about.quote}"
               </p>
             </div>
           </motion.div>
@@ -122,7 +126,7 @@ const About = () => {
                   <div className="text-4xl font-bold text-white mb-2 font-cormorant">
                     {stat.value}
                   </div>
-                  <div className="text-gray-400 text-sm tracking-wider uppercase">
+                  <div className={`text-gray-400 text-sm tracking-wider uppercase ${language === 'ml' ? 'malayalam-text' : ''}`}>
                     {stat.label}
                   </div>
                 </div>
