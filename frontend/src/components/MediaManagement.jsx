@@ -72,6 +72,21 @@ const MediaManagement = () => {
       const endpoint = endpoints[type];
       const isNew = !item.id || item.id === 'new';
 
+      // Ensure required fields
+      if (!item.title && !item.name) {
+        toast({
+          title: 'Error',
+          description: 'Title/Name is required',
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      // For new items, generate ID
+      if (isNew) {
+        item.id = `${type}-${Date.now()}`;
+      }
+
       const response = await fetch(
         `${BACKEND_URL}/api/admin/${endpoint}${isNew ? '' : `/${item.id}`}`,
         {
@@ -81,7 +96,10 @@ const MediaManagement = () => {
         }
       );
 
-      if (!response.ok) throw new Error('Failed to save');
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || 'Failed to save');
+      }
 
       toast({
         title: 'Success',
@@ -92,9 +110,10 @@ const MediaManagement = () => {
       setEditType(null);
       loadAllMedia();
     } catch (error) {
+      console.error('Save error:', error);
       toast({
         title: 'Error',
-        description: 'Failed to save item',
+        description: error.message || 'Failed to save item',
         variant: 'destructive',
       });
     }
