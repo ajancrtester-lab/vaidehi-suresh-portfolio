@@ -12,6 +12,7 @@ import { mockBookings, contactInfo } from '../mock';
 import { toast } from '../hooks/use-toast';
 import { content as defaultContent } from '../content/bilingual';
 import MediaManagement from './MediaManagement';
+import SiteSettings from './SiteSettings';
 
 const AdminDashboard = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -339,10 +340,11 @@ const AdminDashboard = () => {
 
         {/* Main Tabs */}
         <Tabs defaultValue="bookings" className="w-full">
-          <TabsList className="grid w-full max-w-2xl grid-cols-3 mb-8 bg-black/50 border border-[#d4af37]/30">
+          <TabsList className="grid w-full max-w-3xl grid-cols-4 mb-8 bg-black/50 border border-[#d4af37]/30">
             <TabsTrigger value="bookings">Bookings</TabsTrigger>
             <TabsTrigger value="media">Media</TabsTrigger>
             <TabsTrigger value="content">Content</TabsTrigger>
+            <TabsTrigger value="settings">Settings</TabsTrigger>
           </TabsList>
 
           {/* Bookings Tab */}
@@ -651,6 +653,15 @@ const ContentManagement = ({ contentData, onContentUpdate }) => {
           </p>
         </CardContent>
       </Card>
+    </div>
+          </TabsContent>
+
+          {/* Settings Tab */}
+          <TabsContent value="settings">
+            <SiteSettings />
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 };

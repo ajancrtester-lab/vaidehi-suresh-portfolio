@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, HTTPException, Query
+from fastapi import FastAPI, APIRouter, HTTPException, Query, File, UploadFile
 from fastapi.responses import HTMLResponse
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
@@ -1055,6 +1055,69 @@ async def get_artist_info():
         return {"artistInfo": artist_info}
     except Exception as e:
         logging.error(f"Error fetching artist info: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# ============== Site Settings Routes ==============
+
+@api_router.get("/site-settings")
+async def get_site_settings():
+    """Get all site settings"""
+    try:
+        settings = await db.site_settings.find_one({"id": "main_settings"}, {"_id": 0})
+        if not settings:
+            settings = {
+                "id": "main_settings",
+                "backgroundMusic": {
+                    "enabled": True,
+                    "audioUrl": "/audio/idakka-intro.mp3",
+                    "duration": 30
+                }
+            }
+        return {"settings": settings}
+    except Exception as e:
+        logging.error(f"Error fetching site settings: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.put("/admin/site-settings")
+async def update_site_settings(settings_data: dict):
+    """Update site settings"""
+    try:
+        await db.site_settings.update_one(
+            {"id": "main_settings"},
+            {"$set": settings_data},
+            upsert=True
+        )
+        return {"success": True}
+    except Exception as e:
+        logging.error(f"Error updating site settings: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.post("/admin/upload-audio")
+async def upload_audio_file(file: UploadFile = File(...)):
+    """Upload audio file for background music"""
+    try:
+        upload_dir = "/app/frontend/public/audio"
+        os.makedirs(upload_dir, exist_ok=True)
+        
+        file_path = os.path.join(upload_dir, file.filename)
+        with open(file_path, "wb") as buffer:
+            content = await file.read()
+            buffer.write(content)
+        
+        public_url = f"/audio/{file.filename}"
+        
+        await db.site_settings.update_one(
+            {"id": "main_settings"},
+            {"$set": {"backgroundMusic.audioUrl": public_url}},
+            upsert=True
+        )
+        
+        return {"success": True, "url": public_url}
+    except Exception as e:
+        logging.error(f"Error uploading audio: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
