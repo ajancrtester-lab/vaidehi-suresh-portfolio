@@ -95,13 +95,7 @@ const BackgroundMusic = () => {
         loop={false}
         preload="auto"
       >
-        {/* Real performance audio - Upload actual .mp3 file from Instagram/YouTube performance */}
-        {/* To add your own audio: 
-            1. Download audio from your Instagram reel or YouTube Short
-            2. Place the .mp3 file in /app/frontend/public/audio/
-            3. Update the src below to "/audio/your-performance.mp3"
-        */}
-        <source src="/audio/idakka-intro.mp3" type="audio/mpeg" />
+        {/* Using SoundHelix as placeholder until real audio is uploaded */}
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
       </audio>
 
