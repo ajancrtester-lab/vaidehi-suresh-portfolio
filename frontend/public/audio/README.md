@@ -1,84 +1,49 @@
-# Background Music - Idakka Instrument Audio
+# Background Music Audio File
 
-## Overview
-The website plays authentic Idakka (traditional Kerala percussion instrument) background music for 30 seconds on page load.
+## To Add Your Real Performance Audio:
 
-## Audio File Setup
+Since browsers cannot directly play YouTube/Instagram videos as audio in `<audio>` elements, you need to:
 
-### Required File
-Place an Idakka instrument audio file at:
-```
-/app/frontend/public/audio/idakka-intro.mp3
-```
+### Option 1: Upload Your Own Audio File
+1. Download the audio from one of your Instagram reels or YouTube Shorts
+   - You can use online tools to extract audio from YouTube videos
+   - For Instagram, you might need to download the reel first
 
-### Recommended Audio Specifications
-- **Format**: MP3 (recommended for browser compatibility)
-- **Duration**: 30-35 seconds
-- **Quality**: 128-192 kbps (balance between quality and file size)
-- **Volume**: Pre-normalized to avoid sudden loudness
-- **Type**: Traditional Kerala Idakka instrument sound/rhythm
+2. Convert to MP3 format if needed
 
-### Where to Find Authentic Idakka Audio
+3. Upload the audio file to: `/app/frontend/public/audio/`
+   - Name it something like: `vaidehi-performance.mp3` or `sopana-intro.mp3`
 
-1. **YouTube Audio Library** (Free, Copyright-free)
-   - Search: "Idakka instrument", "Kerala percussion", "Temple music percussion"
+4. Update `/app/frontend/src/components/BackgroundMusic.jsx`:
+   - Change line 99 from:
+     ```jsx
+     <source src="/audio/idakka-intro.mp3" type="audio/mpeg" />
+     ```
+   - To:
+     ```jsx
+     <source src="/audio/vaidehi-performance.mp3" type="audio/mpeg" />
+     ```
 
-2. **Freesound.org** (Creative Commons)
-   - Search: "Idakka", "Indian percussion", "Kerala drums"
+### Option 2: Use Admin Dashboard
+You can also update this through the Admin panel:
+1. Go to `/admin`
+2. Navigate to Media → Audio Tracks
+3. Add a special track with ID "background-music"
+4. The system can be configured to use that as background audio
 
-3. **Free Music Archive**
-   - World Music > Indian Classical
+### Recommended Audio:
+- From your YouTube Shorts: "Sindhooranuna Vighraham" (2.7K views)
+- Or: "Seetha Kalyanam Vaibhogame" (1.9K views)
+- Duration: First 30 seconds will auto-play
 
-4. **Record Your Own**
-   - Hire a local Idakka artist
-   - Record at a Kerala temple with permission
+### Current Status:
+- Background music component is active ✅
+- Plays for 30 seconds on page load ✅
+- Has mute/unmute controls ✅
+- **Needs**: Actual audio file from your performance
 
-5. **Purchase from Stock Audio Sites**
-   - AudioJungle
-   - Pond5
-   - Epidemic Sound
-
-### Alternative Setup (If No Audio Available)
-
-If you don't have an Idakka audio file yet, the component will:
-- Gracefully fail (no errors)
-- Not show the music controls
-- Website will function normally
-
-### Testing the Audio
-
-1. Add your MP3 file to `/app/frontend/public/audio/idakka-intro.mp3`
-2. Reload the website
-3. Audio should autoplay at 30% volume
-4. Should fade out and stop after 30 seconds
-5. Mute/unmute button appears in bottom-right corner
-
-### Features
-
-- **Auto-play**: Starts automatically on page load (if browser allows)
-- **30-second duration**: Plays for 30 seconds with 3-second fade-out
-- **Volume control**: Mute/unmute button with visual feedback
-- **Sound wave animation**: Visual indicator when playing
-- **Smooth fade-out**: Gradual volume decrease before stopping
-- **Browser compatibility**: Handles autoplay restrictions gracefully
-
-### Troubleshooting
-
-**Audio not playing?**
-- Check browser console for errors
-- Verify file exists at correct path
-- Try a different browser (some block autoplay)
-- Check file format (MP3 is most compatible)
-
-**Audio too loud/quiet?**
-- Adjust initial volume in `BackgroundMusic.jsx` (line 17)
-- Pre-normalize audio file before uploading
-
-**Want different duration?**
-- Edit timeout value in `BackgroundMusic.jsx` (line 23)
-- Current: 27000ms = 27 seconds (starts fade-out at 27s)
-
----
-
-## Component Location
-`/app/frontend/src/components/BackgroundMusic.jsx`
+The audio file should be:
+- Format: MP3
+- Duration: At least 30 seconds
+- Quality: Good enough for web (128kbps is fine)
+- Size: Keep under 1MB for fast loading

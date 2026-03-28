@@ -95,7 +95,12 @@ const BackgroundMusic = () => {
         loop={false}
         preload="auto"
       >
-        {/* Placeholder for Idakka sound - Replace with actual audio file */}
+        {/* Real performance audio - Upload actual .mp3 file from Instagram/YouTube performance */}
+        {/* To add your own audio: 
+            1. Download audio from your Instagram reel or YouTube Short
+            2. Place the .mp3 file in /app/frontend/public/audio/
+            3. Update the src below to "/audio/your-performance.mp3"
+        */}
         <source src="/audio/idakka-intro.mp3" type="audio/mpeg" />
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
       </audio>
@@ -177,10 +182,10 @@ const BackgroundMusic = () => {
                   className="absolute bottom-full right-0 mb-4 px-4 py-2 bg-black/80 backdrop-blur-sm border border-[#d4af37]/30 rounded-lg text-right"
                 >
                   <p className="text-[#d4af37] text-sm font-medium">
-                    Idakka Rhythm
+                    Sopana Sangeetham
                   </p>
                   <p className="text-gray-400 text-xs">
-                    Traditional Kerala percussion
+                    Traditional temple music
                   </p>
                 </motion.div>
               )}
