@@ -403,6 +403,11 @@ const AdminDashboard = () => {
               onContentUpdate={handleContentUpdate}
             />
           </TabsContent>
+
+          {/* Settings Tab */}
+          <TabsContent value="settings">
+            <SiteSettings />
+          </TabsContent>
         </Tabs>
       </div>
     </div>
@@ -653,15 +658,6 @@ const ContentManagement = ({ contentData, onContentUpdate }) => {
           </p>
         </CardContent>
       </Card>
-    </div>
-          </TabsContent>
-
-          {/* Settings Tab */}
-          <TabsContent value="settings">
-            <SiteSettings />
-          </TabsContent>
-        </Tabs>
-      </div>
     </div>
   );
 };
