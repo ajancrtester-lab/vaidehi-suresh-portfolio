@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { MessageCircle, MapPin, Mail } from 'lucide-react';
+import { MessageCircle, MapPin, Mail, Instagram, Youtube, Facebook } from 'lucide-react';
 import BookingForm from './BookingForm';
 import { useLanguage } from '../context/LanguageContext';
 import { useArtistInfo } from '../context/ArtistInfoContext';
@@ -141,6 +141,40 @@ const Contact = () => {
           className="mt-20 pt-12 border-t border-[#d4af37]/20 text-center"
         >
           <div className="h-px w-20 bg-[#d4af37] mx-auto mb-6" />
+          
+          {/* Social Media Icons */}
+          <div className="flex justify-center items-center gap-6 mb-6">
+            <motion.a
+              href="https://www.instagram.com/iraneesam_vaidehi_suresh/"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.1, y: -3 }}
+              className="w-12 h-12 rounded-full border-2 border-[#d4af37]/30 hover:border-[#d4af37] bg-black/50 hover:bg-[#d4af37]/10 flex items-center justify-center transition-all duration-300 group"
+            >
+              <Instagram className="h-5 w-5 text-[#d4af37] group-hover:text-white transition-colors" />
+            </motion.a>
+            
+            <motion.a
+              href="https://www.youtube.com/@sureshnairiranikulam3072"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.1, y: -3 }}
+              className="w-12 h-12 rounded-full border-2 border-[#d4af37]/30 hover:border-[#d4af37] bg-black/50 hover:bg-[#d4af37]/10 flex items-center justify-center transition-all duration-300 group"
+            >
+              <Youtube className="h-5 w-5 text-[#d4af37] group-hover:text-white transition-colors" />
+            </motion.a>
+            
+            <motion.a
+              href="https://www.facebook.com/vaidehi.suresh"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.1, y: -3 }}
+              className="w-12 h-12 rounded-full border-2 border-[#d4af37]/30 hover:border-[#d4af37] bg-black/50 hover:bg-[#d4af37]/10 flex items-center justify-center transition-all duration-300 group"
+            >
+              <Facebook className="h-5 w-5 text-[#d4af37] group-hover:text-white transition-colors" />
+            </motion.a>
+          </div>
+
           <p className="text-gray-500 text-sm">
             © 2025 {artist.name}. Preserving the Sacred Traditions of Sopana Sangeetham.
           </p>
