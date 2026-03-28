@@ -21,6 +21,7 @@ export const ArtistInfoProvider = ({ children }) => {
       try {
         setLoading(true);
         const data = await fetchArtistInfo();
+        console.log("FINAL DATA:", data);
         setArtistInfo(data);
         setContactInfo(data.contactInfo);
       } catch (error) {
