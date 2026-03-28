@@ -801,6 +801,59 @@ async def get_audio_tracks():
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@api_router.get("/admin/audio-tracks")
+async def get_all_audio_tracks_admin():
+    """Get all audio tracks for admin (including inactive)"""
+    try:
+        tracks = await db.audio_tracks.find({}, {"_id": 0}).sort("order", 1).to_list(100)
+        return {"tracks": tracks}
+    except Exception as e:
+        logging.error(f"Error fetching audio tracks: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.put("/admin/audio-tracks/{track_id}")
+async def update_audio_track(track_id: str, track_data: dict):
+    """Update an audio track"""
+    try:
+        result = await db.audio_tracks.update_one(
+            {"id": track_id},
+            {"$set": track_data}
+        )
+        if result.modified_count == 0:
+            raise HTTPException(status_code=404, detail="Track not found")
+        return {"success": True}
+    except Exception as e:
+        logging.error(f"Error updating audio track: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.post("/admin/audio-tracks")
+async def create_audio_track(track_data: dict):
+    """Create a new audio track"""
+    try:
+        if "id" not in track_data:
+            track_data["id"] = str(uuid.uuid4())
+        await db.audio_tracks.insert_one(track_data)
+        return {"success": True, "id": track_data["id"]}
+    except Exception as e:
+        logging.error(f"Error creating audio track: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.delete("/admin/audio-tracks/{track_id}")
+async def delete_audio_track(track_id: str):
+    """Delete an audio track"""
+    try:
+        result = await db.audio_tracks.delete_one({"id": track_id})
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Track not found")
+        return {"success": True}
+    except Exception as e:
+        logging.error(f"Error deleting audio track: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @api_router.get("/video-performances")
 async def get_video_performances():
     """Get all active video performances"""
@@ -812,6 +865,59 @@ async def get_video_performances():
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@api_router.get("/admin/video-performances")
+async def get_all_videos_admin():
+    """Get all videos for admin (including inactive)"""
+    try:
+        videos = await db.video_performances.find({}, {"_id": 0}).sort("order", 1).to_list(100)
+        return {"videos": videos}
+    except Exception as e:
+        logging.error(f"Error fetching videos: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.put("/admin/video-performances/{video_id}")
+async def update_video(video_id: str, video_data: dict):
+    """Update a video"""
+    try:
+        result = await db.video_performances.update_one(
+            {"id": video_id},
+            {"$set": video_data}
+        )
+        if result.modified_count == 0:
+            raise HTTPException(status_code=404, detail="Video not found")
+        return {"success": True}
+    except Exception as e:
+        logging.error(f"Error updating video: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.post("/admin/video-performances")
+async def create_video(video_data: dict):
+    """Create a new video"""
+    try:
+        if "id" not in video_data:
+            video_data["id"] = str(uuid.uuid4())
+        await db.video_performances.insert_one(video_data)
+        return {"success": True, "id": video_data["id"]}
+    except Exception as e:
+        logging.error(f"Error creating video: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.delete("/admin/video-performances/{video_id}")
+async def delete_video(video_id: str):
+    """Delete a video"""
+    try:
+        result = await db.video_performances.delete_one({"id": video_id})
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Video not found")
+        return {"success": True}
+    except Exception as e:
+        logging.error(f"Error deleting video: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @api_router.get("/testimonials")
 async def get_testimonials():
     """Get all active testimonials"""
@@ -820,6 +926,112 @@ async def get_testimonials():
         return {"testimonials": testimonials}
     except Exception as e:
         logging.error(f"Error fetching testimonials: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.get("/admin/testimonials")
+async def get_all_testimonials_admin():
+    """Get all testimonials for admin (including inactive)"""
+    try:
+        testimonials = await db.testimonials.find({}, {"_id": 0}).sort("order", 1).to_list(100)
+        return {"testimonials": testimonials}
+    except Exception as e:
+        logging.error(f"Error fetching testimonials: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.put("/admin/testimonials/{testimonial_id}")
+async def update_testimonial(testimonial_id: str, testimonial_data: dict):
+    """Update a testimonial"""
+    try:
+        result = await db.testimonials.update_one(
+            {"id": testimonial_id},
+            {"$set": testimonial_data}
+        )
+        if result.modified_count == 0:
+            raise HTTPException(status_code=404, detail="Testimonial not found")
+        return {"success": True}
+    except Exception as e:
+        logging.error(f"Error updating testimonial: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.post("/admin/testimonials")
+async def create_testimonial(testimonial_data: dict):
+    """Create a new testimonial"""
+    try:
+        if "id" not in testimonial_data:
+            testimonial_data["id"] = str(uuid.uuid4())
+        await db.testimonials.insert_one(testimonial_data)
+        return {"success": True, "id": testimonial_data["id"]}
+    except Exception as e:
+        logging.error(f"Error creating testimonial: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.delete("/admin/testimonials/{testimonial_id}")
+async def delete_testimonial(testimonial_id: str):
+    """Delete a testimonial"""
+    try:
+        result = await db.testimonials.delete_one({"id": testimonial_id})
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Testimonial not found")
+        return {"success": True}
+    except Exception as e:
+        logging.error(f"Error deleting testimonial: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.get("/admin/gallery")
+async def get_all_gallery_admin():
+    """Get all gallery items for admin"""
+    try:
+        gallery = await db.gallery.find({}, {"_id": 0}).to_list(100)
+        return {"gallery": gallery}
+    except Exception as e:
+        logging.error(f"Error fetching gallery: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.put("/admin/gallery/{item_id}")
+async def update_gallery_item(item_id: str, item_data: dict):
+    """Update a gallery item"""
+    try:
+        result = await db.gallery.update_one(
+            {"id": item_id},
+            {"$set": item_data}
+        )
+        if result.modified_count == 0:
+            raise HTTPException(status_code=404, detail="Gallery item not found")
+        return {"success": True}
+    except Exception as e:
+        logging.error(f"Error updating gallery item: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.post("/admin/gallery")
+async def create_gallery_item(item_data: dict):
+    """Create a new gallery item"""
+    try:
+        if "id" not in item_data:
+            item_data["id"] = str(uuid.uuid4())
+        await db.gallery.insert_one(item_data)
+        return {"success": True, "id": item_data["id"]}
+    except Exception as e:
+        logging.error(f"Error creating gallery item: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.delete("/admin/gallery/{item_id}")
+async def delete_gallery_item(item_id: str):
+    """Delete a gallery item"""
+    try:
+        result = await db.gallery.delete_one({"id": item_id})
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Gallery item not found")
+        return {"success": True}
+    except Exception as e:
+        logging.error(f"Error deleting gallery item: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 

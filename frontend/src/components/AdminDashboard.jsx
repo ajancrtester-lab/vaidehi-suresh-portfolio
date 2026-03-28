@@ -11,6 +11,7 @@ import { Textarea } from './ui/textarea';
 import { mockBookings, contactInfo } from '../mock';
 import { toast } from '../hooks/use-toast';
 import { content as defaultContent } from '../content/bilingual';
+import MediaManagement from './MediaManagement';
 
 const AdminDashboard = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -338,9 +339,10 @@ const AdminDashboard = () => {
 
         {/* Main Tabs */}
         <Tabs defaultValue="bookings" className="w-full">
-          <TabsList className="grid w-full max-w-lg grid-cols-2 mb-8 bg-black/50 border border-[#d4af37]/30">
+          <TabsList className="grid w-full max-w-2xl grid-cols-3 mb-8 bg-black/50 border border-[#d4af37]/30">
             <TabsTrigger value="bookings">Bookings</TabsTrigger>
-            <TabsTrigger value="content">Content Management</TabsTrigger>
+            <TabsTrigger value="media">Media</TabsTrigger>
+            <TabsTrigger value="content">Content</TabsTrigger>
           </TabsList>
 
           {/* Bookings Tab */}
@@ -385,6 +387,11 @@ const AdminDashboard = () => {
                 />
               </TabsContent>
             </Tabs>
+          </TabsContent>
+
+          {/* Media Management Tab */}
+          <TabsContent value="media">
+            <MediaManagement />
           </TabsContent>
 
           {/* Content Management Tab */}

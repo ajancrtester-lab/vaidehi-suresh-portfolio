@@ -29,13 +29,13 @@ export const ArtistInfoProvider = ({ children }) => {
         setArtistInfo({
           name: 'Vaidehi Suresh',
           tagline: 'Sopana Sangeetham Artist',
-          yearsOfExperience: 15,
+          yearsOfExperience: 13,
           templesPerformed: 750
         });
         setContactInfo({
-          whatsapp: '917559926388',
-          email: 'contact@example.com',
-          location: 'Thrissur, Kerala'
+          whatsapp: '+919446909402',
+          email: 'vaidehisureshikm@gmail.com',
+          location: 'Iranikkulam,Thrissur, Kerala'
         });
       } finally {
         setLoading(false);

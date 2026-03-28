@@ -13,7 +13,7 @@ const About = () => {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   const stats = [
-    { icon: Music, label: language === 'en' ? 'Years of Practice' : 'വർഷത്തെ പരിശീലനം', value: artistInfo?.yearsOfExperience || t.yearsOfExperience },
+    { icon: Music, label: language === 'en' ? 'Years of Practice' : 'വർഷത്തെ പരിശീലനം', value:t.yearsOfExperience },
     { icon: Award, label: language === 'en' ? 'Temples Performed' : 'ക്ഷേത്രങ്ങളിൽ അവതരണം', value: `${artistInfo?.templesPerformed || t.templesPerformed}+` },
     { icon: Heart, label: language === 'en' ? 'Devotional Ragas' : 'ഭക്തി രാഗങ്ങൾ', value: '50+' }
   ];
@@ -67,7 +67,7 @@ const About = () => {
             <div className="relative">
               <div className="absolute -inset-4 bg-gradient-to-br from-[#800020]/20 to-[#d4af37]/20 blur-2xl" />
               <img
-                src="https://images.unsplash.com/photo-1598000938546-d8b840f69952?w=600&h=700&fit=crop"
+                src="/images/IMG_7065.JPG.jpeg"
                 alt="Vaidehi Suresh"
                 className="relative w-full h-[500px] object-cover border border-[#d4af37]/30 shadow-2xl"
               />

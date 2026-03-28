@@ -456,7 +456,7 @@ const Hero = () => {
       {/* Scroll indicator */}
       <motion.div
         className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20"
-        animate={{ y: [0, 15, 0] }}
+        animate={{ y: [0, 13, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
         <div className="flex flex-col items-center gap-2">
