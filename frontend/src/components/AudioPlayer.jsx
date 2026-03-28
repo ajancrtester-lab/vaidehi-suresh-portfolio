@@ -25,7 +25,14 @@ const AudioPlayer = () => {
       try {
         setLoading(true);
         const tracks = await fetchAudioTracks();
-        setAudioTracks(tracks);
+        // Filter out tracks with placeholder or external URLs
+        const validTracks = tracks.filter(track => 
+          track.audioUrl && 
+          !track.audioUrl.includes('soundhelix') &&
+          !track.audioUrl.includes('youtube.com') &&
+          track.audioUrl.startsWith('/audio/')
+        );
+        setAudioTracks(validTracks);
       } catch (error) {
         console.error('Failed to load audio tracks:', error);
         setAudioTracks([]);

@@ -13,6 +13,13 @@ const BackgroundMusic = () => {
     const audio = audioRef.current;
     if (!audio) return;
 
+    // Check if audio source is valid and local
+    const audioSrc = audio.querySelector('source')?.src;
+    if (!audioSrc || audioSrc.includes('soundhelix') || !audioSrc.startsWith(window.location.origin)) {
+      console.log('Background music disabled - no valid audio source uploaded');
+      return;
+    }
+
     // Try to autoplay when component mounts
     const playAudio = async () => {
       try {
