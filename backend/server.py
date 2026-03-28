@@ -1039,7 +1039,7 @@ async def delete_gallery_item(item_id: str):
 async def get_artist_info():
     """Get artist basic information"""
     try:
-        # Return basic artist info (can be made dynamic later)
+        # Return basic artist info
         artist_info = {
             "name": "Vaidehi Suresh",
             "tagline": "Preserving the Sacred Melodies of Kerala Temples",
@@ -1047,9 +1047,9 @@ async def get_artist_info():
             "yearsOfExperience": 15,
             "templesPerformed": 750,
             "contactInfo": {
-                "whatsapp": "917559926388",
-                "email": "vaidehi.suresh@example.com",
-                "location": "Thrissur, Kerala, India"
+                "whatsapp": "919446909402",
+                "email": "vaidehisureshikm@gmail.com",
+                "location": "Iranikkulam, Thrissur, Kerala"
             }
         }
         return {"artistInfo": artist_info}
