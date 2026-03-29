@@ -93,8 +93,25 @@ export const LanguageProvider = ({ children }) => {
     localStorage.setItem('preferredLanguage', newLang);
   };
 
+  // Translation function
+  const t = (key) => {
+    if (!key) return '';
+    const keys = key.split('.');
+    let value = content[language];
+    
+    for (const k of keys) {
+      if (value && typeof value === 'object') {
+        value = value[k];
+      } else {
+        return key;
+      }
+    }
+    
+    return value || key;
+  };
+
   return (
-    <LanguageContext.Provider value={{ language, toggleLanguage, content, isLoading, refreshContent }}>
+    <LanguageContext.Provider value={{ language, toggleLanguage, content, isLoading, refreshContent, t }}>
       {children}
     </LanguageContext.Provider>
   );
