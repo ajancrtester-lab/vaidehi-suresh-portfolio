@@ -37,43 +37,6 @@ app = FastAPI()
 api_router = APIRouter(prefix="/api")
 
 
-# ============== Helper Functions ==============
-class AudioTrack(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    title: str
-    raga: str
-    duration: str
-    temple: str
-    audioUrl: str
-    order: int = 0
-    isActive: bool = True
-
-class VideoPerformance(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    title: str
-    venue: str
-    date: str
-    thumbnail: str
-    videoUrl: str
-    order: int = 0
-    isActive: bool = True
-
-class Testimonial(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    name: str
-    role: str
-    temple: str
-    quote: str
-    image: str
-    order: int = 0
-    isActive: bool = True
-
 
 # ============== Utility Functions ==============
 
@@ -137,6 +100,22 @@ def verify_admin_password(password: str) -> bool:
 @api_router.get("/")
 async def root():
     return {"message": "Hello World"}
+
+@api_router.get("/health")
+async def health_check():
+    """Health check endpoint for Railway/monitoring services"""
+    try:
+        # Test database connection
+        await db.command('ping')
+        db_status = "connected"
+    except Exception:
+        db_status = "disconnected"
+    
+    return {
+        "status": "healthy",
+        "service": "Vaidehi Suresh Portfolio API",
+        "database": db_status
+    }
 
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):
@@ -644,22 +623,12 @@ async def admin_login(login_data: AdminLogin):
 
 # ============== Gallery Routes (Optional) ==============
 
-class GalleryItem(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    thumbnail: str
-    linkType: str
-    externalLink: str
-    title: str
-    caption: str
-
 @api_router.get("/gallery")
 async def get_gallery():
     """Get all gallery items"""
     try:
         gallery_items = await db.gallery.find().to_list(1000)
-        return {"gallery": [GalleryItem(**item).model_dump() for item in gallery_items]}
+        return {"gallery": [GalleryImage(**item).model_dump() for item in gallery_items]}
     except Exception as e:
         logging.error(f"Error fetching gallery: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -1064,10 +1033,19 @@ async def upload_audio_file(file: UploadFile = File(...)):
 # Include the router in the main app
 app.include_router(api_router)
 
+# CORS Configuration - supports both development and production
+CORS_ORIGINS = os.environ.get('CORS_ORIGINS', '*')
+if CORS_ORIGINS == '*':
+    # Development mode - allow all origins
+    allowed_origins = ["*"]
+else:
+    # Production mode - specific origins
+    allowed_origins = [origin.strip() for origin in CORS_ORIGINS.split(',')]
+
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
-    allow_origins=["*"],
+    allow_origins=allowed_origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )
