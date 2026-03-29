@@ -226,9 +226,10 @@ const Hero = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
-              className="text-6xl md:text-7xl lg:text-8xl font-bold mb-6 text-[#d4af37] font-serif leading-none"
+              className="text-6xl md:text-7xl lg:text-8xl font-bold mb-6 text-[#d4af37] font-serif leading-tight"
             >
-              Vaidehi<br />Suresh
+              {t('hero.nameFirst')}<br />
+              {t('hero.nameLast')}
             </motion.h1>
 
             {/* Tagline */}
