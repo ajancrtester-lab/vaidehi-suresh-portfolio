@@ -4,6 +4,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useArtistInfo } from '../context/ArtistInfoContext';
 import Idakka3D from './Idakka3D';
 import { useEffect, useState } from 'react';
+import { FloatingPetals, SacredOm, TempleBell, DiyaFlame } from './TempleAnimations';
 
 const Hero = () => {
   const { t } = useLanguage();
@@ -31,6 +32,22 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#1a0f0a] via-[#0a0a0a] to-black">
+      {/* Floating Flower Petals */}
+      <FloatingPetals count={25} />
+      
+      {/* Sacred Om Symbol */}
+      <SacredOm position="top-right" />
+      
+      {/* Temple Bells */}
+      <TempleBell side="left" />
+      <TempleBell side="right" />
+      
+      {/* Diya Flames in Corners */}
+      <DiyaFlame position="top-10 left-10" />
+      <DiyaFlame position="top-10 right-10" />
+      <DiyaFlame position="bottom-20 left-20" />
+      <DiyaFlame position="bottom-20 right-20" />
+
       {/* Subtle Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div

@@ -3,6 +3,7 @@ import { useInView } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 import { fetchAudioTracks } from '../services/api';
 import { Play, ExternalLink, Music } from 'lucide-react';
+import { IncenseSmoke, LotusFlower, FloatingPetals } from './TempleAnimations';
 
 const AudioPlayer = () => {
   const ref = useRef(null);
@@ -115,6 +116,15 @@ const AudioPlayer = () => {
       id="audio-section"
       className="py-20 bg-gradient-to-b from-black via-[#0a0a0a] to-black relative overflow-hidden"
     >
+      {/* Incense Smoke Effect */}
+      <IncenseSmoke count={6} />
+      
+      {/* Lotus Flowers */}
+      <LotusFlower position="top" />
+      
+      {/* Floating Petals */}
+      <FloatingPetals count={15} />
+
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div
