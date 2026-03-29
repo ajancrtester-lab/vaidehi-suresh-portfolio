@@ -238,7 +238,7 @@ const Hero = () => {
               transition={{ delay: 0.8, duration: 0.8 }}
               className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed"
             >
-              Preserving the Sacred Melodies of<br />Kerala Temples
+              {t('hero.tagline')}
             </motion.p>
 
             {/* Decorative Divider */}
@@ -250,7 +250,7 @@ const Hero = () => {
             >
               <div className="h-px flex-1 bg-gradient-to-r from-[#d4af37] to-transparent max-w-xs" />
               <span className="text-xs text-gray-500 tracking-[0.3em] uppercase mx-6">
-                KERALA TRADITION
+                {t('hero.badge')}
               </span>
             </motion.div>
 
@@ -261,7 +261,7 @@ const Hero = () => {
               transition={{ delay: 1.2, duration: 0.8 }}
               className="text-gray-400 text-base md:text-lg leading-relaxed mb-10 max-w-2xl"
             >
-              A dedicated practitioner of Sopana Sangeetham with over {artistInfo?.yearsOfExperience || 15} years of experience, deeply rooted in Kerala's sacred temple traditions. Having performed in nearly {artistInfo?.templesPerformed || 750} temples, the artist continues to preserve and elevate this divine musical heritage with devotion and discipline.
+              {t('hero.description')}
             </motion.p>
 
             {/* CTA Button */}
@@ -275,7 +275,7 @@ const Hero = () => {
               className="group relative inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-[#800020] to-[#9b2335] text-white text-lg font-semibold rounded-md overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-[#800020]/50"
             >
               <Play className="relative z-10 h-5 w-5 fill-white group-hover:translate-x-1 transition-transform" />
-              <span className="relative z-10">Listen Now</span>
+              <span className="relative z-10">{t('hero.cta')}</span>
               
               {/* Animated Background on Hover */}
               <div className="absolute inset-0 bg-gradient-to-r from-[#9b2335] to-[#800020] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -293,7 +293,7 @@ const Hero = () => {
                   {artistInfo?.yearsOfExperience || 15}+
                 </div>
                 <div className="text-xs text-gray-500 uppercase tracking-[0.2em]">
-                  YEARS
+                  {t('hero.stats.years')}
                 </div>
               </div>
               <div className="text-center lg:text-left">
@@ -301,7 +301,7 @@ const Hero = () => {
                   {artistInfo?.templesPerformed || 750}+
                 </div>
                 <div className="text-xs text-gray-500 uppercase tracking-[0.2em]">
-                  TEMPLES
+                  {t('hero.stats.temples')}
                 </div>
               </div>
               <div className="text-center lg:text-left">
@@ -309,7 +309,7 @@ const Hero = () => {
                   50+
                 </div>
                 <div className="text-xs text-gray-500 uppercase tracking-[0.2em]">
-                  RAGAS
+                  {t('hero.stats.ragas')}
                 </div>
               </div>
             </motion.div>
@@ -359,7 +359,7 @@ const Hero = () => {
           className="flex flex-col items-center gap-3"
         >
           <span className="text-xs text-gray-500 uppercase tracking-[0.3em]">
-            SCROLL
+            {t('hero.scroll')}
           </span>
           <svg
             className="w-6 h-6 text-[#d4af37]"

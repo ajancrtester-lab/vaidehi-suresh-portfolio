@@ -1,5 +1,19 @@
 export const content = {
   en: {
+    // Hero Section
+    hero: {
+      tagline: "Preserving the Sacred Melodies of Kerala Temples",
+      badge: "KERALA TRADITION",
+      description: "A dedicated practitioner of Sopana Sangeetham with over 15 years of experience, deeply rooted in Kerala's sacred temple traditions. Having performed in nearly 750 temples, the artist continues to preserve and elevate this divine musical heritage with devotion and discipline.",
+      cta: "Listen Now",
+      scroll: "SCROLL",
+      stats: {
+        years: "YEARS",
+        temples: "TEMPLES",
+        ragas: "RAGAS"
+      }
+    },
+
     // Artist Info
     name: "Vaidehi Suresh",
     tagline: "Preserving the Sacred Melodies of Kerala Temples",
@@ -193,6 +207,20 @@ export const content = {
   },
 
   ml: {
+    // Hero Section
+    hero: {
+      tagline: "കേരള ക്ഷേത്രങ്ങളുടെ പവിത്രമായ സംഗീതം സംരക്ഷിക്കുന്നു",
+      badge: "കേരള പാരമ്പര്യം",
+      description: "15 വർഷത്തിലധികം പരിചയമുള്ള സോപാന സംഗീതത്തിന്റെ സമർപ്പിത അഭ്യാസി, കേരളത്തിന്റെ പവിത്രമായ ക്ഷേത്ര പാരമ്പര്യങ്ങളിൽ ആഴത്തിൽ വേരൂന്നിയത്. ഏകദേശം 750 ക്ഷേത്രങ്ങളിൽ അവതരിപ്പിച്ച കലാകാരി ഈ ദിവ്യ സംഗീത പൈതൃകത്തെ ഭക്തിയോടും അച്ചടക്കത്തോടും കൂടി സംരക്ഷിക്കുകയും ഉയർത്തുകയും ചെയ്യുന്നു.",
+      cta: "ഇപ്പോൾ കേൾക്കൂ",
+      scroll: "സ്ക്രോൾ",
+      stats: {
+        years: "വർഷം",
+        temples: "ക്ഷേത്രങ്ങൾ",
+        ragas: "രാഗങ്ങൾ"
+      }
+    },
+
     // Artist Info
     name: "വൈദേഹി സുരേഷ്",
     tagline: "കേരള ക്ഷേത്രങ്ങളുടെ പവിത്രമായ സംഗീതം സംരക്ഷിക്കുന്നു",
