@@ -53,12 +53,12 @@ const Contact = () => {
             <div className="h-px bg-gradient-to-r from-transparent via-[#d4af37] to-transparent" />
           </motion.div>
 
-          <h2 className="font-cormorant text-5xl md:text-6xl font-bold text-[#d4af37] mb-6">
-            Get in Touch
+          <h2 className={`font-cormorant text-5xl md:text-6xl font-bold text-[#d4af37] mb-6 ${language === 'ml' ? 'malayalam-text' : ''}`}>
+            {t.contact.title}
           </h2>
 
           <p className={`text-gray-400 text-sm tracking-[0.3em] uppercase ${language === 'ml' ? 'malayalam-text' : ''}`}>
-            {t.buttons.bookPerformance}
+            {t.contact.subtitle}
           </p>
         </motion.div>
 
@@ -71,12 +71,11 @@ const Contact = () => {
             className="space-y-8"
           >
             <div>
-              <h3 className="font-cormorant text-3xl font-semibold text-[#d4af37] mb-6">
-                Connect With Me
+              <h3 className={`font-cormorant text-3xl font-semibold text-[#d4af37] mb-6 ${language === 'ml' ? 'malayalam-text' : ''}`}>
+                {t.contact.connectTitle}
               </h3>
-              <p className="text-gray-400 leading-relaxed mb-8">
-                For temple performances, cultural events, or devotional concerts, feel free to reach out. 
-                I bring the sacred melodies of Kerala's ancient traditions to your sacred spaces.
+              <p className={`text-gray-400 leading-relaxed mb-8 ${language === 'ml' ? 'malayalam-text' : ''}`}>
+                {t.contact.description}
               </p>
             </div>
 
@@ -86,7 +85,7 @@ const Contact = () => {
                   <MapPin className="h-5 w-5 text-[#d4af37]" />
                 </div>
                 <div>
-                  <h4 className="text-white font-semibold mb-1">Location</h4>
+                  <h4 className={`text-white font-semibold mb-1 ${language === 'ml' ? 'malayalam-text' : ''}`}>{t.contact.location}</h4>
                   <p className="text-gray-400 text-sm">{contact.location}</p>
                 </div>
               </div>
@@ -96,7 +95,7 @@ const Contact = () => {
                   <Mail className="h-5 w-5 text-[#d4af37]" />
                 </div>
                 <div>
-                  <h4 className="text-white font-semibold mb-1">Email</h4>
+                  <h4 className={`text-white font-semibold mb-1 ${language === 'ml' ? 'malayalam-text' : ''}`}>{t.contact.email}</h4>
                   <p className="text-gray-400 text-sm">{contact.email}</p>
                 </div>
               </div>
@@ -106,19 +105,18 @@ const Contact = () => {
                   <MessageCircle className="h-5 w-5 text-[#d4af37]" />
                 </div>
                 <div>
-                  <h4 className="text-white font-semibold mb-1">WhatsApp</h4>
+                  <h4 className={`text-white font-semibold mb-1 ${language === 'ml' ? 'malayalam-text' : ''}`}>{t.contact.whatsapp}</h4>
                   <p className="text-gray-400 text-sm">{contact.whatsapp}</p>
                 </div>
               </div>
             </div>
 
             <div className="mt-8 p-6 border border-[#d4af37]/20 bg-black/50">
-              <p className="text-gray-400 text-sm text-center italic">
-                "Every performance is a prayer, every note a blessing. 
-                Let us create sacred musical moments together."
+              <p className={`text-gray-400 text-sm text-center italic ${language === 'ml' ? 'malayalam-text' : ''}`}>
+                "{t.contact.quote}"
               </p>
-              <p className="text-[#d4af37] text-center mt-4 font-cormorant text-lg">
-                - {artist.name}
+              <p className={`text-[#d4af37] text-center mt-4 font-cormorant text-lg ${language === 'ml' ? 'malayalam-text' : ''}`}>
+                - {language === 'en' ? artist.name : t.name}
               </p>
             </div>
           </motion.div>
@@ -175,11 +173,11 @@ const Contact = () => {
             </motion.a>
           </div>
 
-          <p className="text-gray-500 text-sm">
-            © 2025 {artist.name}. Preserving the Sacred Traditions of Sopana Sangeetham.
+          <p className={`text-gray-500 text-sm ${language === 'ml' ? 'malayalam-text' : ''}`}>
+            © 2025 {language === 'en' ? artist.name : t.name}. {t.contact.copyright}
           </p>
-          <p className="text-gray-600 text-xs mt-2">
-            Website crafted with devotion
+          <p className={`text-gray-600 text-xs mt-2 ${language === 'ml' ? 'malayalam-text' : ''}`}>
+            {t.contact.crafted}
           </p>
         </motion.div>
       </div>

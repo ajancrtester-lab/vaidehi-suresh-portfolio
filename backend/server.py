@@ -1,26 +1,34 @@
 from fastapi import FastAPI, APIRouter, HTTPException, Query, File, UploadFile
 from fastapi.responses import HTMLResponse
-from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
-from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import logging
 from pathlib import Path
-from pydantic import BaseModel, Field, EmailStr, ConfigDict
 from typing import List, Optional
-import uuid
 from datetime import datetime, timezone
 from urllib.parse import quote
 import hashlib
 
+# Import models from models package
+from models.status import StatusCheck, StatusCheckCreate
+from models.booking import Booking, BookingCreate, BookingStatusUpdate
+from models.content import ContentUpdate, PortfolioContent
+from models.media import AudioTrack, AudioTrackCreate, Video, VideoCreate, GalleryImage, GalleryImageCreate, Testimonial, TestimonialCreate
+from models.admin import AdminLogin, SiteSettings, SiteSettingsUpdate
 
+# Import database
+from database import db, close_db_connection
+
+# Get admin credentials from environment
+from dotenv import load_dotenv
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
-# MongoDB connection
-mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'admin123')
+ARTIST_WHATSAPP = os.environ.get('ARTIST_WHATSAPP', '+919876543210')
+
+
+# ============== FastAPI App Setup ==============
 
 # Create the main app without a prefix
 app = FastAPI()
@@ -28,76 +36,8 @@ app = FastAPI()
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
-# Get admin credentials from environment
-ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'admin123')
-ARTIST_WHATSAPP = os.environ.get('ARTIST_WHATSAPP', '+919876543210')
 
-
-# ============== Models ==============
-
-class StatusCheck(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    client_name: str
-    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-
-class StatusCheckCreate(BaseModel):
-    client_name: str
-
-
-# Booking Models
-class BookingCreate(BaseModel):
-    name: str
-    phone: str
-    email: EmailStr
-    eventType: str
-    eventDate: str
-    location: str
-    duration: Optional[str] = None
-    message: Optional[str] = None
-
-class Booking(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    name: str
-    phone: str
-    email: str
-    eventType: str
-    eventDate: str
-    location: str
-    duration: Optional[str] = None
-    message: Optional[str] = None
-    status: str = "pending"
-    createdAt: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    updatedAt: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-
-class BookingStatusUpdate(BaseModel):
-    status: str
-    adminPassword: str
-
-class AdminLogin(BaseModel):
-    password: str
-
-
-# Content Management Models
-class ContentUpdate(BaseModel):
-    section: str  # 'about', 'stats', 'achievements', 'education', 'gurus', 'services'
-    language: str  # 'en' or 'ml'
-    data: dict  # The actual content data
-
-class PortfolioContent(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    section: str
-    language: str
-    data: dict
-    updatedAt: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-
-
-# Media & Gallery Models
+# ============== Helper Functions ==============
 class AudioTrack(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
@@ -1141,4 +1081,4 @@ logger = logging.getLogger(__name__)
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
-    client.close()
+    await close_db_connection()

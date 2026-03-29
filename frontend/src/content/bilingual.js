@@ -167,6 +167,20 @@ export const content = {
       media: "Featured in Red Carpet & Shreshta Bharatham (Amrita TV)"
     },
 
+    // Contact Section
+    contact: {
+      title: "Get in Touch",
+      subtitle: "Book Performance",
+      connectTitle: "Connect With Me",
+      description: "For temple performances, cultural events, or devotional concerts, feel free to reach out. I bring the sacred melodies of Kerala's ancient traditions to your sacred spaces.",
+      location: "Location",
+      email: "Email",
+      whatsapp: "WhatsApp",
+      quote: "Every performance is a prayer, every note a blessing. Let us create sacred musical moments together.",
+      copyright: "Preserving the Sacred Traditions of Sopana Sangeetham",
+      crafted: "Website crafted with devotion"
+    },
+
     // Services
     services: {
       title: "Services Offered",
@@ -374,6 +388,20 @@ export const content = {
       description: "ഗുരുവായൂർ, പനച്ചിക്കാട്, മൂകാംബിക, തിരുവമ്പാടി, പരമേക്കാവ്, ഏറ്റുമാനൂർ, അമ്പലപ്പുഴ എന്നിവിടങ്ങളിലും മറ്റ് നിരവധി ക്ഷേത്രങ്ങളിലും അവതരണം നടത്തി.",
       national: "മുംബൈ, ഡൽഹി, ഗുജറാത്ത്, കന്യാകുമാരി, തിരുച്ചിറപ്പള്ളി എന്നിവിടങ്ങളിൽ അവതരണം നടത്തി",
       media: "അമൃത ടിവിയിലെ റെഡ് കാർപെറ്റ്, ശ്രേഷ്ഠ ഭാരതം എന്നിവയിൽ പങ്കെടുത്തു"
+    },
+
+    // Contact Section
+    contact: {
+      title: "ബന്ധപ്പെടുക",
+      subtitle: "ബുക്ക് ചെയ്യുക",
+      connectTitle: "എന്നെ ബന്ധപ്പെടുക",
+      description: "ക്ഷേത്ര അവതരണങ്ങൾ, സാംസ്കാരിക പരിപാടികൾ, അല്ലെങ്കിൽ ഭക്തി സംഗീത കച്ചേരികൾ എന്നിവയ്ക്കായി, മടിക്കാതെ ബന്ധപ്പെടുക. കേരളത്തിന്റെ പുരാതന പാരമ്പര്യങ്ങളുടെ പവിത്രമായ സ്വരങ്ങൾ നിങ്ങളുടെ പവിത്ര ഇടങ്ങളിലേക്ക് ഞാൻ കൊണ്ടുവരുന്നു.",
+      location: "സ്ഥലം",
+      email: "ഇമെയിൽ",
+      whatsapp: "വാട്സ്ആപ്പ്",
+      quote: "ഓരോ അവതരണവും ഒരു പ്രാർത്ഥനയാണ്, ഓരോ സ്വരവും ഒരു അനുഗ്രഹം. നമുക്ക് ഒരുമിച്ച് പവിത്രമായ സംഗീത നിമിഷങ്ങൾ സൃഷ്ടിക്കാം.",
+      copyright: "സോപാന സംഗീതത്തിന്റെ പവിത്ര പാരമ്പര്യങ്ങൾ സംരക്ഷിക്കുന്നു",
+      crafted: "ഭക്തിയോടെ നിർമ്മിച്ച വെബ്സൈറ്റ്"
     },
 
     // Services
