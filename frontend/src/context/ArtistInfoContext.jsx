@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import { fetchArtistInfo } from '../services/api';
 
 const ArtistInfoContext = createContext();
@@ -12,34 +12,38 @@ export const useArtistInfo = () => {
 };
 
 export const ArtistInfoProvider = ({ children }) => {
-  const [artistInfo, setArtistInfo] = useState(null);
-  const [contactInfo, setContactInfo] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [artistInfo, setArtistInfo] = useState({
+    name: 'Vaidehi Suresh',
+    tagline: 'Sopana Sangeetham Artist',
+    yearsOfExperience: 15,
+    templesPerformed: 750
+  });
+  const [contactInfo, setContactInfo] = useState({
+    whatsapp: '919446909402',
+    email: 'vaidehisureshikm@gmail.com',
+    location: 'Iranikkulam, Thrissur, Kerala'
+  });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const loadArtistInfo = async () => {
       try {
-        setLoading(true);
         const data = await fetchArtistInfo();
-        console.log("FINAL DATA:", data);
-        setArtistInfo(data);
-        setContactInfo(data.contactInfo);
+        if (data) {
+          setArtistInfo({
+            name: data.name || 'Vaidehi Suresh',
+            tagline: data.tagline || 'Sopana Sangeetham Artist',
+            yearsOfExperience: data.yearsOfExperience || 15,
+            templesPerformed: data.templesPerformed || 750
+          });
+          
+          if (data.contactInfo) {
+            setContactInfo(data.contactInfo);
+          }
+        }
       } catch (error) {
-        console.error('Failed to load artist info:', error);
-        // Fallback data
-        setArtistInfo({
-          name: 'Vaidehi Suresh',
-          tagline: 'Sopana Sangeetham Artist',
-          yearsOfExperience: 13,
-          templesPerformed: 750
-        });
-        setContactInfo({
-          whatsapp: '+919446909402',
-          email: 'vaidehisureshikm@gmail.com',
-          location: 'Iranikkulam,Thrissur, Kerala'
-        });
-      } finally {
-        setLoading(false);
+        console.log('Using default content:', error);
+        // Keep default values
       }
     };
 
@@ -48,19 +52,7 @@ export const ArtistInfoProvider = ({ children }) => {
 
   return (
     <ArtistInfoContext.Provider value={{ artistInfo, contactInfo, loading }}>
-      {loading ? (
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
-          alignItems: 'center', 
-          height: '100vh', 
-          background: '#0a0a0a', 
-          color: '#d4af37',
-          fontSize: '20px'
-        }}>
-          Loading...
-        </div>
-      ) : children}
+      {children}
     </ArtistInfoContext.Provider>
   );
 };
