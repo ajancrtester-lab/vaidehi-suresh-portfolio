@@ -65,7 +65,7 @@ Replace YOUR_USERNAME with your actual GitHub username!
 ┃ STEP 2: SETUP MONGODB ATLAS (5 minutes)                      ┃
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
-1. Go to: https://www.mongodb.com/cloud/atlas/register
+1. Go to: npm install mongodbnpm install mongodb
 2. Sign up with Google or Email
 3. Create FREE M0 Cluster (choose AWS, nearest region)
 4. Create database user:
