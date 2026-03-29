@@ -627,11 +627,11 @@ async def admin_login(login_data: AdminLogin):
 async def get_gallery():
     """Get all gallery items"""
     try:
-        gallery_items = await db.gallery.find().to_list(1000)
-        return {"gallery": [GalleryImage(**item).model_dump() for item in gallery_items]}
+        gallery_items = await db.gallery.find({}, {"_id": 0}).to_list(1000)
+        return {"gallery": gallery_items}
     except Exception as e:
         logging.error(f"Error fetching gallery: {str(e)}")
-        raise HTTPException(status_code=500, detail=str(e))
+        return {"gallery": []}
 
 
 # ============== Content Management Routes ==============
