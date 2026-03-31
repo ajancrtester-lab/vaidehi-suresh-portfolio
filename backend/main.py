@@ -27,7 +27,7 @@ load_dotenv(ROOT_DIR / '.env')
 ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'admin123')
 ARTIST_WHATSAPP = os.environ.get('ARTIST_WHATSAPP', '+919876543210')
 
-
+# redeploy fix
 # ============== FastAPI App Setup ==============
 
 # Create the main app without a prefix
