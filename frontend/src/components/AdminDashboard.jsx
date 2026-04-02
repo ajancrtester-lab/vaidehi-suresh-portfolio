@@ -29,54 +29,66 @@ const AdminDashboard = () => {
 
   
 
- const loadBookings = useCallback(async () => {
-    try {
-      const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-      const response = await fetch(`${BACKEND_URL}/api/content`);
-      
-      if (response.ok) {
-        const data = await response.json();
-        // Merge with default content
-        setContentData({
-          en: { ...defaultContent.en, ...data.content?.en },
-          ml: { ...defaultContent.ml, ...data.content?.ml }
-        });
-      }
-    } catch (error) {
-  console.log('Using default content');
-}
-  };
+ // Load content
+const loadContent = useCallback(async () => {
+  try {
+    const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+    const response = await fetch(`${BACKEND_URL}/api/content`);
 
-  
-  const loadBookings = async () => {
-    setIsLoading(true);
-    try {
-      const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-      const response = await fetch(
-        `${BACKEND_URL}/api/bookings?month=${selectedMonth + 1}&year=${selectedYear}`
-      );
-      
-      useEffect(() => {
-  loadBookings();
-}, [loadBookings]);
-
-      if (!response.ok) {
-        throw new Error('Failed to load bookings');
-      }
-      
+    if (response.ok) {
       const data = await response.json();
-      setBookings(data.bookings || []);
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to load bookings",
-        variant: "destructive"
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
+      setContentData({
+        en: { ...defaultContent.en, ...data.content?.en },
+        ml: { ...defaultContent.ml, ...data.content?.ml }
+      });
+    }
+  } catch (error) {
+    console.log('Using default content');
+  }
+}, []);
+
+
+// Load bookings
+const fetchBookings = async () => {
+  setIsLoading(true);
+
+  try {
+    const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
+    const response = await fetch(
+      `${BACKEND_URL}/api/bookings?month=${selectedMonth + 1}&year=${selectedYear}`
+    );
+
+    if (!response.ok) {
+      throw new Error('Failed to load bookings');
+    }
+
+    const data = await response.json();
+
+    setBookings(data.bookings || []);
+
+  } catch (error) {
+    console.error(error);
+
+    toast({
+      title: "Error",
+      description: "Failed to load bookings",
+      variant: "destructive"
+    });
+
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+
+// ✅ useEffect OUTSIDE
+useEffect(() => {
+  fetchBookings();
+}, [selectedMonth, selectedYear]);
+      
+     
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
