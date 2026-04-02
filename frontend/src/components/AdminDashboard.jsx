@@ -50,7 +50,8 @@ const loadContent = useCallback(async () => {
 
 
 // Load bookings
-const fetchBookings = async () => {
+// ✅ Memoized function
+const fetchBookings = useCallback(async () => {
   setIsLoading(true);
 
   try {
@@ -65,7 +66,6 @@ const fetchBookings = async () => {
     }
 
     const data = await response.json();
-
     setBookings(data.bookings || []);
 
   } catch (error) {
@@ -80,7 +80,8 @@ const fetchBookings = async () => {
   } finally {
     setIsLoading(false);
   }
-};
+}, [selectedMonth, selectedYear]); // ✅ dependencies here
+
 
 
 // ✅ useEffect OUTSIDE
