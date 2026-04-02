@@ -28,12 +28,15 @@ const AdminDashboard = () => {
   });
 
   // Load bookings (mock data for now)
-  useEffect(() => {
-    if (isAuthenticated) {
-      loadBookings();
-      loadContent();
-    }
-  }, [isAuthenticated, selectedMonth, selectedYear]);
+  import { useCallback, useEffect } from "react";
+
+const loadBookings = useCallback(async () => {
+  // your existing code here
+}, []);
+
+useEffect(() => {
+  loadBookings();
+}, [loadBookings]);
 
   const loadContent = async () => {
     try {
