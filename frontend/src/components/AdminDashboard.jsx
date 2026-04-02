@@ -43,8 +43,8 @@ const AdminDashboard = () => {
         });
       }
     } catch (error) {
-      console.log('Using default content');
-    }
+  console.log('Using default content');
+}
   };
 
   
