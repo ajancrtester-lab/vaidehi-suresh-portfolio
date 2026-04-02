@@ -32,7 +32,13 @@ ARTIST_WHATSAPP = os.environ.get('ARTIST_WHATSAPP', '+919876543210')
 
 # Create the main app without a prefix
 app = FastAPI()
-
+@app.get("/")
+def root():
+    return {
+        "message": "API is running 🚀",
+        "docs": "/docs",
+        "api_base": "/api"
+    }
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
