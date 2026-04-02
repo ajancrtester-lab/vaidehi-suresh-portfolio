@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, MapPin, User, Phone, Mail, Check, X, ExternalLink, LogOut, Eye, Edit, Save } from 'lucide-react';
 import { Button } from './ui/button';
@@ -27,18 +27,9 @@ const AdminDashboard = () => {
     ml: { ...defaultContent.ml }
   });
 
-  // Load bookings (mock data for now)
-  import { useCallback, useEffect } from "react";
+  
 
-const loadBookings = useCallback(async () => {
-  // your existing code here
-}, []);
-
-useEffect(() => {
-  loadBookings();
-}, [loadBookings]);
-
-  const loadContent = async () => {
+ const loadBookings = useCallback(async () => {
     try {
       const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
       const response = await fetch(`${BACKEND_URL}/api/content`);
@@ -56,6 +47,7 @@ useEffect(() => {
     }
   };
 
+  
   const loadBookings = async () => {
     setIsLoading(true);
     try {
@@ -64,6 +56,10 @@ useEffect(() => {
         `${BACKEND_URL}/api/bookings?month=${selectedMonth + 1}&year=${selectedYear}`
       );
       
+      useEffect(() => {
+  loadBookings();
+}, [loadBookings]);
+
       if (!response.ok) {
         throw new Error('Failed to load bookings');
       }
