@@ -35,9 +35,12 @@ app = FastAPI()
 @app.get("/")
 def root():
     return {
-        "message": "API is running 🚀",
-        "docs": "/docs",
-        "api_base": "/api"
+        "status": "running",
+        "project": "Vaidehi Suresh Portfolio API",
+        "endpoints": {
+            "docs": "/docs",
+            "api": "/api"
+        }
     }
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
