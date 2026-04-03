@@ -62,5 +62,8 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test"
+  },
+  "devDependencies": {
+    "eslint-plugin-react-hooks": "^7.0.1"
   }
 }
