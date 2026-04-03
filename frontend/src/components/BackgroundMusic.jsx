@@ -9,6 +9,28 @@ const BackgroundMusic = () => {
   const audioRef = useRef(null);
   const fadeIntervalRef = useRef(null);
 
+
+const fadeOutAndStop = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    let volume = audio.volume;
+    fadeIntervalRef.current = setInterval(() => {
+      if (volume > 0.05) {
+        volume -= 0.05;
+        audio.volume = Math.max(0, volume);
+      } else {
+        clearInterval(fadeIntervalRef.current);
+        audio.pause();
+        audio.currentTime = 0;
+        setIsPlaying(false);
+        setShowControls(false);
+      }
+    }, 100); // Fade over 3 seconds (30 steps * 100ms)
+  };
+
+
+
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -56,25 +78,7 @@ const BackgroundMusic = () => {
     };
   }, []);
 
-  const fadeOutAndStop = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    let volume = audio.volume;
-    fadeIntervalRef.current = setInterval(() => {
-      if (volume > 0.05) {
-        volume -= 0.05;
-        audio.volume = Math.max(0, volume);
-      } else {
-        clearInterval(fadeIntervalRef.current);
-        audio.pause();
-        audio.currentTime = 0;
-        setIsPlaying(false);
-        setShowControls(false);
-      }
-    }, 100); // Fade over 3 seconds (30 steps * 100ms)
-  };
-
+  
   const toggleMute = () => {
     const audio = audioRef.current;
     if (!audio) return;

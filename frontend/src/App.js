@@ -25,11 +25,10 @@ import './App.css';
 const Home = () => {
   const [showCursor, setShowCursor] = useState(false);
 
-  useEffect(() => {
-    // Check if device is not mobile
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    setShowCursor(!isMobile);
-  }, []);
+ const [showCursor, setShowCursor] = useState(() => {
+  if (typeof navigator === 'undefined') return true;
+  return !/iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+});
 
   return (
     <div className="relative">

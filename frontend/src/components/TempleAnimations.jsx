@@ -5,16 +5,13 @@ import { useEffect, useState } from 'react';
 export const FloatingPetals = ({ count = 20 }) => {
   const [petals, setPetals] = useState([]);
 
-  useEffect(() => {
-    const petalArray = Array.from({ length: count }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      delay: Math.random() * 10,
-      duration: 15 + Math.random() * 10,
-      rotation: Math.random() * 360,
-    }));
-    setPetals(petalArray);
-  }, [count]);
+  const petals = useMemo(() =>
+  new Array(count).fill().map(() => ({
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    rotation: Math.random() * 360,
+  })),
+[count]);
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -102,14 +99,11 @@ export const SacredOm = ({ position = 'center' }) => {
 export const IncenseSmoke = ({ count = 5 }) => {
   const [smokeParticles, setSmokeParticles] = useState([]);
 
-  useEffect(() => {
-    const particles = Array.from({ length: count }, (_, i) => ({
-      id: i,
-      x: 10 + (i * 20),
-      delay: i * 2,
-    }));
-    setSmokeParticles(particles);
-  }, [count]);
+  const smokeParticles = useMemo(() =>
+  new Array(count).fill().map((_, i) => ({
+    delay: i * 2,
+  })),
+[count]);
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">

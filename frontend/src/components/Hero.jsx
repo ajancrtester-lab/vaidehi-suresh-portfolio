@@ -12,16 +12,13 @@ const Hero = () => {
   const [vilakkuParticles, setVilakkuParticles] = useState([]);
 
   // Generate temple lamp (vilakku) particles
-  useEffect(() => {
-    const particles = Array.from({ length: 15 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      delay: Math.random() * 5,
-      duration: 20 + Math.random() * 15,
-    }));
-    setVilakkuParticles(particles);
-  }, []);
+  const [vilakkuParticles] = useState(() =>
+  new Array(20).fill().map(() => ({
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    duration: 20 + Math.random() * 15,
+  }))
+);
 
   const scrollToAudio = () => {
     const audioSection = document.getElementById('audio-section');
