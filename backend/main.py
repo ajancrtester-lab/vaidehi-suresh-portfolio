@@ -987,6 +987,7 @@ async def get_site_settings():
         if not settings:
             settings = {
                 "id": "main_settings",
+                "instagramUsername": "vaidehisureshikm",  # 🔥 ADD INSTAGRAM
                 "backgroundMusic": {
                     "enabled": True,
                     "audioUrl": "/audio/idakka-intro.mp3",
