@@ -221,6 +221,34 @@ const SiteSettings = () => {
         </CardContent>
       </Card>
 
+      {/* Instagram Integration Card */}
+      <Card className="border-[#d4af37]/30 bg-black/50">
+        <CardHeader>
+          <CardTitle className="text-[#d4af37] flex items-center gap-2">
+            <Instagram className="h-5 w-5" />
+            Instagram Integration
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <Label htmlFor="instagram" className="text-gray-200">
+              Instagram Username
+              <span className="text-xs text-gray-500 ml-2">(without @)</span>
+            </Label>
+            <Input
+              id="instagram"
+              value={settings.instagramUsername || ''}
+              onChange={(e) => setSettings({ ...settings, instagramUsername: e.target.value })}
+              placeholder="vaidehisureshikm"
+              className="bg-black/50 border-[#d4af37]/30 text-white mt-2"
+            />
+            <p className="text-xs text-gray-500 mt-2">
+              Instagram feed will appear in the Performance Videos section
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Hero Section */}
       <Card className="border-[#d4af37]/30 bg-black/50">
         <CardHeader>
