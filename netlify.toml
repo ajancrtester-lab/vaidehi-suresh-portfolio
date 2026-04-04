@@ -1,0 +1,15 @@
+# Netlify Configuration
+[build]
+  base = "frontend"
+  command = "yarn build"
+  publish = "build"
+
+# Redirect all routes to index.html for React Router
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Environment variables (set these in Netlify dashboard too)
+[build.environment]
+  REACT_APP_BACKEND_URL = "https://p01--vaidehi-suresh-portfolio--xnwd42xkxs5d.code.run"

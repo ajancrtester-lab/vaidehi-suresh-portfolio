@@ -1,0 +1,9 @@
+# Netlify Redirects Configuration
+# This file tells Netlify to redirect all routes to index.html
+# so that React Router can handle the routing
+
+# Redirect all routes to index.html (for React Router)
+/*    /index.html   200
+
+# API calls should not be redirected
+/api/*  https://p01--vaidehi-suresh-portfolio--xnwd42xkxs5d.code.run/api/:splat  200
