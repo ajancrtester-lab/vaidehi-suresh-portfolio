@@ -1,9 +1,8 @@
 import { motion } from 'framer-motion';
 import { useMemo } from 'react';
 
-// Floating Flower Petals Component
+// Floating Flower Petals
 export const FloatingPetals = ({ count = 20 }) => {
-
   const petals = useMemo(() => {
     return new Array(count).fill().map((_, i) => ({
       id: i,
@@ -21,10 +20,7 @@ export const FloatingPetals = ({ count = 20 }) => {
         <motion.div
           key={petal.id}
           className="absolute"
-          style={{
-            left: `${petal.x}%`,
-            top: '-10%',
-          }}
+          style={{ left: `${petal.x}%`, top: '-10%' }}
           animate={{
             y: ['0vh', '120vh'],
             x: [0, 50, -30, 0],
@@ -38,17 +34,9 @@ export const FloatingPetals = ({ count = 20 }) => {
             ease: 'linear',
           }}
         >
-          <svg width="20" height="25" viewBox="0 0 20 25" fill="none">
-            <path
-              d="M10 0C10 0 5 5 5 12.5C5 17.5 7 20 10 20C13 20 15 17.5 15 12.5C15 5 10 0 10 0Z"
-              fill="#ff69b4"
-              opacity="0.6"
-            />
-            <path
-              d="M10 0C10 0 5 5 5 12.5C5 17.5 7 20 10 20C13 20 15 17.5 15 12.5C15 5 10 0 10 0Z"
-              fill="#d4af37"
-              opacity="0.3"
-            />
+          <svg width="20" height="25" viewBox="0 0 20 25">
+            <path d="M10 0C10 0 5 5 5 12.5C5 17.5 7 20 10 20C13 20 15 17.5 15 12.5C15 5 10 0 10 0Z" fill="#ff69b4" opacity="0.6"/>
+            <path d="M10 0C10 0 5 5 5 12.5C5 17.5 7 20 10 20C13 20 15 17.5 15 12.5C15 5 10 0 10 0Z" fill="#d4af37" opacity="0.3"/>
           </svg>
         </motion.div>
       ))}
@@ -56,9 +44,8 @@ export const FloatingPetals = ({ count = 20 }) => {
   );
 };
 
-// Incense Smoke Effect
+// Incense Smoke
 export const IncenseSmoke = ({ count = 5 }) => {
-
   const smokeParticles = useMemo(() => {
     return new Array(count).fill().map((_, i) => ({
       id: i,
@@ -73,9 +60,7 @@ export const IncenseSmoke = ({ count = 5 }) => {
         <motion.div
           key={particle.id}
           className="absolute bottom-0"
-          style={{
-            left: `${particle.x}%`,
-          }}
+          style={{ left: `${particle.x}%` }}
           animate={{
             y: [0, -300],
             x: [-10, 10, -10],
@@ -95,42 +80,23 @@ export const IncenseSmoke = ({ count = 5 }) => {
     </div>
   );
 };
+
+// Lotus Flower
 export const LotusFlower = ({ position = 'bottom' }) => {
   return (
     <motion.div
       className={`absolute ${position === 'bottom' ? 'bottom-10' : 'top-10'} left-1/2 -translate-x-1/2 pointer-events-none`}
-      initial={{ opacity: 0, scale: 0 }}
-      animate={{ 
-        opacity: [0, 0.3, 0.3, 0],
-        scale: [0, 1, 1, 1.2],
-        rotate: [0, 360],
-      }}
-      transition={{
-        duration: 15,
-        repeat: Infinity,
-        ease: 'easeInOut',
-      }}
+      animate={{ rotate: [0, 360] }}
+      transition={{ duration: 15, repeat: Infinity }}
     >
-      <svg width="80" height="80" viewBox="0 0 100 100" fill="none">
-        {[0, 45, 90, 135, 180, 225, 270, 315].map((angle, i) => (
-          <motion.ellipse
-            key={i}
-            cx="50"
-            cy="50"
-            rx="15"
-            ry="30"
-            fill="#ff69b4"
-            opacity="0.4"
-            transform={`rotate(${angle} 50 50)`}
-          />
-        ))}
-      </svg>
+      🌸
     </motion.div>
   );
 };
-// Sacred Om Symbol
+
+// Sacred Om
 export const SacredOm = ({ position = 'center' }) => {
-  const positionClasses = {
+  const pos = {
     'top-left': 'top-20 left-20',
     'top-right': 'top-20 right-20',
     'center': 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
@@ -138,13 +104,24 @@ export const SacredOm = ({ position = 'center' }) => {
 
   return (
     <motion.div
-      className={`absolute ${positionClasses[position]} pointer-events-none`}
+      className={`absolute ${pos[position]} pointer-events-none`}
       animate={{ rotate: [0, 360] }}
       transition={{ duration: 20, repeat: Infinity }}
     >
-      <div style={{ fontSize: '60px', color: '#d4af37', opacity: 0.3 }}>
-        ॐ
-      </div>
+      <div className="text-6xl opacity-30 text-yellow-500">ॐ</div>
+    </motion.div>
+  );
+};
+
+// Temple Bell ✅ (THIS FIXES YOUR CURRENT ERROR)
+export const TempleBell = ({ side = 'left' }) => {
+  return (
+    <motion.div
+      className={`absolute top-10 ${side === 'left' ? 'left-10' : 'right-10'} pointer-events-none`}
+      animate={{ rotate: [-5, 5, -5] }}
+      transition={{ duration: 2, repeat: Infinity }}
+    >
+      🔔
     </motion.div>
   );
 };
