@@ -5,11 +5,18 @@
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 
-// Helper function with error handling
+// Helper function with error handling and cache disabling
 const fetchWithErrorHandling = async (endpoint, errorMessage) => {
   try {
     const url = API_URL ? `${API_URL}${endpoint}` : endpoint;
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      cache: 'no-store', // 🔥 Disable cache to always get fresh data
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      }
+    });
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${errorMessage}`);
     }
@@ -44,8 +51,8 @@ export const fetchArtistInfo = async () => {
 // Audio Tracks
 export const fetchAudioTracks = async () => {
   try {
-    const data = await fetchWithErrorHandling('/api/audio-tracks', 'Failed to fetch audio tracks');
-    return data.tracks || [];
+    const data = await fetchWithErrorHandling('/api/admin/audio-tracks', 'Failed to fetch audio tracks');
+    return data.audioTracks || [];
   } catch (error) {
     return []; // Return empty array on error
   }
@@ -54,7 +61,7 @@ export const fetchAudioTracks = async () => {
 // Video Performances
 export const fetchVideoPerformances = async () => {
   try {
-    const data = await fetchWithErrorHandling('/api/video-performances', 'Failed to fetch videos');
+    const data = await fetchWithErrorHandling('/api/admin/videos', 'Failed to fetch videos');
     return data.videos || [];
   } catch (error) {
     return [];
@@ -74,7 +81,7 @@ export const fetchGallery = async () => {
 // Testimonials
 export const fetchTestimonials = async () => {
   try {
-    const data = await fetchWithErrorHandling('/api/testimonials', 'Failed to fetch testimonials');
+    const data = await fetchWithErrorHandling('/api/admin/testimonials', 'Failed to fetch testimonials');
     return data.testimonials || [];
   } catch (error) {
     return [];
