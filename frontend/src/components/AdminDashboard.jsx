@@ -177,32 +177,79 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="p-6">
-      <Button onClick={handleLogout}>Logout</Button>
+    <div className="min-h-screen bg-black text-white p-6">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold text-[#d4af37]">Admin Dashboard</h1>
+          <Button 
+            onClick={handleLogout}
+            className="bg-[#d4af37] hover:bg-[#b8941f] text-black"
+          >
+            <LogOut className="mr-2 h-4 w-4" />
+            Logout
+          </Button>
+        </div>
 
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
-        bookings.map(b => (
-          <Card key={b.id}>
-            <CardContent>
-              <p>{b.name}</p>
-              <Badge>{b.status}</Badge>
+        {/* Tabs */}
+        <Tabs defaultValue="bookings" className="w-full">
+          <TabsList className="bg-zinc-900">
+            <TabsTrigger value="bookings">Bookings</TabsTrigger>
+            <TabsTrigger value="media">Media Management</TabsTrigger>
+            <TabsTrigger value="settings">Site Settings</TabsTrigger>
+          </TabsList>
 
-              {b.status === 'pending' && (
-                <>
-                  <Button onClick={() => handleStatusChange(b.id, 'accepted')}>
-                    Accept
-                  </Button>
-                  <Button onClick={() => handleStatusChange(b.id, 'declined')}>
-                    Decline
-                  </Button>
-                </>
-              )}
-            </CardContent>
-          </Card>
-        ))
-      )}
+          {/* Bookings Tab */}
+          <TabsContent value="bookings">
+            <Card className="bg-zinc-900">
+              <CardHeader>
+                <CardTitle className="text-[#d4af37]">Booking Requests</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {isLoading ? (
+                  <p className="text-gray-400">Loading...</p>
+                ) : bookings.length === 0 ? (
+                  <p className="text-gray-400">No bookings yet</p>
+                ) : (
+                  bookings.map(b => (
+                    <Card key={b.id} className="mb-4 bg-zinc-800">
+                      <CardContent className="pt-6">
+                        <div className="flex justify-between">
+                          <div>
+                            <p className="font-semibold">{b.name}</p>
+                            <p className="text-sm text-gray-400">{b.email}</p>
+                          </div>
+                          <Badge className={getStatusBadge(b.status)}>{b.status}</Badge>
+                        </div>
+                        {b.status === 'pending' && (
+                          <div className="flex gap-2 mt-4">
+                            <Button onClick={() => handleStatusChange(b.id, 'accepted')} size="sm">
+                              <Check className="mr-2 h-4 w-4" /> Accept
+                            </Button>
+                            <Button onClick={() => handleStatusChange(b.id, 'declined')} variant="destructive" size="sm">
+                              <X className="mr-2 h-4 w-4" /> Decline
+                            </Button>
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  ))
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Media Management Tab */}
+          <TabsContent value="media">
+            <MediaManagement />
+          </TabsContent>
+
+          {/* Site Settings Tab */}
+          <TabsContent value="settings">
+            <SiteSettings />
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 };
