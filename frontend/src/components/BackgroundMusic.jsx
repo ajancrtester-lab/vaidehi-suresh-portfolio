@@ -35,37 +35,55 @@ const fadeOutAndStop = () => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    // Check if audio source is valid and local
-    const audioSrc = audio.querySelector('source')?.src;
-    if (!audioSrc || audioSrc.includes('soundhelix') || !audioSrc.startsWith(window.location.origin)) {
-      console.log('Background music disabled - no valid audio source uploaded');
-      return;
-    }
-
-    // Try to autoplay when component mounts
-    const playAudio = async () => {
+    // Fetch settings from backend to get audio URL
+    const loadBackgroundMusic = async () => {
       try {
-        audio.volume = 0.3; // Start at 30% volume
-        await audio.play();
-        setIsPlaying(true);
+        const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+        const response = await fetch(`${BACKEND_URL}/api/site-settings`, {
+          cache: 'no-store'
+        });
+        const data = await response.json();
         
-        // Set timeout to fade out and stop after 30 seconds
-        setTimeout(() => {
-          fadeOutAndStop();
-        }, 27000); // Start fade at 27 seconds (3 second fade)
-        
-        // Hide controls after 5 seconds if playing
-        setTimeout(() => {
-          setShowControls(false);
-        }, 5000);
+        if (data.settings?.backgroundMusic?.enabled && data.settings.backgroundMusic.audioUrl) {
+          const audioUrl = data.settings.backgroundMusic.audioUrl;
+          const audioSource = audio.querySelector('source');
+          if (audioSource) {
+            audioSource.src = audioUrl;
+            audio.load(); // Reload audio with new source
+            
+            // Try to autoplay
+            const playAudio = async () => {
+              try {
+                audio.volume = 0.3;
+                await audio.play();
+                setIsPlaying(true);
+                
+                // Fade out after duration
+                const duration = (data.settings.backgroundMusic.duration || 30) * 1000;
+                setTimeout(() => {
+                  fadeOutAndStop();
+                }, duration - 3000);
+                
+                setTimeout(() => {
+                  setShowControls(false);
+                }, 5000);
+              } catch (error) {
+                console.log('Autoplay prevented:', error);
+                setShowControls(true);
+              }
+            };
+            
+            playAudio();
+          }
+        } else {
+          console.log('Background music disabled in settings');
+        }
       } catch (error) {
-        console.log('Autoplay prevented by browser:', error);
-        // If autoplay fails, show controls permanently
-        setShowControls(true);
+        console.error('Failed to load background music settings:', error);
       }
     };
 
-    playAudio();
+    loadBackgroundMusic();
 
     return () => {
       if (fadeIntervalRef.current) {
