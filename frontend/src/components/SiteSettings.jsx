@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Settings, Upload, Music, Save } from 'lucide-react';
+import { Settings, Upload, Music, Save, Instagram } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
