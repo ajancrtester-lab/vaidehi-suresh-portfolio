@@ -125,3 +125,20 @@ export const TempleBell = ({ side = 'left' }) => {
     </motion.div>
   );
 };
+export const DiyaFlame = ({ position = 'bottom-10 left-1/2' }) => {
+  return (
+    <motion.div
+      className={`absolute ${position} -translate-x-1/2 pointer-events-none`}
+      animate={{
+        scale: [1, 1.1, 1],
+        y: [0, -3, 0],
+      }}
+      transition={{
+        duration: 1.5,
+        repeat: Infinity,
+      }}
+    >
+      🔥
+    </motion.div>
+  );
+};
