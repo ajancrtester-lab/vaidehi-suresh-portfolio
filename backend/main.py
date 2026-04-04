@@ -8,6 +8,7 @@ from typing import List, Optional
 from datetime import datetime, timezone
 from urllib.parse import quote
 import hashlib
+import uuid  # 🔥 ADD THIS IMPORT
 
 # Import models from models package
 from models.status import StatusCheck, StatusCheckCreate
