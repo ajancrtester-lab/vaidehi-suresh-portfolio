@@ -23,7 +23,7 @@ import { Toaster } from './components/ui/toaster';
 import './App.css';
 
 const Home = () => {
-  const [showCursor, setShowCursor] = useState(false);
+  
 
  const [showCursor, setShowCursor] = useState(() => {
   if (typeof navigator === 'undefined') return true;
