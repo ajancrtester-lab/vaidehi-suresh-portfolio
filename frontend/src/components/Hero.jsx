@@ -9,7 +9,7 @@ import { FloatingPetals, SacredOm, TempleBell, DiyaFlame } from './TempleAnimati
 const Hero = () => {
   const { t } = useLanguage();
   const { artistInfo } = useArtistInfo();
-  const [vilakkuParticles, setVilakkuParticles] = useState([]);
+  
 
   // Generate temple lamp (vilakku) particles
   const [vilakkuParticles] = useState(() =>
