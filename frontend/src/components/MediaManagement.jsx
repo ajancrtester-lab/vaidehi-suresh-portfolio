@@ -45,7 +45,7 @@ const MediaManagement = () => {
       const galleryData = await galleryRes.json();
       const testimonialsData = await testimonialsRes.json();
 
-      setAudioTracks(audioData.tracks || []);
+      setAudioTracks(audioData.tracks || audioData.audioTracks || []);
       setVideos(videoData.videos || []);
       setGallery(galleryData.gallery || []);
       setTestimonials(testimonialsData.testimonials || []);
