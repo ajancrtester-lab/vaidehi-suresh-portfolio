@@ -128,3 +128,23 @@ export const LotusFlower = ({ position = 'bottom' }) => {
     </motion.div>
   );
 };
+// Sacred Om Symbol
+export const SacredOm = ({ position = 'center' }) => {
+  const positionClasses = {
+    'top-left': 'top-20 left-20',
+    'top-right': 'top-20 right-20',
+    'center': 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+  };
+
+  return (
+    <motion.div
+      className={`absolute ${positionClasses[position]} pointer-events-none`}
+      animate={{ rotate: [0, 360] }}
+      transition={{ duration: 20, repeat: Infinity }}
+    >
+      <div style={{ fontSize: '60px', color: '#d4af37', opacity: 0.3 }}>
+        ॐ
+      </div>
+    </motion.div>
+  );
+};
