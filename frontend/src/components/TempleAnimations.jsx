@@ -95,3 +95,36 @@ export const IncenseSmoke = ({ count = 5 }) => {
     </div>
   );
 };
+export const LotusFlower = ({ position = 'bottom' }) => {
+  return (
+    <motion.div
+      className={`absolute ${position === 'bottom' ? 'bottom-10' : 'top-10'} left-1/2 -translate-x-1/2 pointer-events-none`}
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{ 
+        opacity: [0, 0.3, 0.3, 0],
+        scale: [0, 1, 1, 1.2],
+        rotate: [0, 360],
+      }}
+      transition={{
+        duration: 15,
+        repeat: Infinity,
+        ease: 'easeInOut',
+      }}
+    >
+      <svg width="80" height="80" viewBox="0 0 100 100" fill="none">
+        {[0, 45, 90, 135, 180, 225, 270, 315].map((angle, i) => (
+          <motion.ellipse
+            key={i}
+            cx="50"
+            cy="50"
+            rx="15"
+            ry="30"
+            fill="#ff69b4"
+            opacity="0.4"
+            transform={`rotate(${angle} 50 50)`}
+          />
+        ))}
+      </svg>
+    </motion.div>
+  );
+};
