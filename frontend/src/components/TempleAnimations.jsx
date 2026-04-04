@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 // Floating Flower Petals Component
 export const FloatingPetals = ({ count = 20 }) => {
-  const [petals, setPetals] = useState([]);
+  
 
   const petals = useMemo(() =>
   new Array(count).fill().map(() => ({
@@ -97,9 +97,8 @@ export const SacredOm = ({ position = 'center' }) => {
 
 // Incense Smoke Effect
 export const IncenseSmoke = ({ count = 5 }) => {
-  const [smokeParticles, setSmokeParticles] = useState([]);
-
-  const smokeParticles = useMemo(() =>
+  
+ 
   new Array(count).fill().map((_, i) => ({
     delay: i * 2,
   })),
