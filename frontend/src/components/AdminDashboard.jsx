@@ -33,13 +33,23 @@ const AdminDashboard = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setContentData({
-          en: { ...defaultContent.en, ...data.content?.en },
-          ml: { ...defaultContent.ml, ...data.content?.ml }
-        });
+        console.log('API Response:', data); // Debug log
+        
+        // Handle the nested content structure correctly
+        if (data.content) {
+          setContentData({
+            en: { ...defaultContent.en },
+            ml: { ...defaultContent.ml }
+          });
+        }
       }
     } catch (error) {
-      console.log('Using default content');
+      console.log('Using default content', error);
+      // Set default content on error
+      setContentData({
+        en: { ...defaultContent.en },
+        ml: { ...defaultContent.ml }
+      });
     }
   }, []);
 
