@@ -57,7 +57,7 @@ const InstagramGrid = () => {
           </p>
 
           <a
-            href="https://www.instagram.com/vaidehisureshikm"
+            href="https://www.instagram.com/iraneesam_vaidehi_suresh"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#800020] to-[#9b2335] text-white rounded-lg hover:opacity-90 transition-opacity text-lg font-semibold"
@@ -86,13 +86,13 @@ const InstagramGrid = () => {
             <Instagram className="h-6 w-6 text-white" />
           </div>
           <div>
-            <h3 className="text-xl font-semibold text-white">@vaidehisureshikm</h3>
+            <h3 className="text-xl font-semibold text-white">@iraneesam_vaidehi_suresh</h3>
             <p className="text-sm text-gray-400">Latest Performances</p>
           </div>
         </div>
         
         <a
-          href="https://www.instagram.com/vaidehisureshikm"
+          href="https://www.instagram.com/iraneesam_vaidehi_suresh"
           target="_blank"
           rel="noopener noreferrer"
           className="px-6 py-2 border border-[#d4af37]/50 hover:bg-[#d4af37]/10 rounded-lg transition-colors text-[#d4af37] font-semibold flex items-center gap-2"
@@ -160,7 +160,7 @@ const InstagramGrid = () => {
       {/* Footer */}
       <div className="mt-8 text-center">
         <a
-          href="https://www.instagram.com/vaidehisureshikm"
+          href="https://www.instagram.com/iraneesam_vaidehi_suresh"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 text-[#d4af37] hover:text-[#ffd700] transition-colors text-sm"

@@ -12,6 +12,7 @@ import { toast } from '../hooks/use-toast';
 import { content as defaultContent } from '../content/bilingual';
 import MediaManagement from './MediaManagement';
 import SiteSettings from './SiteSettings';
+import ContentEditor from './ContentEditor';
 
 const AdminDashboard = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -196,6 +197,7 @@ const AdminDashboard = () => {
           <TabsList className="bg-zinc-900">
             <TabsTrigger value="bookings">Bookings</TabsTrigger>
             <TabsTrigger value="media">Media Management</TabsTrigger>
+            <TabsTrigger value="content">Content Editor</TabsTrigger>
             <TabsTrigger value="settings">Site Settings</TabsTrigger>
           </TabsList>
 
@@ -242,6 +244,21 @@ const AdminDashboard = () => {
           {/* Media Management Tab */}
           <TabsContent value="media">
             <MediaManagement />
+          </TabsContent>
+
+          {/* Content Editor Tab */}
+          <TabsContent value="content">
+            <Card className="bg-zinc-900">
+              <CardHeader>
+                <CardTitle className="text-[#d4af37]">Content Editor</CardTitle>
+                <p className="text-sm text-gray-400">
+                  Edit all website content including Services, About, and other sections
+                </p>
+              </CardHeader>
+              <CardContent>
+                <ContentEditor />
+              </CardContent>
+            </Card>
           </TabsContent>
 
           {/* Site Settings Tab */}

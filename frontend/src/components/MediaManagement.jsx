@@ -496,7 +496,15 @@ const MediaManagement = () => {
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => handleDelete(type.toLowerCase().replace(' ', ''), item.id)}
+                  onClick={() => {
+                    const typeMap = {
+                      'Audio Track': 'audio',
+                      'Video': 'video',
+                      'Gallery Item': 'gallery',
+                      'Testimonial': 'testimonial'
+                    };
+                    handleDelete(typeMap[type] || type.toLowerCase().replace(' ', ''), item.id);
+                  }}
                   className="text-red-500 hover:bg-red-500/10"
                 >
                   <Trash2 className="h-4 w-4" />
@@ -544,7 +552,15 @@ const MediaManagement = () => {
             setEditingItem(null);
             setEditType(null);
           }}
-          onSave={(data) => handleSave(editType.toLowerCase().replace(' ', ''), data)}
+          onSave={(data) => {
+            const typeMap = {
+              'Audio Track': 'audio',
+              'Video': 'video',
+              'Gallery Item': 'gallery',
+              'Testimonial': 'testimonial'
+            };
+            handleSave(typeMap[editType] || editType.toLowerCase().replace(' ', ''), data);
+          }}
         />
       )}
     </div>

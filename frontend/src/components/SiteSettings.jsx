@@ -245,7 +245,7 @@ const SiteSettings = () => {
               id="instagram"
               value={settings.instagramUsername || ''}
               onChange={(e) => updateField('instagramUsername', e.target.value)}
-              placeholder="vaidehisureshikm"
+              placeholder="iraneesam_vaidehi_suresh"
               className="bg-black/50 border-[#d4af37]/30 text-white mt-2"
             />
             <p className="text-xs text-gray-500 mt-2">
