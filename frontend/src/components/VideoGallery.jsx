@@ -4,7 +4,7 @@ import { useRef, useState, useEffect } from 'react';
 import { fetchVideoPerformances } from '../services/api';
 import { Play } from 'lucide-react';
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
-import InstagramGrid from './InstagramGrid';
+import InstagramReels from './InstagramReels';
 
 const VideoGallery = () => {
   const ref = useRef(null);
@@ -41,7 +41,7 @@ const VideoGallery = () => {
     );
   }
 
-  // Show Instagram Grid if no videos
+  // Show Instagram Reels if no YouTube videos
   if (videoPerformances.length === 0) {
     return (
       <section id="videos" className="relative py-32 px-6 bg-gradient-to-b from-[#1a0a0a] to-[#0a0a0a]">
@@ -55,8 +55,8 @@ const VideoGallery = () => {
             </p>
           </div>
           
-          {/* Instagram Grid Component */}
-          <InstagramGrid />
+          {/* Instagram Reels Component */}
+          <InstagramReels />
         </div>
       </section>
     );
@@ -153,7 +153,7 @@ const VideoGallery = () => {
           ))}
         </div>
 
-        {/* Instagram Grid Section */}
+        {/* Instagram Reels Section */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
@@ -170,7 +170,7 @@ const VideoGallery = () => {
             </p>
           </div>
 
-          <InstagramGrid />
+          <InstagramReels />
         </motion.div>
       </div>
     </section>

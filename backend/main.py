@@ -954,6 +954,91 @@ async def delete_gallery_item(item_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+# ============== Instagram Reels Endpoints ==============
+
+@api_router.get("/instagram-reels")
+async def get_instagram_reels():
+    """Get all Instagram reels"""
+    try:
+        reels = await db.instagram_reels.find({}, {"_id": 0}).sort("order", 1).to_list(9)
+        return {"reels": reels}
+    except Exception as e:
+        logging.error(f"Error fetching Instagram reels: {str(e)}")
+        return {"reels": []}
+
+
+@api_router.get("/admin/instagram-reels")
+async def get_all_instagram_reels_admin():
+    """Get all Instagram reels for admin"""
+    try:
+        reels = await db.instagram_reels.find({}, {"_id": 0}).to_list(100)
+        return {"reels": reels}
+    except Exception as e:
+        logging.error(f"Error fetching Instagram reels: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.post("/admin/instagram-reels")
+async def create_instagram_reel(reel_data: dict):
+    """Create a new Instagram reel"""
+    try:
+        if "id" not in reel_data:
+            reel_data["id"] = str(uuid.uuid4())
+        
+        # Auto-extract Instagram thumbnail if not provided
+        if not reel_data.get("thumbnail") and reel_data.get("url"):
+            # For Instagram, we'll use a placeholder or the URL itself
+            # Instagram thumbnails require their oEmbed API
+            reel_data["thumbnail"] = reel_data.get("url")
+        
+        reel_data["createdAt"] = datetime.now(timezone.utc).isoformat()
+        await db.instagram_reels.insert_one(reel_data)
+        return {"success": True, "id": reel_data["id"]}
+    except Exception as e:
+        logging.error(f"Error creating Instagram reel: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.put("/admin/instagram-reels/{reel_id}")
+async def update_instagram_reel(reel_id: str, reel_data: dict):
+    """Update an Instagram reel"""
+    try:
+        result = await db.instagram_reels.update_one(
+            {"id": reel_id},
+            {"$set": reel_data}
+        )
+        if result.modified_count == 0:
+            raise HTTPException(status_code=404, detail="Reel not found")
+        return {"success": True}
+    except Exception as e:
+        logging.error(f"Error updating Instagram reel: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.delete("/admin/instagram-reels/{reel_id}")
+async def delete_instagram_reel(reel_id: str):
+    """Delete an Instagram reel"""
+    try:
+        result = await db.instagram_reels.delete_one({"id": reel_id})
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Reel not found")
+        return {"success": True}
+    except Exception as e:
+        logging.error(f"Error deleting Instagram reel: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.post("/instagram-reels/refresh")
+async def refresh_instagram_reels():
+    """Refresh Instagram reels (returns current reels)"""
+    try:
+        reels = await db.instagram_reels.find({}, {"_id": 0}).sort("order", 1).to_list(9)
+        return {"reels": reels, "refreshed": True}
+    except Exception as e:
+        logging.error(f"Error refreshing Instagram reels: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @api_router.get("/artist-info")
 async def get_artist_info():
     """Get artist basic information"""
