@@ -34,82 +34,74 @@ const MediaManagement = () => {
 
   const loadAllMedia = async () => {
     setLoading(true);
+    
+    // Set defaults first
+    setAudioTracks([]);
+    setVideos([]);
+    setGallery([]);
+    setInstagramReels([]);
+    setTestimonials([]);
+    
     try {
-      // Load each type individually with error handling
-      const loadAudio = async () => {
-        try {
-          const res = await fetch(`${BACKEND_URL}/api/admin/audio-tracks`);
-          const data = await res.json();
-          return data.tracks || data.audioTracks || [];
-        } catch (err) {
-          console.error('Failed to load audio:', err);
-          return [];
+      // Load audio tracks
+      try {
+        const audioRes = await fetch(`${BACKEND_URL}/api/admin/audio-tracks`);
+        if (audioRes.ok) {
+          const audioData = await audioRes.json();
+          setAudioTracks(audioData.tracks || audioData.audioTracks || []);
         }
-      };
+      } catch (err) {
+        console.error('Failed to load audio:', err);
+      }
 
-      const loadVideos = async () => {
-        try {
-          const res = await fetch(`${BACKEND_URL}/api/admin/video-performances`);
-          const data = await res.json();
-          return data.videos || [];
-        } catch (err) {
-          console.error('Failed to load videos:', err);
-          return [];
+      // Load videos
+      try {
+        const videoRes = await fetch(`${BACKEND_URL}/api/admin/video-performances`);
+        if (videoRes.ok) {
+          const videoData = await videoRes.json();
+          setVideos(videoData.videos || []);
         }
-      };
+      } catch (err) {
+        console.error('Failed to load videos:', err);
+      }
 
-      const loadGallery = async () => {
-        try {
-          const res = await fetch(`${BACKEND_URL}/api/admin/gallery`);
-          const data = await res.json();
-          // Filter only YouTube videos
-          const items = data.gallery || [];
-          return items.filter(item => 
+      // Load gallery (YouTube only)
+      try {
+        const galleryRes = await fetch(`${BACKEND_URL}/api/admin/gallery`);
+        if (galleryRes.ok) {
+          const galleryData = await galleryRes.json();
+          const items = galleryData.gallery || [];
+          const youtubeOnly = items.filter(item => 
             !item.linkType || item.linkType === 'youtube' || item.linkType.includes('youtube')
           );
-        } catch (err) {
-          console.error('Failed to load gallery:', err);
-          return [];
+          setGallery(youtubeOnly);
         }
-      };
+      } catch (err) {
+        console.error('Failed to load gallery:', err);
+      }
 
-      const loadReels = async () => {
-        try {
-          const res = await fetch(`${BACKEND_URL}/api/admin/instagram-reels`);
-          const data = await res.json();
-          return data.reels || [];
-        } catch (err) {
-          console.error('Failed to load Instagram reels:', err);
-          return [];
+      // Load Instagram reels
+      try {
+        const reelsRes = await fetch(`${BACKEND_URL}/api/admin/instagram-reels`);
+        if (reelsRes.ok) {
+          const reelsData = await reelsRes.json();
+          setInstagramReels(reelsData.reels || []);
         }
-      };
+      } catch (err) {
+        console.error('Failed to load Instagram reels:', err);
+      }
 
-      const loadTestimonials = async () => {
-        try {
-          const res = await fetch(`${BACKEND_URL}/api/admin/testimonials`);
-          const data = await res.json();
-          return data.testimonials || [];
-        } catch (err) {
-          console.error('Failed to load testimonials:', err);
-          return [];
+      // Load testimonials
+      try {
+        const testimonialsRes = await fetch(`${BACKEND_URL}/api/admin/testimonials`);
+        if (testimonialsRes.ok) {
+          const testimonialsData = await testimonialsRes.json();
+          setTestimonials(testimonialsData.testimonials || []);
         }
-      };
+      } catch (err) {
+        console.error('Failed to load testimonials:', err);
+      }
 
-      // Load all in parallel
-      const [audio, videos, gallery, reels, testimonials] = await Promise.all([
-        loadAudio(),
-        loadVideos(),
-        loadGallery(),
-        loadReels(),
-        loadTestimonials()
-      ]);
-
-      setAudioTracks(audio);
-      setVideos(videos);
-      setGallery(gallery);
-      setInstagramReels(reels);
-      setTestimonials(testimonials);
-      
     } catch (error) {
       console.error('Error loading media:', error);
       toast({
