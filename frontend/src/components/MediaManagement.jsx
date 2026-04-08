@@ -635,7 +635,7 @@ const MediaManagement = () => {
   return (
     <div>
       <Tabs defaultValue="audio" className="w-full">
-        <TabsList className="grid w-full grid-cols-4 mb-8 bg-black/50 border border-[#d4af37]/30">
+        <TabsList className="grid w-full grid-cols-5 mb-8 bg-black/50 border border-[#d4af37]/30">
           <TabsTrigger value="audio">Audio</TabsTrigger>
           <TabsTrigger value="videos">Videos</TabsTrigger>
           <TabsTrigger value="gallery">Gallery (YouTube)</TabsTrigger>
