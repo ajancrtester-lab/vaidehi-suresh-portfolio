@@ -28,17 +28,32 @@ export const ArtistInfoProvider = ({ children }) => {
   useEffect(() => {
     const loadArtistInfo = async () => {
       try {
-        const data = await fetchArtistInfo();
-        if (data) {
+        // Fetch from site-settings which has the stats
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/site-settings`);
+        const data = await response.json();
+        const settings = data.settings || {};
+        
+        if (settings.stats) {
           setArtistInfo({
-            name: data.name || 'Vaidehi Suresh',
-            tagline: data.tagline || 'Sopana Sangeetham Artist',
-            yearsOfExperience: data.yearsOfExperience || 15,
-            templesPerformed: data.templesPerformed || 750
+            name: settings.hero?.mainTitle || 'Vaidehi Suresh',
+            tagline: settings.hero?.tagline || 'Preserving the Sacred Melodies of Kerala Temples',
+            yearsOfExperience: settings.stats.yearsOfExperience || 15,
+            templesPerformed: settings.stats.templesPerformed || 750,
+            studentsTrained: settings.stats.studentsTrained || 100,
+            awardsReceived: settings.stats.awardsReceived || 25
           });
+        }
+        
+        // Also try the artist-info endpoint as fallback
+        const artistData = await fetchArtistInfo().catch(() => null);
+        if (artistData) {
+          setArtistInfo(prev => ({
+            ...prev,
+            ...artistData
+          }));
           
-          if (data.contactInfo) {
-            setContactInfo(data.contactInfo);
+          if (artistData.contactInfo) {
+            setContactInfo(artistData.contactInfo);
           }
         }
       } catch (error) {

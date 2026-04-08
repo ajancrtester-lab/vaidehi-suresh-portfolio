@@ -35,34 +35,86 @@ const MediaManagement = () => {
   const loadAllMedia = async () => {
     setLoading(true);
     try {
-      const [audioRes, videoRes, galleryRes, reelsRes, testimonialsRes] = await Promise.all([
-        fetch(`${BACKEND_URL}/api/admin/audio-tracks`).catch(err => ({ ok: false, json: async () => ({ tracks: [] }) })),
-        fetch(`${BACKEND_URL}/api/admin/video-performances`).catch(err => ({ ok: false, json: async () => ({ videos: [] }) })),
-        fetch(`${BACKEND_URL}/api/admin/gallery`).catch(err => ({ ok: false, json: async () => ({ gallery: [] }) })),
-        fetch(`${BACKEND_URL}/api/admin/instagram-reels`).catch(err => ({ ok: false, json: async () => ({ reels: [] }) })),
-        fetch(`${BACKEND_URL}/api/admin/testimonials`).catch(err => ({ ok: false, json: async () => ({ testimonials: [] }) })),
+      // Load each type individually with error handling
+      const loadAudio = async () => {
+        try {
+          const res = await fetch(`${BACKEND_URL}/api/admin/audio-tracks`);
+          const data = await res.json();
+          return data.tracks || data.audioTracks || [];
+        } catch (err) {
+          console.error('Failed to load audio:', err);
+          return [];
+        }
+      };
+
+      const loadVideos = async () => {
+        try {
+          const res = await fetch(`${BACKEND_URL}/api/admin/video-performances`);
+          const data = await res.json();
+          return data.videos || [];
+        } catch (err) {
+          console.error('Failed to load videos:', err);
+          return [];
+        }
+      };
+
+      const loadGallery = async () => {
+        try {
+          const res = await fetch(`${BACKEND_URL}/api/admin/gallery`);
+          const data = await res.json();
+          // Filter only YouTube videos
+          const items = data.gallery || [];
+          return items.filter(item => 
+            !item.linkType || item.linkType === 'youtube' || item.linkType.includes('youtube')
+          );
+        } catch (err) {
+          console.error('Failed to load gallery:', err);
+          return [];
+        }
+      };
+
+      const loadReels = async () => {
+        try {
+          const res = await fetch(`${BACKEND_URL}/api/admin/instagram-reels`);
+          const data = await res.json();
+          return data.reels || [];
+        } catch (err) {
+          console.error('Failed to load Instagram reels:', err);
+          return [];
+        }
+      };
+
+      const loadTestimonials = async () => {
+        try {
+          const res = await fetch(`${BACKEND_URL}/api/admin/testimonials`);
+          const data = await res.json();
+          return data.testimonials || [];
+        } catch (err) {
+          console.error('Failed to load testimonials:', err);
+          return [];
+        }
+      };
+
+      // Load all in parallel
+      const [audio, videos, gallery, reels, testimonials] = await Promise.all([
+        loadAudio(),
+        loadVideos(),
+        loadGallery(),
+        loadReels(),
+        loadTestimonials()
       ]);
 
-      const audioData = await audioRes.json();
-      const videoData = await videoRes.json();
-      const galleryData = await galleryRes.json();
-      const reelsData = await reelsRes.json();
-      const testimonialsData = await testimonialsRes.json();
-
-      setAudioTracks(audioData.tracks || audioData.audioTracks || []);
-      setVideos(videoData.videos || []);
-      // Filter gallery to show only YouTube videos
-      const youtubeOnly = (galleryData.gallery || []).filter(item => 
-        !item.linkType || item.linkType === 'youtube' || item.linkType.includes('youtube')
-      );
-      setGallery(youtubeOnly);
-      setInstagramReels(reelsData.reels || []);
-      setTestimonials(testimonialsData.testimonials || []);
+      setAudioTracks(audio);
+      setVideos(videos);
+      setGallery(gallery);
+      setInstagramReels(reels);
+      setTestimonials(testimonials);
+      
     } catch (error) {
       console.error('Error loading media:', error);
       toast({
         title: 'Error',
-        description: 'Failed to load media: ' + error.message,
+        description: 'Failed to load some media items',
         variant: 'destructive',
       });
     } finally {

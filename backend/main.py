@@ -1085,7 +1085,7 @@ async def get_site_settings():
                     "tagline": "Preserving the Sacred Melodies of Kerala Temples"
                 },
                 "stats": {
-                    "yearsOfExperience": 15,
+                    "yearsOfExperience": 13,
                     "templesPerformed": 750,
                     "studentsTrained": 100,
                     "awardsReceived": 25
