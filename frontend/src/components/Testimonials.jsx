@@ -119,8 +119,14 @@ const Testimonials = () => {
 
                     <div className="flex items-center gap-4">
                       <Avatar className="w-14 h-14 border-2 border-[#d4af37]/50">
-                        <AvatarImage src={testimonial.image} alt={testimonial.name} />
-                        <AvatarFallback className="bg-[#800020] text-white">
+                        <AvatarImage 
+                          src={testimonial.image} 
+                          alt={testimonial.name}
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                          }}
+                        />
+                        <AvatarFallback className="bg-[#800020] text-white text-lg font-semibold">
                           {testimonial.name.charAt(0)}
                         </AvatarFallback>
                       </Avatar>

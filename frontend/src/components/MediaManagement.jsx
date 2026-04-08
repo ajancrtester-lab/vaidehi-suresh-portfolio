@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Music, Video, Image, MessageSquare, Plus, Edit2, Trash2, Save, X } from 'lucide-react';
+import { Music, Video, Image, MessageSquare, Plus, Edit2, Trash2, Save, X, Instagram } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -14,6 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from './ui/dialog';
+import { getYouTubeThumbnail, extractYouTubeId } from '../utils/mediaHelpers';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -21,6 +22,7 @@ const MediaManagement = () => {
   const [audioTracks, setAudioTracks] = useState([]);
   const [videos, setVideos] = useState([]);
   const [gallery, setGallery] = useState([]);
+  const [instagramReels, setInstagramReels] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
   const [loading, setLoading] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
@@ -33,21 +35,28 @@ const MediaManagement = () => {
   const loadAllMedia = async () => {
     setLoading(true);
     try {
-      const [audioRes, videoRes, galleryRes, testimonialsRes] = await Promise.all([
+      const [audioRes, videoRes, galleryRes, reelsRes, testimonialsRes] = await Promise.all([
         fetch(`${BACKEND_URL}/api/admin/audio-tracks`),
         fetch(`${BACKEND_URL}/api/admin/video-performances`),
         fetch(`${BACKEND_URL}/api/admin/gallery`),
+        fetch(`${BACKEND_URL}/api/admin/instagram-reels`),
         fetch(`${BACKEND_URL}/api/admin/testimonials`),
       ]);
 
       const audioData = await audioRes.json();
       const videoData = await videoRes.json();
       const galleryData = await galleryRes.json();
+      const reelsData = await reelsRes.json();
       const testimonialsData = await testimonialsRes.json();
 
       setAudioTracks(audioData.tracks || audioData.audioTracks || []);
       setVideos(videoData.videos || []);
-      setGallery(galleryData.gallery || []);
+      // Filter gallery to show only YouTube videos
+      const youtubeOnly = (galleryData.gallery || []).filter(item => 
+        !item.linkType || item.linkType === 'youtube' || item.linkType.includes('youtube')
+      );
+      setGallery(youtubeOnly);
+      setInstagramReels(reelsData.reels || []);
       setTestimonials(testimonialsData.testimonials || []);
     } catch (error) {
       toast({
@@ -66,11 +75,20 @@ const MediaManagement = () => {
         audio: 'audio-tracks',
         video: 'video-performances',
         gallery: 'gallery',
+        instagramreel: 'instagram-reels',
         testimonial: 'testimonials',
       };
 
       const endpoint = endpoints[type];
       const isNew = !item.id || item.id === 'new';
+
+      // Auto-extract YouTube thumbnail if URL is provided and thumbnail is empty
+      if (type === 'video' && item.videoUrl && !item.thumbnail) {
+        const thumbnail = getYouTubeThumbnail(item.videoUrl);
+        if (thumbnail) {
+          item.thumbnail = thumbnail;
+        }
+      }
 
       // Ensure required fields
       if (!item.title && !item.name) {
@@ -127,6 +145,7 @@ const MediaManagement = () => {
         audio: 'audio-tracks',
         video: 'video-performances',
         gallery: 'gallery',
+        instagramreel: 'instagram-reels',
         testimonial: 'testimonials',
       };
 
@@ -326,14 +345,13 @@ const MediaManagement = () => {
                 <div>
                   <Label>Link Type</Label>
                   <select
-                    value={formData.linkType || 'instagram-post'}
+                    value={formData.linkType || 'youtube'}
                     onChange={(e) => handleChange('linkType', e.target.value)}
                     className="w-full p-2 bg-black/50 border border-[#d4af37]/30 rounded text-white"
                   >
                     <option value="youtube">YouTube</option>
-                    <option value="instagram-post">Instagram Post</option>
-                    <option value="instagram-reel">Instagram Reel</option>
                   </select>
+                  <p className="text-xs text-gray-500 mt-1">Gallery is for YouTube videos only. Use Instagram Reels tab for reels.</p>
                 </div>
                 <div>
                   <Label>External Link</Label>
@@ -342,6 +360,51 @@ const MediaManagement = () => {
                     onChange={(e) => handleChange('externalLink', e.target.value)}
                     className="bg-black/50 border-[#d4af37]/30"
                     placeholder="https://www.instagram.com/p/..."
+                  />
+                </div>
+              </>
+            )}
+
+            {type === 'Instagram Reel' && (
+              <>
+                <div>
+                  <Label>Title</Label>
+                  <Input
+                    value={formData.title || ''}
+                    onChange={(e) => handleChange('title', e.target.value)}
+                    className="bg-black/50 border-[#d4af37]/30"
+                    placeholder="Performance title"
+                  />
+                </div>
+                <div>
+                  <Label>Instagram Reel URL</Label>
+                  <Input
+                    value={formData.url || ''}
+                    onChange={(e) => handleChange('url', e.target.value)}
+                    className="bg-black/50 border-[#d4af37]/30"
+                    placeholder="https://www.instagram.com/reel/..."
+                  />
+                  <p className="text-xs text-gray-500 mt-1">Paste Instagram reel URL</p>
+                </div>
+                <div>
+                  <Label>Thumbnail Image URL</Label>
+                  <Input
+                    value={formData.thumbnail || ''}
+                    onChange={(e) => handleChange('thumbnail', e.target.value)}
+                    className="bg-black/50 border-[#d4af37]/30"
+                    placeholder="https://... (direct image URL)"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Upload reel cover to image hosting service and paste URL here
+                  </p>
+                </div>
+                <div>
+                  <Label>Order</Label>
+                  <Input
+                    type="number"
+                    value={formData.order || 0}
+                    onChange={(e) => handleChange('order', parseInt(e.target.value))}
+                    className="bg-black/50 border-[#d4af37]/30"
                   />
                 </div>
               </>
@@ -501,6 +564,7 @@ const MediaManagement = () => {
                       'Audio Track': 'audio',
                       'Video': 'video',
                       'Gallery Item': 'gallery',
+                      'Instagram Reel': 'instagramreel',
                       'Testimonial': 'testimonial'
                     };
                     handleDelete(typeMap[type] || type.toLowerCase().replace(' ', ''), item.id);
@@ -523,7 +587,8 @@ const MediaManagement = () => {
         <TabsList className="grid w-full grid-cols-4 mb-8 bg-black/50 border border-[#d4af37]/30">
           <TabsTrigger value="audio">Audio</TabsTrigger>
           <TabsTrigger value="videos">Videos</TabsTrigger>
-          <TabsTrigger value="gallery">Gallery</TabsTrigger>
+          <TabsTrigger value="gallery">Gallery (YouTube)</TabsTrigger>
+          <TabsTrigger value="instagram">Instagram Reels</TabsTrigger>
           <TabsTrigger value="testimonials">Testimonials</TabsTrigger>
         </TabsList>
 
@@ -537,6 +602,10 @@ const MediaManagement = () => {
 
         <TabsContent value="gallery">
           <MediaList items={gallery} type="Gallery Item" icon={Image} />
+        </TabsContent>
+
+        <TabsContent value="instagram">
+          <MediaList items={instagramReels} type="Instagram Reel" icon={Instagram} />
         </TabsContent>
 
         <TabsContent value="testimonials">
@@ -557,6 +626,7 @@ const MediaManagement = () => {
               'Audio Track': 'audio',
               'Video': 'video',
               'Gallery Item': 'gallery',
+              'Instagram Reel': 'instagramreel',
               'Testimonial': 'testimonial'
             };
             handleSave(typeMap[editType] || editType.toLowerCase().replace(' ', ''), data);

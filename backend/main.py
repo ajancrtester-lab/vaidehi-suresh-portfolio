@@ -108,7 +108,7 @@ def verify_admin_password(password: str) -> bool:
 # ============== Routes ==============
 
 @api_router.get("/")
-async def root():
+async def api_root():
     return {"message": "Hello World"}
 
 @api_router.get("/health")
