@@ -232,7 +232,7 @@ const SiteSettings = () => {
         <CardHeader>
           <CardTitle className="text-[#d4af37] flex items-center gap-2">
             <Instagram className="h-5 w-5" />
-            Instagram Integration (SnapWidget)
+            Instagram Integration
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -249,31 +249,7 @@ const SiteSettings = () => {
               className="bg-black/50 border-[#d4af37]/30 text-white mt-2"
             />
             <p className="text-xs text-gray-500 mt-2">
-              Used for SnapWidget 3x3 grid display in Performance Videos section
-            </p>
-          </div>
-          <div>
-            <Label htmlFor="snapwidget" className="text-gray-200">
-              SnapWidget Embed Code or Widget ID
-              <span className="text-xs text-gray-500 ml-2">(optional)</span>
-            </Label>
-            <Input
-              id="snapwidget"
-              value={settings.snapWidgetId || ''}
-              onChange={(e) => updateField('snapWidgetId', e.target.value)}
-              placeholder="e.g., snapwidget.com/embed/123456"
-              className="bg-black/50 border-[#d4af37]/30 text-white mt-2"
-            />
-            <p className="text-xs text-gray-500 mt-2">
-              Get your SnapWidget embed code from{' '}
-              <a 
-                href="https://snapwidget.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-[#d4af37] hover:underline"
-              >
-                snapwidget.com
-              </a>
+              Instagram posts will appear in the Performance Videos section (managed via Gallery)
             </p>
           </div>
         </CardContent>
