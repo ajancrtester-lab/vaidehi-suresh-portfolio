@@ -4,7 +4,6 @@ import { useRef, useState, useEffect } from 'react';
 import { fetchVideoPerformances } from '../services/api';
 import { Play } from 'lucide-react';
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
-import InstagramReels from './InstagramReels';
 
 const VideoGallery = () => {
   const ref = useRef(null);
@@ -41,22 +40,20 @@ const VideoGallery = () => {
     );
   }
 
-  // Show Instagram Reels if no YouTube videos
+  // Show empty state if no videos
   if (videoPerformances.length === 0) {
     return (
       <section id="videos" className="relative py-32 px-6 bg-gradient-to-b from-[#1a0a0a] to-[#0a0a0a]">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="font-cormorant text-5xl md:text-6xl font-bold text-[#d4af37] mb-6">
-              Performance Videos
-            </h2>
-            <p className="text-gray-400 text-sm tracking-[0.3em] uppercase">
-              Latest Instagram Moments
-            </p>
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="font-cormorant text-5xl md:text-6xl font-bold text-[#d4af37] mb-6">
+            Performances
+          </h2>
+          <p className="text-gray-400 text-sm tracking-[0.3em] uppercase mb-8">
+            Sacred Moments Captured
+          </p>
+          <div className="text-gray-400">
+            Performance videos will be added soon.
           </div>
-          
-          {/* Instagram Reels Component */}
-          <InstagramReels />
         </div>
       </section>
     );
@@ -92,7 +89,7 @@ const VideoGallery = () => {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8 mb-20">
+        <div className="grid md:grid-cols-2 gap-8">
           {videoPerformances.map((video, index) => (
             <motion.div
               key={video.id}
@@ -152,26 +149,6 @@ const VideoGallery = () => {
             </motion.div>
           ))}
         </div>
-
-        {/* Instagram Reels Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-        >
-          <div className="h-px w-full bg-gradient-to-r from-transparent via-[#d4af37]/50 to-transparent mb-16" />
-          
-          <div className="text-center mb-12">
-            <h3 className="font-cormorant text-4xl md:text-5xl font-bold text-[#d4af37] mb-4">
-              Latest from Instagram
-            </h3>
-            <p className="text-gray-400 text-sm tracking-[0.2em] uppercase">
-              Recent Moments & Updates
-            </p>
-          </div>
-
-          <InstagramReels />
-        </motion.div>
       </div>
     </section>
   );
