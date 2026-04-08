@@ -36,11 +36,11 @@ const MediaManagement = () => {
     setLoading(true);
     try {
       const [audioRes, videoRes, galleryRes, reelsRes, testimonialsRes] = await Promise.all([
-        fetch(`${BACKEND_URL}/api/admin/audio-tracks`),
-        fetch(`${BACKEND_URL}/api/admin/video-performances`),
-        fetch(`${BACKEND_URL}/api/admin/gallery`),
-        fetch(`${BACKEND_URL}/api/admin/instagram-reels`),
-        fetch(`${BACKEND_URL}/api/admin/testimonials`),
+        fetch(`${BACKEND_URL}/api/admin/audio-tracks`).catch(err => ({ ok: false, json: async () => ({ tracks: [] }) })),
+        fetch(`${BACKEND_URL}/api/admin/video-performances`).catch(err => ({ ok: false, json: async () => ({ videos: [] }) })),
+        fetch(`${BACKEND_URL}/api/admin/gallery`).catch(err => ({ ok: false, json: async () => ({ gallery: [] }) })),
+        fetch(`${BACKEND_URL}/api/admin/instagram-reels`).catch(err => ({ ok: false, json: async () => ({ reels: [] }) })),
+        fetch(`${BACKEND_URL}/api/admin/testimonials`).catch(err => ({ ok: false, json: async () => ({ testimonials: [] }) })),
       ]);
 
       const audioData = await audioRes.json();
@@ -59,9 +59,10 @@ const MediaManagement = () => {
       setInstagramReels(reelsData.reels || []);
       setTestimonials(testimonialsData.testimonials || []);
     } catch (error) {
+      console.error('Error loading media:', error);
       toast({
         title: 'Error',
-        description: 'Failed to load media',
+        description: 'Failed to load media: ' + error.message,
         variant: 'destructive',
       });
     } finally {

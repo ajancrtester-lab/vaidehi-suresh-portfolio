@@ -28,8 +28,36 @@ const ContentEditor = () => {
     try {
       const response = await fetch(`${BACKEND_URL}/api/content`);
       const data = await response.json();
-      setContent(data.content || {});
+      
+      // Initialize with default structure if empty
+      const initialContent = data.content || {};
+      
+      // Ensure services structure exists
+      if (!initialContent.services) {
+        initialContent.services = {
+          en: {
+            title: 'Services Offered',
+            subtitle: 'Traditional & Modern Performances',
+            items: []
+          },
+          ml: {
+            title: 'സേവനങ്ങൾ',
+            subtitle: 'പരമ്പരാഗത സംഗീതം',
+            items: []
+          }
+        };
+      }
+      
+      setContent(initialContent);
     } catch (error) {
+      console.error('Failed to load content:', error);
+      // Set default structure on error
+      setContent({
+        services: {
+          en: { title: '', subtitle: '', items: [] },
+          ml: { title: '', subtitle: '', items: [] }
+        }
+      });
       toast({
         title: 'Error',
         description: 'Failed to load content',
