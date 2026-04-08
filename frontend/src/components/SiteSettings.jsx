@@ -110,13 +110,19 @@ const SiteSettings = () => {
 
   const updateField = (path, value) => {
     const keys = path.split('.');
-    const newSettings = { ...settings };
-    let current = newSettings;
     
+    // Create a deep copy with immutable updates
+    const newSettings = { ...settings };
+    
+    // Navigate to the parent object and create new copies along the way
+    let current = newSettings;
     for (let i = 0; i < keys.length - 1; i++) {
+      // Create a new copy of the nested object
+      current[keys[i]] = { ...current[keys[i]] };
       current = current[keys[i]];
     }
     
+    // Set the final value
     current[keys[keys.length - 1]] = value;
     setSettings(newSettings);
   };
@@ -226,7 +232,7 @@ const SiteSettings = () => {
         <CardHeader>
           <CardTitle className="text-[#d4af37] flex items-center gap-2">
             <Instagram className="h-5 w-5" />
-            Instagram Integration
+            Instagram Integration (SnapWidget)
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -238,12 +244,36 @@ const SiteSettings = () => {
             <Input
               id="instagram"
               value={settings.instagramUsername || ''}
-              onChange={(e) => setSettings({ ...settings, instagramUsername: e.target.value })}
+              onChange={(e) => updateField('instagramUsername', e.target.value)}
               placeholder="vaidehisureshikm"
               className="bg-black/50 border-[#d4af37]/30 text-white mt-2"
             />
             <p className="text-xs text-gray-500 mt-2">
-              Instagram feed will appear in the Performance Videos section
+              Used for SnapWidget 3x3 grid display in Performance Videos section
+            </p>
+          </div>
+          <div>
+            <Label htmlFor="snapwidget" className="text-gray-200">
+              SnapWidget Embed Code or Widget ID
+              <span className="text-xs text-gray-500 ml-2">(optional)</span>
+            </Label>
+            <Input
+              id="snapwidget"
+              value={settings.snapWidgetId || ''}
+              onChange={(e) => updateField('snapWidgetId', e.target.value)}
+              placeholder="e.g., snapwidget.com/embed/123456"
+              className="bg-black/50 border-[#d4af37]/30 text-white mt-2"
+            />
+            <p className="text-xs text-gray-500 mt-2">
+              Get your SnapWidget embed code from{' '}
+              <a 
+                href="https://snapwidget.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-[#d4af37] hover:underline"
+              >
+                snapwidget.com
+              </a>
             </p>
           </div>
         </CardContent>

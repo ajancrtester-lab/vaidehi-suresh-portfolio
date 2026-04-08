@@ -52,7 +52,7 @@ export const fetchArtistInfo = async () => {
 export const fetchAudioTracks = async () => {
   try {
     const data = await fetchWithErrorHandling('/api/admin/audio-tracks', 'Failed to fetch audio tracks');
-    return data.audioTracks || [];
+    return data.tracks || data.audioTracks || [];
   } catch (error) {
     return []; // Return empty array on error
   }
@@ -61,7 +61,7 @@ export const fetchAudioTracks = async () => {
 // Video Performances
 export const fetchVideoPerformances = async () => {
   try {
-    const data = await fetchWithErrorHandling('/api/admin/videos', 'Failed to fetch videos');
+    const data = await fetchWithErrorHandling('/api/admin/video-performances', 'Failed to fetch videos');
     return data.videos || [];
   } catch (error) {
     return [];
@@ -71,7 +71,7 @@ export const fetchVideoPerformances = async () => {
 // Gallery
 export const fetchGallery = async () => {
   try {
-    const data = await fetchWithErrorHandling('/api/gallery', 'Failed to fetch gallery');
+    const data = await fetchWithErrorHandling('/api/admin/gallery', 'Failed to fetch gallery');
     return data.gallery || [];
   } catch (error) {
     return [];

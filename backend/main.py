@@ -987,11 +987,29 @@ async def get_site_settings():
         if not settings:
             settings = {
                 "id": "main_settings",
-                "instagramUsername": "vaidehisureshikm",  # 🔥 ADD INSTAGRAM
+                "instagramUsername": "vaidehisureshikm",
+                "snapWidgetId": "",
                 "backgroundMusic": {
                     "enabled": True,
                     "audioUrl": "/audio/idakka-intro.mp3",
-                    "duration": 30
+                    "duration": 30,
+                    "title": "Sopana Sangeetham"
+                },
+                "hero": {
+                    "mainTitle": "Vaidehi Suresh",
+                    "subtitle": "Sopana Sangeetham Artist",
+                    "tagline": "Preserving the Sacred Melodies of Kerala Temples"
+                },
+                "stats": {
+                    "yearsOfExperience": 15,
+                    "templesPerformed": 750,
+                    "studentsTrained": 100,
+                    "awardsReceived": 25
+                },
+                "socialMedia": {
+                    "instagram": "https://www.instagram.com/vaidehisureshikm",
+                    "youtube": "https://www.youtube.com/@vaidehisuresh",
+                    "facebook": ""
                 }
             }
         return {"settings": settings}

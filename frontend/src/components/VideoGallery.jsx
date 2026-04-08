@@ -2,9 +2,9 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 import { fetchVideoPerformances } from '../services/api';
-import { Play, Instagram } from 'lucide-react';
+import { Play } from 'lucide-react';
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
-import InstagramFeed from './InstagramFeed';
+import SnapWidget from './SnapWidget';
 
 const VideoGallery = () => {
   const ref = useRef(null);
@@ -41,7 +41,7 @@ const VideoGallery = () => {
     );
   }
 
-  // Show Instagram feed if no videos
+  // Show SnapWidget if no videos
   if (videoPerformances.length === 0) {
     return (
       <section id="videos" className="relative py-32 px-6 bg-gradient-to-b from-[#1a0a0a] to-[#0a0a0a]">
@@ -55,8 +55,8 @@ const VideoGallery = () => {
             </p>
           </div>
           
-          {/* Instagram Feed Component */}
-          <InstagramFeed />
+          {/* SnapWidget Component */}
+          <SnapWidget />
         </div>
       </section>
     );

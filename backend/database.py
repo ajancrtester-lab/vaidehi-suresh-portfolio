@@ -3,10 +3,12 @@ Database connection and configuration
 """
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
+from pathlib import Path
+from dotenv import load_dotenv
 
-# ❌ REMOVE dotenv (not needed in production)
-# from dotenv import load_dotenv
-# load_dotenv()
+# Load environment variables
+ROOT_DIR = Path(__file__).parent
+load_dotenv(ROOT_DIR / '.env')
 
 # ✅ Get environment variables safely
 mongo_url = os.getenv("MONGO_URL")

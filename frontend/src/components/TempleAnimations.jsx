@@ -1,18 +1,40 @@
 import { motion } from 'framer-motion';
-import { useMemo } from 'react';
+
+// Seeded random function for deterministic values based on index
+const seededRandom = (seed) => {
+  const x = Math.sin(seed * 9999) * 10000;
+  return x - Math.floor(x);
+};
+
+// Pre-generate petal data outside component to avoid React strict mode issues
+const generatePetals = (count) => {
+  return new Array(count).fill(null).map((_, i) => ({
+    id: i,
+    x: seededRandom(i * 1) * 100,
+    y: seededRandom(i * 2) * 100,
+    rotation: seededRandom(i * 3) * 360,
+    duration: 10 + seededRandom(i * 4) * 10,
+    delay: seededRandom(i * 5) * 5,
+  }));
+};
+
+// Pre-generate smoke particles
+const generateSmokeParticles = (count) => {
+  return new Array(count).fill(null).map((_, i) => ({
+    id: i,
+    x: seededRandom(i * 10) * 100,
+    delay: i * 2,
+  }));
+};
+
+// Default data
+const DEFAULT_PETALS = generatePetals(20);
+const DEFAULT_SMOKE = generateSmokeParticles(5);
 
 // Floating Flower Petals
 export const FloatingPetals = ({ count = 20 }) => {
-  const petals = useMemo(() => {
-    return new Array(count).fill().map((_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      rotation: Math.random() * 360,
-      duration: 10 + Math.random() * 10,
-      delay: Math.random() * 5,
-    }));
-  }, [count]);
+  // Use pre-generated data or generate new if count differs
+  const petals = count === 20 ? DEFAULT_PETALS : generatePetals(count);
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -46,13 +68,7 @@ export const FloatingPetals = ({ count = 20 }) => {
 
 // Incense Smoke
 export const IncenseSmoke = ({ count = 5 }) => {
-  const smokeParticles = useMemo(() => {
-    return new Array(count).fill().map((_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      delay: i * 2,
-    }));
-  }, [count]);
+  const smokeParticles = count === 5 ? DEFAULT_SMOKE : generateSmokeParticles(count);
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -113,7 +129,7 @@ export const SacredOm = ({ position = 'center' }) => {
   );
 };
 
-// Temple Bell ✅ (THIS FIXES YOUR CURRENT ERROR)
+// Temple Bell
 export const TempleBell = ({ side = 'left' }) => {
   return (
     <motion.div
@@ -125,6 +141,7 @@ export const TempleBell = ({ side = 'left' }) => {
     </motion.div>
   );
 };
+
 export const DiyaFlame = ({ position = 'bottom-10 left-1/2' }) => {
   return (
     <motion.div
