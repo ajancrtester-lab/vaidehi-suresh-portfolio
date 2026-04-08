@@ -145,9 +145,9 @@ const MediaManagement = () => {
         return;
       }
 
-      // For new items, generate ID
+      // Remove the id field for new items - let backend generate it
       if (isNew) {
-        item.id = `${type}-${Date.now()}`;
+        delete item.id;
       }
 
       const response = await fetch(
@@ -160,8 +160,14 @@ const MediaManagement = () => {
       );
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.detail || 'Failed to save');
+        let errorMessage = 'Failed to save';
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.detail || errorData.message || errorMessage;
+        } catch (e) {
+          errorMessage = `Server error: ${response.status} ${response.statusText}`;
+        }
+        throw new Error(errorMessage);
       }
 
       toast({
