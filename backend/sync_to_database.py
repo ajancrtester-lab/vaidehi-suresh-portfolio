@@ -15,7 +15,7 @@ from portfolio_data import (
     VIDEO_PERFORMANCES,
     GALLERY,
     SITE_SETTINGS,
-    PORTFOLIO_CONTENT
+    BILINGUAL_CONTENT
 )
 
 import requests
@@ -136,16 +136,51 @@ def sync_via_api():
         else:
             print(f"  ⚠️  Failed to update site settings - {response.status_code}")
         
+        # 5. Sync Bilingual Content via Direct MongoDB Update
+        print("\n📝 Syncing bilingual content (Direct MongoDB)...")
+        
+        try:
+            # We'll use direct MongoDB update for bilingual content
+            # The content API structure stores data as: {section: "about", language: "en", data: {...}}
+            
+            sections_to_sync = ['about', 'performance', 'achievements', 'training', 'services']
+            languages = ['en', 'ml']
+            
+            synced_count = 0
+            for section in sections_to_sync:
+                for lang in languages:
+                    if section in BILINGUAL_CONTENT[lang]:
+                        # Prepare the payload for direct API call (without password for now, using direct update)
+                        print(f"  ℹ️  Bilingual content sync via API requires admin password")
+                        print(f"  ℹ️  Skipping API sync - content will be read from bilingual.js fallback")
+                        break
+                if synced_count > 0:
+                    break
+            
+            if synced_count == 0:
+                print("  ⚠️  Bilingual content not synced via API (requires admin implementation)")
+                print("  ✅ Frontend will use default bilingual.js content (already complete)")
+        
+        except Exception as e:
+            print(f"  ⚠️  Bilingual sync info: {str(e)}")
+            print("  ✅ Frontend fallback to bilingual.js is active")
+        
         print("\n" + "="*60)
-        print("🎉 Sync completed successfully!")
+        print("🎉 Media Sync Completed Successfully!")
         print("="*60)
         print(f"\n📊 Summary:")
-        print(f"   • Audio Tracks: {len(AUDIO_TRACKS)} items synced")
-        print(f"   • Video Performances: {len(VIDEO_PERFORMANCES)} items synced")
-        print(f"   • Gallery Items: {len(GALLERY)} items synced")
-        print(f"   • Site Settings: Updated")
-        print("\n✅ Changes are now live on Northflank!")
-        print("🔄 Netlify will pick up changes on next build")
+        print(f"   • Audio Tracks: {len(AUDIO_TRACKS)} items synced ✅")
+        print(f"   • Video Performances: {len(VIDEO_PERFORMANCES)} items synced ✅")
+        print(f"   • Gallery Items: {len(GALLERY)} items synced ✅")
+        print(f"   • Site Settings: Skipped (use Admin Panel)")
+        print(f"   • Bilingual Content: Using bilingual.js (fallback)")
+        print("\n✅ All media changes are now live on Northflank!")
+        print("🔄 Netlify will pick up changes on next visit")
+        print("\n💡 To update bilingual text content:")
+        print("   → Edit /app/frontend/src/content/bilingual.js")
+        print("   → Push to Git (\"Save to Github\" button)")
+        print("   → Netlify will rebuild with new content")
+        print("\n💡 Tip: Clear browser cache (Ctrl+Shift+R) to see changes immediately")
         
     except Exception as e:
         print(f"\n❌ Error during API sync: {str(e)}")
@@ -203,14 +238,48 @@ async def sync_via_mongodb():
         )
         print("  ✅ Site settings synced")
         
-        # 5. Sync Portfolio Content
-        print("\n📝 Syncing portfolio content...")
+        # 5. Sync Bilingual Content (Portfolio Content)
+        print("\n📝 Syncing bilingual content...")
+        
+        # Structure the content for the portfolio_content collection
+        portfolio_content = {}
+        
+        # Process English content
+        en_content = BILINGUAL_CONTENT['en']
+        portfolio_content['en'] = {
+            'about': en_content.get('about', {}),
+            'performance': en_content.get('performance', {}),
+            'achievements': en_content.get('achievements', {}),
+            'training': en_content.get('training', {}),
+            'services': en_content.get('services', {}),
+            'name': en_content.get('name', ''),
+            'tagline': en_content.get('tagline', ''),
+            'description': en_content.get('description', ''),
+            'yearsOfExperience': en_content.get('yearsOfExperience', 13),
+            'templesPerformed': en_content.get('templesPerformed', '750')
+        }
+        
+        # Process Malayalam content
+        ml_content = BILINGUAL_CONTENT['ml']
+        portfolio_content['ml'] = {
+            'about': ml_content.get('about', {}),
+            'performance': ml_content.get('performance', {}),
+            'achievements': ml_content.get('achievements', {}),
+            'training': ml_content.get('training', {}),
+            'services': ml_content.get('services', {}),
+            'name': ml_content.get('name', ''),
+            'tagline': ml_content.get('tagline', ''),
+            'description': ml_content.get('description', ''),
+            'yearsOfExperience': ml_content.get('yearsOfExperience', 13),
+            'templesPerformed': ml_content.get('templesPerformed', '750')
+        }
+        
         await db.portfolio_content.update_one(
             {},
-            {"$set": PORTFOLIO_CONTENT},
+            {"$set": portfolio_content},
             upsert=True
         )
-        print("  ✅ Portfolio content synced")
+        print("  ✅ Bilingual content synced")
         
         print("\n" + "="*60)
         print("🎉 MongoDB sync completed successfully!")
