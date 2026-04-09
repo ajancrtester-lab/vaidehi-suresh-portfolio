@@ -63,7 +63,7 @@ export const content = {
     achievements: {
       title: "Achievements & Recognition",
       subtitle: "Honors in Preserving Traditional Temple Music",
-      introParagraph: "Award-winning Sopana Sangeetham artist Vaidehi Suresh has been recognized by Kerala's cultural institutions for excellence in traditional temple music. Her performances at prestigious venues like Guruvayur Temple, Sabarimala, and Thrissur Pooram have earned critical acclaim. She continues to preserve and promote the authentic tradition of Kerala temple music through performances and teaching.",
+      introParagraph: "Award-winning Sopana Sangeetham artist Vaidehi Suresh has been recognized by Kerala's cultural institutions for excellence in traditional temple music. Her performances at prestigious venues like Guruvayur Temple, Ettumanoor, and Ambalappuzha have earned critical acclaim. She continues to preserve and promote the authentic tradition of Kerala temple music through performances and teaching.",
       items: [
         {
           year: "2023",
@@ -83,7 +83,7 @@ export const content = {
     training: {
       title: "Training & Lineage",
       subtitle: "A Rich Heritage of Musical Education",
-      introParagraph: "Trained in authentic Sopana Sangeetham traditions, Vaidehi Suresh represents the rich lineage of Kerala temple music. Her education at prestigious institutions like Kerala Sangeetha Nataka Akademi and training under legendary gurus including Padmashri P. S. Narayanaswamy ensures the preservation of authentic temple music traditions. She combines classical Carnatic training with traditional Kerala temple music techniques, maintaining the purity and devotional essence of Sopana Sangeetham.",
+      introParagraph: "Trained in authentic Sopana Sangeetham traditions, Vaidehi Suresh represents the rich lineage of Kerala temple music. Her education with prestigious Artists, training under legendary gurus including Shri. Eloor biju ensures the preservation of authentic temple music traditions. She combines classical Carnatic training with traditional Kerala temple music techniques, maintaining the purity and devotional essence of Sopana Sangeetham.",
       formalEducation: "Formal Education",
       musicEducation: "Music Education",
       gurusTitle: "Gurus & Mentors",
