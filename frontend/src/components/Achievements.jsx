@@ -128,11 +128,8 @@ const Achievements = () => {
           transition={{ delay: 2 }}
           className="mt-16 text-center"
         >
-          <p className="text-gray-500 text-sm max-w-4xl mx-auto leading-relaxed">
-            <strong className="text-[#d4af37]">Award-winning Sopana Sangeetham artist</strong> Vaidehi Suresh has been recognized 
-            by Kerala's cultural institutions for excellence in traditional temple music. Her performances at prestigious venues like 
-            Guruvayur Temple, Sabarimala, and Thrissur Pooram have earned critical acclaim. She continues to preserve and promote 
-            the authentic tradition of Kerala temple music through performances and teaching.
+          <p className={`text-gray-300 text-base max-w-4xl mx-auto leading-relaxed ${language === 'ml' ? 'malayalam-text' : ''}`}>
+            {t.achievements.introParagraph}
           </p>
         </motion.div>
       </div>

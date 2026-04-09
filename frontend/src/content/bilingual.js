@@ -63,6 +63,7 @@ export const content = {
     achievements: {
       title: "Achievements & Recognition",
       subtitle: "Honors in Preserving Traditional Temple Music",
+      introParagraph: "Award-winning Sopana Sangeetham artist Vaidehi Suresh has been recognized by Kerala's cultural institutions for excellence in traditional temple music. Her performances at prestigious venues like Guruvayur Temple, Sabarimala, and Thrissur Pooram have earned critical acclaim. She continues to preserve and promote the authentic tradition of Kerala temple music through performances and teaching.",
       items: [
         {
           year: "2023",
@@ -82,6 +83,7 @@ export const content = {
     training: {
       title: "Training & Lineage",
       subtitle: "A Rich Heritage of Musical Education",
+      introParagraph: "Trained in authentic Sopana Sangeetham traditions, Vaidehi Suresh represents the rich lineage of Kerala temple music. Her education at prestigious institutions like Kerala Sangeetha Nataka Akademi and training under legendary gurus including Padmashri P. S. Narayanaswamy ensures the preservation of authentic temple music traditions. She combines classical Carnatic training with traditional Kerala temple music techniques, maintaining the purity and devotional essence of Sopana Sangeetham.",
       formalEducation: "Formal Education",
       musicEducation: "Music Education",
       gurusTitle: "Gurus & Mentors",
@@ -286,6 +288,7 @@ export const content = {
     achievements: {
       title: "നേട്ടങ്ങളും അംഗീകാരങ്ങളും",
       subtitle: "പരമ്പരാഗത ക്ഷേത്ര സംഗീതം സംരക്ഷിക്കുന്നതിനുള്ള ബഹുമതികൾ",
+      introParagraph: "അവാർഡ് നേടിയ സോപാന സംഗീത കലാകാരി വൈദേഹി സുരേഷിനെ പരമ്പരാഗത ക്ഷേത്ര സംഗീതത്തിലെ മികവിന് കേരളത്തിലെ സാംസ്കാരിക സ്ഥാപനങ്ങൾ അംഗീകരിച്ചിട്ടുണ്ട്. ഗുരുവായൂർ ക്ഷേത്രം, ശബരിമല, തൃശൂർ പൂരം തുടങ്ങിയ പ്രശസ്തമായ വേദികളിലെ അവതരണങ്ങൾ നിരൂപക പ്രശംസ നേടിയിട്ടുണ്ട്. അവതരണത്തിലൂടെയും അധ്യാപനത്തിലൂടെയും കേരള ക്ഷേത്ര സംഗീതത്തിന്റെ ആധികാരിക പാരമ്പര്യം സംരക്ഷിക്കുകയും പ്രോത്സാഹിപ്പിക്കുകയും ചെയ്യുന്നത് അവർ തുടരുന്നു.",
       items: [
         {
           year: "2023",
@@ -305,6 +308,7 @@ export const content = {
     training: {
       title: "പരിശീലനവും പാരമ്പര്യവും",
       subtitle: "സംഗീത വിദ്യാഭ്യാസത്തിന്റെ സമ്പന്നമായ പൈതൃകം",
+      introParagraph: "ആധികാരിക സോപാന സംഗീത പാരമ്പര്യത്തിൽ പരിശീലനം നേടിയ വൈദേഹി സുരേഷ് കേരള ക്ഷേത്ര സംഗീതത്തിന്റെ സമ്പന്നമായ വംശപരമ്പരയെ പ്രതിനിധീകരിക്കുന്നു. കേരള സംഗീത നാടക അക്കാദമി പോലുള്ള പ്രശസ്ത സ്ഥാപനങ്ങളിലെ വിദ്യാഭ്യാസവും പത്മശ്രീ പി.എസ്. നാരായണസ്വാമി ഉൾപ്പെടെയുള്ള ഇതിഹാസ ഗുരുക്കന്മാരുടെ കീഴിലുള്ള പരിശീലനവും ആധികാരിക ക്ഷേത്ര സംഗീത പാരമ്പര്യങ്ങളുടെ സംരക്ഷണം ഉറപ്പാക്കുന്നു. സോപാന സംഗീതത്തിന്റെ ശുദ്ധതയും ഭക്തിപരമായ സാരാംശവും നിലനിർത്തിക്കൊണ്ട് പരമ്പരാഗത കേരള ക്ഷേത്ര സംഗീത സാങ്കേതികതകളുമായി ശാസ്ത്രീയ കർണാടക പരിശീലനം അവർ സംയോജിപ്പിക്കുന്നു.",
       formalEducation: "ഔപചാരിക വിദ്യാഭ്യാസം",
       musicEducation: "സംഗീത വിദ്യാഭ്യാസം",
       gurusTitle: "ഗുരുക്കന്മാരും മാർഗദർശകരും",

@@ -152,12 +152,8 @@ const Training = () => {
           transition={{ delay: 2 }}
           className="mt-16 text-center"
         >
-          <p className="text-gray-500 text-sm max-w-4xl mx-auto leading-relaxed">
-            <strong className="text-[#d4af37]">Trained in authentic Sopana Sangeetham traditions</strong>, Vaidehi Suresh represents 
-            the rich lineage of Kerala temple music. Her education at prestigious institutions like Kerala Sangeetha Nataka Akademi 
-            and training under legendary gurus including Padmashri P. S. Narayanaswamy ensures the preservation of authentic temple 
-            music traditions. She combines classical Carnatic training with traditional Kerala temple music techniques, maintaining 
-            the purity and devotional essence of Sopana Sangeetham.
+          <p className={`text-gray-300 text-base max-w-4xl mx-auto leading-relaxed ${language === 'ml' ? 'malayalam-text' : ''}`}>
+            {t.training.introParagraph}
           </p>
         </motion.div>
       </div>
