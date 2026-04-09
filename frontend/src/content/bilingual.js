@@ -6,7 +6,7 @@ export const content = {
       nameLast: "Suresh",
       tagline: "Preserving the Sacred Melodies of Kerala Temples",
       badge: "KERALA TRADITION",
-      description: "A dedicated practitioner of Sopana Sangeetham with over 15 years of experience, deeply rooted in Kerala's sacred temple traditions. Having performed in nearly 750 temples, the artist continues to preserve and elevate this divine musical heritage with devotion and discipline.",
+      description: "A dedicated practitioner of Sopana Sangeetham with over 13 years of experience, deeply rooted in Kerala's sacred temple traditions. Having performed in nearly 750 temples, the artist continues to preserve and elevate this divine musical heritage with devotion and discipline.",
       cta: "Listen Now",
       scroll: "SCROLL",
       stats: {
@@ -185,7 +185,7 @@ export const content = {
     services: {
       title: "Services Offered",
       subtitle: "Bringing Sacred Temple Music to Every Occasion",
-      intro: "As a dedicated Sopana Sangeetham artist, I offer authentic Kerala temple music performances for various occasions. With 15+ years of experience, I bring the divine melodies of traditional ragas to temples, cultural events, and private ceremonies across Kerala.",
+      intro: "As a dedicated Sopana Sangeetham artist, I offer authentic Kerala temple music performances for various occasions. With 13+ years of experience, I bring the divine melodies of traditional ragas to temples, cultural events, and private ceremonies across Kerala.",
       footer: "is a renowned Sopana Sangeetham artist from Thrissur, Kerala, specializing in traditional temple music performances. With expertise in classical ragas like Madhyamavati, Mohana, and Bhairavi, she brings authentic devotional music to temples across Kerala including Guruvayur, Thrissur Pooram, and other major temple festivals. Available for bookings throughout Kerala and India.",
       items: [
         {
