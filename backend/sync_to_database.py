@@ -123,18 +123,27 @@ def sync_via_api():
             else:
                 print(f"  ⚠️  Failed: {item['title']} - {response.status_code}")
         
-        # 4. Sync Site Settings
+        # 4. Sync Site Settings via PUT API
         print("\n⚙️  Syncing site settings...")
-        response = requests.put(
-            f"{BACKEND_URL}/api/site-settings",
-            json=SITE_SETTINGS,
-            headers={"Content-Type": "application/json"}
-        )
         
-        if response.status_code == 200:
-            print("  ✅ Site settings updated")
-        else:
-            print(f"  ⚠️  Failed to update site settings - {response.status_code}")
+        try:
+            response = requests.put(
+                f"{BACKEND_URL}/api/site-settings",
+                json=SITE_SETTINGS,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if response.status_code == 200:
+                print("  ✅ Site settings updated successfully")
+                print(f"     - WhatsApp: {SITE_SETTINGS['contact']['whatsapp']}")
+                print(f"     - Email: {SITE_SETTINGS['contact']['email']}")
+                print(f"     - Location: {SITE_SETTINGS['contact']['location']}")
+            else:
+                print(f"  ⚠️  Site settings sync status: {response.status_code}")
+                print("  ℹ️  Contact info may need manual update via Admin Panel")
+        except Exception as e:
+            print(f"  ⚠️  Site settings sync info: {str(e)[:100]}")
+            print("  ℹ️  Use Admin Panel for site settings updates")
         
         # 5. Sync Bilingual Content via Direct MongoDB Update
         print("\n📝 Syncing bilingual content (Direct MongoDB)...")

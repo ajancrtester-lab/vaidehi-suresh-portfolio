@@ -15,8 +15,10 @@ export const ArtistInfoProvider = ({ children }) => {
   });
   
   const [contactInfo, setContactInfo] = useState({
-    phone: '+91 98765 43210',
-    email: 'contact@vaidehisuresh.com'
+    phone: '+91 9446909402',
+    email: 'vaidehisureshikm@gmail.com',
+    location: 'Iranikkulam, Thrissur, Kerala',
+    whatsapp: '919446909402'
   });
   
   const [loading, setLoading] = useState(false);
@@ -57,11 +59,13 @@ export const ArtistInfoProvider = ({ children }) => {
           }));
         }
         
-        if (settings.socialMedia) {
+        if (settings.contact) {
           setContactInfo(prev => ({
             ...prev,
-            phone: settings.phone || prev.phone,
-            email: settings.email || prev.email
+            phone: settings.contact.whatsapp || prev.phone,
+            email: settings.contact.email || prev.email,
+            location: settings.contact.location || prev.location,
+            whatsapp: settings.contact.whatsapp || prev.whatsapp
           }));
         }
         

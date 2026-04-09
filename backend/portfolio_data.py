@@ -246,7 +246,7 @@ SITE_SETTINGS = {
     "contact": {
         "whatsapp": "919446909402",
         "email": "vaidehisureshikm@gmail.com",
-        "location": "Iranikkulam, Thrissur, Kerala"
+        "location": "Iranikkulam,Mala,Thrissur, Kerala"
     },
     "seo": {
         "metaTitle": "Vaidehi Suresh - Sopana Sangeetham Artist | Kerala Temple Music",
