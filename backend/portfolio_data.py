@@ -1,6 +1,6 @@
 """
-Centralized Portfolio Data
-Edit this file to update ALL content on your website
+⚠️ IMPORTANT: This file contains ALL website content
+Edit this file to update ANY text, links, or media on your website
 After editing, run: python sync_to_database.py
 """
 
@@ -251,93 +251,298 @@ SITE_SETTINGS = {
 }
 
 # ============================================
-# PORTFOLIO CONTENT (Bilingual)
+# BILINGUAL CONTENT (English & Malayalam)
+# This is what appears on the website in different sections
 # ============================================
-PORTFOLIO_CONTENT = {
-    "about": {
-        "en": {
+
+BILINGUAL_CONTENT = {
+    "en": {
+        # Artist Info
+        "name": "Vaidehi Suresh",
+        "tagline": "Preserving the Sacred Melodies of Kerala Temples",
+        "description": "A dedicated practitioner of Sopana Sangeetham with over 13 years of experience, deeply rooted in Kerala's sacred temple traditions. Having performed in nearly 750 temples, the artist continues to preserve and elevate this divine musical heritage with devotion and discipline.",
+        "yearsOfExperience": 13,
+        "templesPerformed": "750",
+        
+        # About Section
+        "about": {
             "title": "The Journey",
             "subtitle": "A Life Devoted to Sacred Music",
             "quote": "Music is my prayer, the temple is my home, and devotion is my guide."
         },
-        "ml": {
-            "title": "യാത്ര",
-            "subtitle": "പവിത്ര സംഗീതത്തിനായി സമർപ്പിച്ച ജീവിതം",
-            "quote": "സംഗീതം എന്റെ പ്രാർത്ഥനയാണ്, ക്ഷേത്രം എന്റെ വീടാണ്, ഭക്തി എന്റെ വഴികാട്ടിയാണ്."
-        }
-    },
-    "achievements": {
-        "en": {
+        
+        # Performance Info
+        "performance": {
+            "title": "Notable Performances",
+            "description": "Performed at Guruvayur, Panachikkadu, Mookambika, Thiruvambady, Paramekkavu, Ettumanoor, Ambalappuzha and many more.",
+            "national": "Performed in Mumbai, Delhi, Gujarat, Kanyakumari, Tiruchirappalli",
+            "media": "Featured in Red Carpet & Shreshta Bharatham (Amrita TV)"
+        },
+        
+        # Achievements
+        "achievements": {
             "title": "Achievements & Recognition",
-            "subtitle": "Honors in Preserving Traditional Temple Music"
-        },
-        "ml": {
-            "title": "നേട്ടങ്ങളും അംഗീകാരവും",
-            "subtitle": "പരമ്പരാഗത ക്ഷേത്ര സംഗീതം സംരക്ഷിക്കുന്നതിലെ ബഹുമതികൾ"
-        }
-    },
-    "training": {
-        "en": {
-            "title": "Training & Lineage",
-            "subtitle": "A Rich Heritage of Musical Education",
-            "gurusTitle": "Gurus & Mentors"
-        },
-        "ml": {
-            "title": "പരിശീലനവും വംശപരമ്പരയും",
-            "subtitle": "സംഗീത വിദ്യാഭ്യാസത്തിന്റെ സമ്പന്നമായ പാരമ്പര്യം",
-            "gurusTitle": "ഗുരുക്കന്മാരും മാർഗദർശകരും"
-        }
-    },
-    "services": {
-        "en": {
-            "title": "Services",
-            "subtitle": "Bringing Sacred Music to Your Events",
+            "subtitle": "Honors in Preserving Traditional Temple Music",
             "items": [
                 {
-                    "title": "Temple Performances",
-                    "description": "Traditional Sopana Sangeetham performances for temple festivals and rituals",
-                    "icon": "temple"
+                    "year": "2023",
+                    "title": "Sopana Sarangi Award",
+                    "description": "Honored by Kollam Kuruveli Family Trust for outstanding contribution to preserving and promoting Sopana Sangeetham and traditional Kerala temple music."
+                }
+            ],
+            "milestones": {
+                "temples": "Temples Performed",
+                "performances": "Performances",
+                "years": "Years Experience",
+                "ragas": "Ragas Mastered"
+            }
+        },
+        
+        # Training & Education
+        "training": {
+            "title": "Training & Lineage",
+            "subtitle": "A Rich Heritage of Musical Education",
+            "gurusTitle": "Gurus & Mentors",
+            
+            "education": [
+                {
+                    "title": "BA in Malayalam",
+                    "institution": "University",
+                    "description": "Bachelor's degree in Malayalam language and literature, providing deep understanding of Kerala's cultural heritage."
                 },
                 {
-                    "title": "Cultural Events",
-                    "description": "Authentic Kerala music performances for cultural programs and festivals",
-                    "icon": "event"
+                    "title": "BEd (Bachelor of Education)",
+                    "institution": "Education College",
+                    "description": "Specialized training in education methodology and pedagogy."
                 },
                 {
-                    "title": "Music Training",
-                    "description": "Teaching traditional Sopana Sangeetham and devotional music to dedicated students",
-                    "icon": "teach"
+                    "title": "Post Graduation in Malayalam (Pursuing)",
+                    "institution": "University",
+                    "description": "Currently pursuing advanced studies in Malayalam literature and culture."
+                }
+            ],
+            
+            "gurus": [
+                {
+                    "name": "Eloor Biju",
+                    "title": "Sopana Sangeetham & Astapathi",
+                    "description": "Trained under this renowned maestro in traditional temple music and the devotional compositions of Astapathi.",
+                    "specialization": "Sopana Sangeetham & Devotional Music"
                 },
                 {
-                    "title": "Wedding Ceremonies",
-                    "description": "Sacred music performances for wedding ceremonies and family celebrations",
-                    "icon": "wedding"
+                    "name": "Annamanada Baburaj",
+                    "title": "Carnatic Music",
+                    "description": "Received comprehensive training in Carnatic vocal techniques and classical ragas.",
+                    "specialization": "Carnatic Vocals & Classical Technique"
+                },
+                {
+                    "name": "Reju Narayanan",
+                    "title": "Carnatic Music",
+                    "description": "Advanced training in Carnatic music, enriching the classical foundation.",
+                    "specialization": "Advanced Carnatic Music"
+                },
+                {
+                    "name": "Kuzhur Vijayan Marar",
+                    "title": "Idakka",
+                    "description": "Mastered the traditional Kerala temple percussion instrument under this expert.",
+                    "specialization": "Temple Percussion - Idakka"
+                },
+                {
+                    "name": "Kalanilayam Rajeevan",
+                    "title": "Kathakali Sangeetham",
+                    "description": "Trained in the unique musical tradition of Kathakali classical dance-drama.",
+                    "specialization": "Kathakali Music & Performance"
+                },
+                {
+                    "name": "Shri James",
+                    "title": "Piano & Basic Carnatic",
+                    "description": "Foundation training in piano and basic Carnatic music principles.",
+                    "specialization": "Piano & Carnatic Basics"
                 }
             ]
         },
-        "ml": {
-            "title": "സേവനങ്ങൾ",
-            "subtitle": "നിങ്ങളുടെ ചടങ്ങുകളിലേക്ക് പവിത്ര സംഗീതം എത്തിക്കുന്നു",
+        
+        # Services
+        "services": {
+            "title": "Services Offered",
+            "subtitle": "Bringing Sacred Temple Music to Every Occasion",
+            "intro": "As a dedicated Sopana Sangeetham artist, I offer authentic Kerala temple music performances for various occasions. With 15+ years of experience, I bring the divine melodies of traditional ragas to temples, cultural events, and private ceremonies across Kerala.",
             "items": [
                 {
-                    "title": "ക്ഷേത്ര പരിപാടികൾ",
-                    "description": "ക്ഷേത്ര ഉത്സവങ്ങൾക്കും ആചാരങ്ങൾക്കുമുള്ള പരമ്പരാഗത സോപാന സംഗീതം",
-                    "icon": "temple"
+                    "title": "Temple Ceremonies & Festivals",
+                    "description": "Authentic Sopana Sangeetham performances for temple rituals, daily poojas, and major festivals. Specializing in traditional Kerala temple music that enhances the divine atmosphere of sacred ceremonies.",
+                    "keywords": "Temple music, Kerala festivals, Sopana Sangeetham, Religious ceremonies"
                 },
                 {
-                    "title": "സാംസ്കാരിക പരിപാടികൾ",
-                    "description": "സാംസ്കാരിക പരിപാടികൾക്കും ഉത്സവങ്ങൾക്കുമുള്ള ആധികാരിക കേരള സംഗീതം",
-                    "icon": "event"
+                    "title": "Cultural Events & Concerts",
+                    "description": "Classical music concerts for cultural organizations, sangeetha sabhas, and heritage events. Presenting the rich tradition of Kerala's temple music to wider audiences with authentic renditions of classical ragas.",
+                    "keywords": "Classical concert, Cultural events, Kerala music, Traditional performance"
                 },
                 {
-                    "title": "സംഗീത പരിശീലനം",
-                    "description": "സമർപ്പിത വിദ്യാർത്ഥികൾക്ക് പരമ്പരാഗത സോപാന സംഗീതവും ഭക്തിഗാനങ്ങളും പഠിപ്പിക്കൽ",
-                    "icon": "teach"
+                    "title": "Private Performances",
+                    "description": "Intimate devotional music sessions for private functions, family ceremonies, and special occasions. Bringing the sacred melodies of temple music to your home with personalized performances.",
+                    "keywords": "Private concert, Home ceremony, Devotional music, Family event"
                 },
                 {
-                    "title": "വിവാഹ ചടങ്ങുകൾ",
-                    "description": "വിവാഹ ചടങ്ങുകൾക്കും കുടുംബ ആഘോഷങ്ങൾക്കുമുള്ള പവിത്ര സംഗീതം",
-                    "icon": "wedding"
+                    "title": "Music Workshops & Training",
+                    "description": "Conducting workshops and training sessions on Sopana Sangeetham, teaching the traditional techniques, ragas, and spiritual aspects of Kerala temple music to aspiring musicians and devotees.",
+                    "keywords": "Music training, Sopana Sangeetham lessons, Kerala music education, Classical training"
+                },
+                {
+                    "title": "Annual Temple Performances",
+                    "description": "Regular annual performances at major Kerala temples including Guruvayur, Thrissur Pooram, and other prestigious temple festivals. Maintaining the living tradition of temple music through consistent yearly engagements.",
+                    "keywords": "Guruvayur performance, Thrissur Pooram, Kerala temple music, Annual temple events"
+                },
+                {
+                    "title": "Special Occasion Music",
+                    "description": "Devotional music for weddings, housewarming ceremonies, and auspicious occasions. Traditional Sopana Sangeetham renditions that invoke blessings and create a sacred atmosphere for important life events.",
+                    "keywords": "Wedding music, Auspicious ceremony, Kerala wedding, Traditional blessing music"
+                }
+            ]
+        }
+    },
+    
+    "ml": {
+        # Artist Info
+        "name": "വൈദേഹി സുരേഷ്",
+        "tagline": "കേരള ക്ഷേത്രങ്ങളുടെ പവിത്രമായ സംഗീതം സംരക്ഷിക്കുന്നു",
+        "description": "കേരളത്തിലെ ക്ഷേത്ര സംഗീത പാരമ്പര്യത്തിൽ ആഴത്തിൽ വേരൂന്നിയ, 13 വർഷത്തിലേറെ അനുഭവമുള്ള സോപാന സംഗീത കലാകാരി. ഏകദേശം 750 ക്ഷേത്രങ്ങളിൽ അവതരണം നടത്തിയിട്ടുള്ള ഈ കലാകാരി, ഭക്തിയോടും അച്ചടക്കത്തോടും കൂടി ഈ ദിവ്യമായ സംഗീത പൈതൃകം സംരക്ഷിക്കുകയും ഉയർത്തുകയും ചെയ്യുന്നു.",
+        "yearsOfExperience": 13,
+        "templesPerformed": "750",
+        
+        # About Section
+        "about": {
+            "title": "യാത്ര",
+            "subtitle": "പവിത്ര സംഗീതത്തിനായി സമർപ്പിച്ച ജീവിതം",
+            "quote": "സംഗീതം എന്റെ പ്രാർത്ഥനയാണ്, ക്ഷേത്രം എന്റെ വീടാണ്, ഭക്തി എന്റെ വഴികാട്ടിയാണ്."
+        },
+        
+        # Performance Info  
+        "performance": {
+            "title": "പ്രധാന അവതരണങ്ങൾ",
+            "description": "ഗുരുവായൂർ, പനച്ചിക്കാട്, മൂകാംബിക, തിരുവമ്പാടി, പരമേക്കാവ്, ഏറ്റുമാനൂർ, അമ്പലപ്പുഴ എന്നിവിടങ്ങളിലും മറ്റ് നിരവധി ക്ഷേത്രങ്ങളിലും അവതരണം നടത്തി.",
+            "national": "മുംബൈ, ഡൽഹി, ഗുജറാത്ത്, കന്യാകുമാരി, തിരുച്ചിറപ്പള്ളി എന്നിവിടങ്ങളിൽ അവതരണം നടത്തി",
+            "media": "അമൃത ടിവിയിലെ റെഡ് കാർപെറ്റ്, ശ്രേഷ്ഠ ഭാരതം എന്നിവയിൽ പങ്കെടുത്തു"
+        },
+        
+        # Achievements
+        "achievements": {
+            "title": "നേട്ടങ്ങളും അംഗീകാരങ്ങളും",
+            "subtitle": "പരമ്പരാഗത ക്ഷേത്ര സംഗീതം സംരക്ഷിക്കുന്നതിനുള്ള ബഹുമതികൾ",
+            "items": [
+                {
+                    "year": "2023",
+                    "title": "സോപാന സാരംഗി അവാർഡ്",
+                    "description": "സോപാന സംഗീതവും പരമ്പരാഗത കേരള ക്ഷേത്ര സംഗീതവും സംരക്ഷിക്കുന്നതിനും പ്രോത്സാഹിപ്പിക്കുന്നതിനുമുള്ള മികച്ച സംഭാവനയ്ക്ക് കൊല്ലം കുറുവേലി ഫാമിലി ട്രസ്റ്റ് നൽകിയ ബഹുമതി."
+                }
+            ],
+            "milestones": {
+                "temples": "ക്ഷേത്രങ്ങളിൽ അവതരണം",
+                "performances": "അവതരണങ്ങൾ",
+                "years": "വർഷത്തെ അനുഭവം",
+                "ragas": "രാഗങ്ങൾ പഠിച്ചു"
+            }
+        },
+        
+        # Training & Education
+        "training": {
+            "title": "പരിശീലനവും പാരമ്പര്യവും",
+            "subtitle": "സംഗീത വിദ്യാഭ്യാസത്തിന്റെ സമ്പന്നമായ പൈതൃകം",
+            "gurusTitle": "ഗുരുക്കന്മാരും മാർഗദർശകരും",
+            
+            "education": [
+                {
+                    "title": "മലയാളത്തിൽ ബി.എ",
+                    "institution": "സർവകലാശാല",
+                    "description": "കേരളത്തിന്റെ സാംസ്കാരിക പൈതൃകത്തെക്കുറിച്ച് ആഴത്തിലുള്ള ധാരണ നൽകുന്ന മലയാള ഭാഷയിലും സാഹിത്യത്തിലും ബാച്ചിലർ ബിരുദം."
+                },
+                {
+                    "title": "ബി.എഡ് (വിദ്യാഭ്യാസ ബിരുദം)",
+                    "institution": "വിദ്യാഭ്യാസ കോളേജ്",
+                    "description": "വിദ്യാഭ്യാസ രീതിശാസ്ത്രത്തിലും അധ്യാപനത്തിലും പ്രത്യേക പരിശീലനം."
+                },
+                {
+                    "title": "മലയാളത്തിൽ പി.ജി (തുടരുന്നു)",
+                    "institution": "സർവകലാശാല",
+                    "description": "മലയാള സാഹിത്യത്തിലും സംസ്കാരത്തിലും നിലവിൽ ഉന്നത പഠനം തുടരുന്നു."
+                }
+            ],
+            
+            "gurus": [
+                {
+                    "name": "ഏലൂർ ബിജു",
+                    "title": "സോപാന സംഗീതം & അഷ്ടപതി",
+                    "description": "പരമ്പരാഗത ക്ഷേത്ര സംഗീതത്തിലും അഷ്ടപതിയുടെ ഭക്തിഗാനങ്ങളിലും ഈ പ്രശസ്ത ഗുരുവിന്റെ കീഴിൽ പരിശീലനം നേടി.",
+                    "specialization": "സോപാന സംഗീതം & ഭക്തി സംഗീതം"
+                },
+                {
+                    "name": "അന്നമനട ബാബുരാജ്",
+                    "title": "കർണാടക സംഗീതം",
+                    "description": "കർണാടക സ്വര സാങ്കേതികതകളിലും ശാസ്ത്രീയ രാഗങ്ങളിലും സമഗ്രമായ പരിശീലനം നേടി.",
+                    "specialization": "കർണാടക സംഗീതം & ശാസ്ത്രീയ സാങ്കേതികത"
+                },
+                {
+                    "name": "റെജു നാരായണൻ",
+                    "title": "കർണാടക സംഗീതം",
+                    "description": "കർണാടക സംഗീതത്തിൽ ഉന്നത പരിശീലനം, ശാസ്ത്രീയ അടിത്തറ സമ്പുഷ്ടമാക്കുന്നു.",
+                    "specialization": "ഉന്നത കർണാടക സംഗീതം"
+                },
+                {
+                    "name": "കുഴൂർ വിജയൻ മറാർ",
+                    "title": "ഇടയ്ക്ക",
+                    "description": "ഈ വിദഗ്ധന്റെ കീഴിൽ പരമ്പരാഗത കേരള ക്ഷേത്ര താള വാദ്യമായ ഇടയ്ക്കയിൽ പ്രാവീണ്യം നേടി.",
+                    "specialization": "ക്ഷേത്ര താള വാദ്യം - ഇടയ്ക്ക"
+                },
+                {
+                    "name": "കലാനിലയം രാജീവൻ",
+                    "title": "കഥകളി സംഗീതം",
+                    "description": "കഥകളി ശാസ്ത്രീയ നൃത്തനാടകത്തിന്റെ അതുല്യമായ സംഗീത പാരമ്പര്യത്തിൽ പരിശീലനം നേടി.",
+                    "specialization": "കഥകളി സംഗീതം & അവതരണം"
+                },
+                {
+                    "name": "ശ്രീ ജെയിംസ്",
+                    "title": "പിയാനോ & അടിസ്ഥാന കർണാടകം",
+                    "description": "പിയാനോയിലും അടിസ്ഥാന കർണാടക സംഗീത തത്ത്വങ്ങളിലും അടിസ്ഥാന പരിശീലനം.",
+                    "specialization": "പിയാനോ & കർണാടക അടിസ്ഥാനങ്ങൾ"
+                }
+            ]
+        },
+        
+        # Services
+        "services": {
+            "title": "നൽകുന്ന സേവനങ്ങൾ",
+            "subtitle": "എല്ലാ അവസരങ്ങളിലേക്കും പവിത്രമായ ക്ഷേത്ര സംഗീതം എത്തിക്കുന്നു",
+            "intro": "സമർപ്പിത സോപാന സംഗീത കലാകാരി എന്ന നിലയിൽ, വിവിധ അവസരങ്ങളിൽ ആധികാരിക കേരള ക്ഷേത്ര സംഗീത അവതരണങ്ങൾ ഞാൻ നൽകുന്നു. 15+ വർഷത്തെ അനുഭവത്തോടെ, കേരളത്തിലുടനീളമുള്ള ക്ഷേത്രങ്ങളിലേക്കും സാംസ്കാരിക പരിപാടികളിലേക്കും സ്വകാര്യ ചടങ്ങുകളിലേക്കും പരമ്പരാഗത രാഗങ്ങളുടെ ദിവ്യമായ സ്വരങ്ങൾ ഞാൻ കൊണ്ടുവരുന്നു.",
+            "items": [
+                {
+                    "title": "ക്ഷേത്ര ചടങ്ങുകളും ഉത്സവങ്ങളും",
+                    "description": "ക്ഷേത്ര ആചാരങ്ങൾ, ദിവസേന പൂജകൾ, പ്രധാന ഉത്സവങ്ങൾ എന്നിവയ്ക്കായി ആധികാരിക സോപാന സംഗീത അവതരണങ്ങൾ. പവിത്രമായ ചടങ്ങുകളുടെ ദിവ്യ അന്തരീക്ഷം വർദ്ധിപ്പിക്കുന്ന പരമ്പരാഗത കേരള ക്ഷേത്ര സംഗീതത്തിൽ വൈദഗ്ധ്യം.",
+                    "keywords": "ക്ഷേത്ര സംഗീതം, കേരള ഉത്സവങ്ങൾ, സോപാന സംഗീതം, മത ചടങ്ങുകൾ"
+                },
+                {
+                    "title": "സാംസ്കാരിക പരിപാടികളും സംഗീതോത്സവങ്ങളും",
+                    "description": "സാംസ്കാരിക സംഘടനകൾ, സംഗീത സഭകൾ, പൈതൃക പരിപാടികൾ എന്നിവയ്ക്കായുള്ള ശാസ്ത്രീയ സംഗീത കച്ചേരികൾ. ശാസ്ത്രീയ രാഗങ്ങളുടെ ആധികാരിക അവതരണങ്ങളോടെ കേരളത്തിന്റെ ക്ഷേത്ര സംഗീതത്തിന്റെ സമ്പന്നമായ പാരമ്പര്യം വിശാലമായ പ്രേക്ഷകർക്ക് അവതരിപ്പിക്കുന്നു.",
+                    "keywords": "ശാസ്ത്രീയ കച്ചേരി, സാംസ്കാരിക പരിപാടികൾ, കേരള സംഗീതം, പരമ്പരാഗത അവതരണം"
+                },
+                {
+                    "title": "സ്വകാര്യ അവതരണങ്ങൾ",
+                    "description": "സ്വകാര്യ പരിപാടികൾ, കുടുംബ ചടങ്ങുകൾ, പ്രത്യേക അവസരങ്ങൾ എന്നിവയ്ക്കായി അടുപ്പമുള്ള ഭക്തി സംഗീത സെഷനുകൾ. വ്യക്തിഗത അവതരണങ്ങളോടെ നിങ്ങളുടെ വീട്ടിലേക്ക് ക്ഷേത്ര സംഗീതത്തിന്റെ പവിത്രമായ സ്വരങ്ങൾ കൊണ്ടുവരുന്നു.",
+                    "keywords": "സ്വകാര്യ കച്ചേരി, ഗൃഹ ചടങ്ങ്, ഭക്തി സംഗീതം, കുടുംബ പരിപാടി"
+                },
+                {
+                    "title": "സംഗീത ശില്പശാലകളും പരിശീലനവും",
+                    "description": "സോപാന സംഗീതത്തെക്കുറിച്ചുള്ള ശില്പശാലകളും പരിശീലന സെഷനുകളും നടത്തുന്നു, അഭിലാഷികളായ സംഗീതജ്ഞർക്കും ഭക്തർക്കും കേരള ക്ഷേത്ര സംഗീതത്തിന്റെ പരമ്പരാഗത സാങ്കേതികതകളും രാഗങ്ങളും ആത്മീയ വശങ്ങളും പഠിപ്പിക്കുന്നു.",
+                    "keywords": "സംഗീത പരിശീലനം, സോപാന സംഗീത പാഠങ്ങൾ, കേരള സംഗീത വിദ്യാഭ്യാസം, ശാസ്ത്രീയ പരിശീലനം"
+                },
+                {
+                    "title": "വാർഷിക ക്ഷേത്ര അവതരണങ്ങൾ",
+                    "description": "ഗുരുവായൂർ, തൃശൂർ പൂരം എന്നിവ ഉൾപ്പെടെയുള്ള പ്രധാന കേരള ക്ഷേത്രങ്ങളിൽ പതിവ് വാർഷിക അവതരണങ്ങൾ. സ്ഥിരമായ വാർഷിക ഇടപെടലുകളിലൂടെ ക്ഷേത്ര സംഗീതത്തിന്റെ ജീവനുള്ള പാരമ്പര്യം നിലനിർത്തുന്നു.",
+                    "keywords": "ഗുരുവായൂർ അവതരണം, തൃശൂർ പൂരം, കേരള ക്ഷേത്ര സംഗീതം, വാർഷിക ക്ഷേത്ര പരിപാടികൾ"
+                },
+                {
+                    "title": "പ്രത്യേക അവസര സംഗീതം",
+                    "description": "വിവാഹങ്ങൾ, ഗൃഹപ്രവേശ ചടങ്ങുകൾ, ശുഭകരമായ അവസരങ്ങൾ എന്നിവയ്ക്കായി ഭക്തി സംഗീതം. പ്രധാന ജീവിത സംഭവങ്ങൾക്ക് അനുഗ്രഹങ്ങൾ വിളിച്ചുവരുത്തുകയും പവിത്രമായ അന്തരീക്ഷം സൃഷ്ടിക്കുകയും ചെയ്യുന്ന പരമ്പരാഗത സോപാന സംഗീത അവതരണങ്ങൾ.",
+                    "keywords": "വിവാഹ സംഗീതം, ശുഭകരമായ ചടങ്ങ്, കേരള വിവാഹം, പരമ്പരാഗത അനുഗ്രഹ സംഗീതം"
                 }
             ]
         }
