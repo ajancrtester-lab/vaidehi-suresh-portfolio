@@ -48,6 +48,17 @@ AUDIO_TRACKS = [
         "order": 4,
         "isActive": True
     },
+    {
+        "id": "audio-yt-5",
+        "title": "Ariyathe Ariyathe",
+        "raga": "Film song",
+        "duration": "1:07",
+        "temple": "Casual Performance",
+        "audioUrl": "https://www.instagram.com/p/DSsHe9SESNu/",
+        "order": 5,
+        "isActive": True
+    },
+
 ]
 
 # ============================================
