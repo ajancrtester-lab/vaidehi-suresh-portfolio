@@ -115,8 +115,8 @@ const GalleryManager = ({ onUpdate }) => {
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between mb-4">
+    <div>
+      <div className="flex items-center justify-between mb-6">
         <h3 className="text-xl font-semibold text-[#d4af37]">
           Uploaded Images ({images.length})
         </h3>
@@ -128,142 +128,161 @@ const GalleryManager = ({ onUpdate }) => {
         </button>
       </div>
 
-      <AnimatePresence mode="popLayout">
-        {images
-          .sort((a, b) => a.order - b.order)
-          .map((image) => (
-            <motion.div
-              key={image.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, x: -100 }}
-              className="bg-zinc-800 rounded-lg p-4 border border-zinc-700 hover:border-[#d4af37]/30 transition-colors"
-            >
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <AnimatePresence mode="popLayout">
+          {images
+            .sort((a, b) => a.order - b.order)
+            .map((image) => (
+              <motion.div
+                key={image.id}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                className="bg-zinc-800 rounded-lg overflow-hidden border border-zinc-700 hover:border-[#d4af37]/30 transition-all hover:shadow-xl hover:shadow-[#d4af37]/10"
+              >
               {editingId === image.id ? (
                 // Edit Mode
-                <div className="space-y-4">
-                  <div className="flex gap-4">
-                    {/* Thumbnail */}
+                <div className="p-4 space-y-4">
+                  {/* Thumbnail */}
+                  <div className="relative w-full aspect-video">
                     <img
                       src={image.thumbnail || image.url}
                       alt={image.title}
-                      className="w-32 h-32 object-cover rounded-lg"
+                      className="w-full h-full object-cover rounded-lg"
                     />
+                    <div className="absolute top-2 right-2 w-8 h-8 rounded-full bg-[#d4af37] text-black flex items-center justify-center font-bold text-sm shadow-lg">
+                      {editForm.order}
+                    </div>
+                  </div>
 
-                    {/* Edit Form */}
-                    <div className="flex-1 space-y-3">
-                      <div>
-                        <label className="block text-sm text-gray-400 mb-1">Title</label>
-                        <input
-                          type="text"
-                          value={editForm.title}
-                          onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
-                          className="w-full px-3 py-2 bg-zinc-900 border border-zinc-700 rounded text-white focus:outline-none focus:border-[#d4af37]"
-                        />
-                      </div>
+                  {/* Edit Form */}
+                  <div className="space-y-3">
+                    <div>
+                      <label className="block text-sm text-gray-400 mb-1">Title</label>
+                      <input
+                        type="text"
+                        value={editForm.title}
+                        onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
+                        className="w-full px-3 py-2 bg-zinc-900 border border-zinc-700 rounded text-white focus:outline-none focus:border-[#d4af37] text-sm"
+                      />
+                    </div>
 
-                      <div>
-                        <label className="block text-sm text-gray-400 mb-1">Caption</label>
-                        <textarea
-                          value={editForm.caption}
-                          onChange={(e) => setEditForm({ ...editForm, caption: e.target.value })}
-                          rows="2"
-                          className="w-full px-3 py-2 bg-zinc-900 border border-zinc-700 rounded text-white focus:outline-none focus:border-[#d4af37] resize-none"
-                        />
-                      </div>
+                    <div>
+                      <label className="block text-sm text-gray-400 mb-1">Caption</label>
+                      <textarea
+                        value={editForm.caption}
+                        onChange={(e) => setEditForm({ ...editForm, caption: e.target.value })}
+                        rows="2"
+                        className="w-full px-3 py-2 bg-zinc-900 border border-zinc-700 rounded text-white focus:outline-none focus:border-[#d4af37] resize-none text-sm"
+                      />
+                    </div>
 
-                      <div>
-                        <label className="block text-sm text-gray-400 mb-1">Display Order</label>
-                        <input
-                          type="number"
-                          value={editForm.order}
-                          onChange={(e) => setEditForm({ ...editForm, order: parseInt(e.target.value) || 0 })}
-                          className="w-32 px-3 py-2 bg-zinc-900 border border-zinc-700 rounded text-white focus:outline-none focus:border-[#d4af37]"
-                          min="0"
-                        />
-                        <p className="text-xs text-gray-500 mt-1">
-                          Lower numbers appear first in carousel
-                        </p>
-                      </div>
+                    <div>
+                      <label className="block text-sm text-gray-400 mb-1">Display Order</label>
+                      <input
+                        type="number"
+                        value={editForm.order}
+                        onChange={(e) => setEditForm({ ...editForm, order: parseInt(e.target.value) || 0 })}
+                        className="w-full px-3 py-2 bg-zinc-900 border border-zinc-700 rounded text-white focus:outline-none focus:border-[#d4af37] text-sm"
+                        min="0"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">
+                        Lower numbers appear first
+                      </p>
                     </div>
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="flex gap-2 justify-end">
+                  <div className="flex gap-2">
                     <button
                       onClick={cancelEdit}
-                      className="px-4 py-2 bg-zinc-700 text-white rounded hover:bg-zinc-600 transition-colors flex items-center gap-2"
+                      className="flex-1 px-3 py-2 bg-zinc-700 text-white rounded hover:bg-zinc-600 transition-colors flex items-center justify-center gap-2 text-sm"
                     >
                       <X className="w-4 h-4" />
                       Cancel
                     </button>
                     <button
                       onClick={() => saveEdit(image.id)}
-                      className="px-4 py-2 bg-[#d4af37] text-black rounded hover:bg-[#c19b2f] transition-colors flex items-center gap-2"
+                      className="flex-1 px-3 py-2 bg-[#d4af37] text-black rounded hover:bg-[#c19b2f] transition-colors flex items-center justify-center gap-2 text-sm font-semibold"
                     >
                       <Check className="w-4 h-4" />
-                      Save Changes
+                      Save
                     </button>
                   </div>
                 </div>
               ) : (
-                // View Mode
-                <div className="flex items-center gap-4">
-                  {/* Drag Handle */}
-                  <div className="text-gray-500 cursor-grab active:cursor-grabbing">
-                    <GripVertical className="w-5 h-5" />
+                // View Mode - Vertical Card
+                <div>
+                  {/* Image with Order Badge */}
+                  <div className="relative w-full aspect-video">
+                    <img
+                      src={image.thumbnail || image.url}
+                      alt={image.title}
+                      className="w-full h-full object-cover"
+                    />
+                    {/* Order Badge */}
+                    <div className="absolute top-3 left-3 w-10 h-10 rounded-full bg-[#d4af37] text-black flex items-center justify-center font-bold text-lg shadow-lg">
+                      {image.order}
+                    </div>
+                    {/* Status Badge */}
+                    <div className="absolute top-3 right-3">
+                      <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                        image.isActive 
+                          ? 'bg-green-500/20 text-green-400 border border-green-500/30' 
+                          : 'bg-gray-500/20 text-gray-400 border border-gray-500/30'
+                      }`}>
+                        {image.isActive ? '✓ Active' : '✗ Inactive'}
+                      </span>
+                    </div>
                   </div>
 
-                  {/* Order Badge */}
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#d4af37]/20 text-[#d4af37] flex items-center justify-center font-bold text-sm">
-                    {image.order}
-                  </div>
+                  {/* Card Content */}
+                  <div className="p-4 space-y-3">
+                    {/* Title */}
+                    <h4 className="text-white font-semibold text-lg line-clamp-1">
+                      {image.title}
+                    </h4>
 
-                  {/* Thumbnail */}
-                  <img
-                    src={image.thumbnail || image.url}
-                    alt={image.title}
-                    className="w-24 h-24 object-cover rounded-lg"
-                  />
-
-                  {/* Info */}
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-white font-semibold truncate">{image.title}</h4>
+                    {/* Caption */}
                     {image.caption && (
-                      <p className="text-gray-400 text-sm mt-1 line-clamp-2">{image.caption}</p>
+                      <p className="text-gray-400 text-sm line-clamp-2">
+                        {image.caption}
+                      </p>
                     )}
-                    <p className="text-gray-500 text-xs mt-1">
-                      Status: {image.isActive ? '✓ Active' : '✗ Inactive'}
-                    </p>
-                  </div>
 
-                  {/* Actions */}
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => startEdit(image)}
-                      className="p-2 text-gray-400 hover:text-[#d4af37] hover:bg-zinc-700 rounded transition-colors"
-                      title="Edit"
-                    >
-                      <Edit2 className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => deleteImage(image.id)}
-                      disabled={deleting === image.id}
-                      className="p-2 text-gray-400 hover:text-red-400 hover:bg-zinc-700 rounded transition-colors disabled:opacity-50"
-                      title="Delete"
-                    >
-                      {deleting === image.id ? (
-                        <div className="w-4 h-4 border-2 border-red-400/30 border-t-red-400 rounded-full animate-spin" />
-                      ) : (
-                        <Trash2 className="w-4 h-4" />
-                      )}
-                    </button>
+                    {/* Action Buttons */}
+                    <div className="flex gap-2 pt-2">
+                      <button
+                        onClick={() => startEdit(image)}
+                        className="flex-1 px-3 py-2 bg-zinc-700 text-gray-300 hover:text-[#d4af37] hover:bg-zinc-600 rounded transition-colors flex items-center justify-center gap-2 text-sm"
+                        title="Edit"
+                      >
+                        <Edit2 className="w-4 h-4" />
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => deleteImage(image.id)}
+                        disabled={deleting === image.id}
+                        className="flex-1 px-3 py-2 bg-zinc-700 text-gray-300 hover:text-red-400 hover:bg-zinc-600 rounded transition-colors disabled:opacity-50 flex items-center justify-center gap-2 text-sm"
+                        title="Delete"
+                      >
+                        {deleting === image.id ? (
+                          <div className="w-4 h-4 border-2 border-red-400/30 border-t-red-400 rounded-full animate-spin" />
+                        ) : (
+                          <>
+                            <Trash2 className="w-4 h-4" />
+                            Delete
+                          </>
+                        )}
+                      </button>
+                    </div>
                   </div>
                 </div>
               )}
-            </motion.div>
-          ))}
-      </AnimatePresence>
+              </motion.div>
+            ))}
+        </AnimatePresence>
+      </div>
     </div>
   );
 };
