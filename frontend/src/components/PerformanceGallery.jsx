@@ -182,12 +182,12 @@ const PerformanceGallery = () => {
                 >
                   {/* Dynamic container - adapts to image aspect ratio */}
                   <div className="relative flex items-center justify-center">
-                    {/* Image with natural dimensions */}
-                    <div className="relative rounded-2xl overflow-hidden border-2 border-[#d4af37]/30 shadow-2xl max-w-[700px] max-h-[500px]">
+                    {/* Image with natural dimensions - max 2500px wide × 3500px tall */}
+                    <div className="relative rounded-2xl overflow-hidden border-2 border-[#d4af37]/30 shadow-2xl max-w-[2500px] max-h-[3500px]">
                       <img
                         src={image.url}
                         alt={image.title}
-                        className="w-auto h-auto max-w-[700px] max-h-[500px] object-contain"
+                        className="w-auto h-auto max-w-[2500px] max-h-[3500px] object-contain"
                         draggable="false"
                       />
 
