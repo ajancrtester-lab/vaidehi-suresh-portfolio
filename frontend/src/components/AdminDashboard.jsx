@@ -123,6 +123,7 @@ const AdminDashboard = () => {
         <Tabs defaultValue="bookings" className="w-full">
           <TabsList className="bg-zinc-900">
             <TabsTrigger value="bookings">Bookings</TabsTrigger>
+            <TabsTrigger value="gallery">Performance Gallery</TabsTrigger>
             <TabsTrigger value="media">Media Management</TabsTrigger>
             <TabsTrigger value="content">Content Editor</TabsTrigger>
             <TabsTrigger value="settings">Site Settings</TabsTrigger>
