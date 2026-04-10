@@ -1,8 +1,14 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const PerformanceGallery = () => {
   const [images, setImages] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState(0);
+  const autoPlayRef = useRef(null);
 
   // Fetch images from backend
   useEffect(() => {
@@ -20,9 +26,85 @@ const PerformanceGallery = () => {
     fetchImages();
   }, []);
 
+  // Auto-play functionality
+  useEffect(() => {
+    if (isAutoPlaying && images.length > 0) {
+      autoPlayRef.current = setInterval(() => {
+        setCurrentIndex((prev) => (prev + 1) % images.length);
+      }, 4000);
+
+      return () => {
+        if (autoPlayRef.current) {
+          clearInterval(autoPlayRef.current);
+        }
+      };
+    }
+  }, [isAutoPlaying, images.length]);
+
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % images.length);
+    setIsAutoPlaying(false);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+    setIsAutoPlaying(false);
+  };
+
+  const goToSlide = (index) => {
+    setCurrentIndex(index);
+    setIsAutoPlaying(false);
+  };
+
+  // Drag handlers
+  const handleDragStart = (e) => {
+    setIsDragging(true);
+    const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+    setDragStart(clientX);
+  };
+
+  const handleDragEnd = (e) => {
+    if (!isDragging) return;
+
+    const clientX = e.type === 'touchend' ? e.changedTouches[0].clientX : e.clientX;
+    const diff = dragStart - clientX;
+
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
+    }
+
+    setIsDragging(false);
+  };
+
+  const handleMouseEnter = () => setIsAutoPlaying(false);
+  const handleMouseLeave = () => setIsAutoPlaying(true);
+
   if (images.length === 0) {
     return null;
   }
+
+  // Calculate visible images (center + 2 on each side)
+  const getVisibleImages = () => {
+    const visible = [];
+    const total = images.length;
+
+    for (let i = -2; i <= 2; i++) {
+      const index = (currentIndex + i + total) % total;
+      visible.push({
+        ...images[index],
+        offset: i,
+        index
+      });
+    }
+
+    return visible;
+  };
+
+  const visibleImages = getVisibleImages();
 
   return (
     <section className="relative py-32 px-6 bg-gradient-to-b from-[#0a0a0a] via-[#1a0a0a] to-[#0a0a0a] overflow-hidden">
@@ -52,81 +134,128 @@ const PerformanceGallery = () => {
           </p>
         </motion.div>
 
-        {/* Vertical Card Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <AnimatePresence mode="popLayout">
-            {images
-              .sort((a, b) => a.order - b.order)
-              .map((image, index) => (
+        {/* 3D Carousel Slider */}
+        <div
+          className="relative h-[500px] md:h-[600px] flex items-center justify-center"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onMouseDown={handleDragStart}
+          onMouseUp={handleDragEnd}
+          onTouchStart={handleDragStart}
+          onTouchEnd={handleDragEnd}
+        >
+          <AnimatePresence mode="sync">
+            {visibleImages.map((image) => {
+              const offset = image.offset;
+              const isCenter = offset === 0;
+
+              // Calculate position and transformation
+              const x = offset * 350;
+              const z = isCenter ? 0 : -200 - Math.abs(offset) * 100;
+              const rotateY = offset * 15;
+              const scale = isCenter ? 1 : 0.75 - Math.abs(offset) * 0.1;
+              const opacity = isCenter ? 1 : 0.4 + (1 - Math.abs(offset) * 0.2);
+
+              return (
                 <motion.div
                   key={image.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="group relative"
+                  className={`absolute ${isCenter ? 'cursor-grab active:cursor-grabbing' : 'cursor-pointer'}`}
+                  initial={false}
+                  animate={{
+                    x,
+                    z,
+                    rotateY,
+                    scale,
+                    opacity,
+                  }}
+                  transition={{
+                    type: 'spring',
+                    stiffness: 100,
+                    damping: 20,
+                    mass: 1
+                  }}
+                  style={{
+                    transformStyle: 'preserve-3d',
+                    perspective: 1000,
+                  }}
+                  onClick={() => !isCenter && goToSlide(image.index)}
                 >
-                  {/* Card Container */}
-                  <div className="relative bg-zinc-900/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-[#d4af37]/20 hover:border-[#d4af37]/50 transition-all duration-500 hover:shadow-2xl hover:shadow-[#d4af37]/20">
-                    {/* Image Container */}
-                    <div className="relative w-full aspect-[4/3] overflow-hidden">
-                      <motion.img
+                  <div className="relative w-[600px] h-[400px] md:w-[700px] md:h-[450px]">
+                    {/* Image container */}
+                    <div className="relative w-full h-full rounded-2xl overflow-hidden border-2 border-[#d4af37]/30 shadow-2xl">
+                      {/* Image - object-contain to fit in box */}
+                      <img
                         src={image.url}
                         alt={image.title}
                         className="w-full h-full object-contain bg-black"
-                        whileHover={{ scale: 1.05 }}
-                        transition={{ duration: 0.4 }}
+                        draggable="false"
                       />
-                      
-                      {/* Gradient Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
-                      
-                      {/* Order Badge */}
-                      <div className="absolute top-4 left-4 w-10 h-10 rounded-full bg-[#d4af37] text-black flex items-center justify-center font-bold text-lg shadow-lg">
-                        {image.order}
-                      </div>
-                    </div>
 
-                    {/* Content */}
-                    <div className="p-6 space-y-3">
-                      {/* Title */}
-                      <h3 className="font-cormorant text-2xl md:text-3xl font-bold text-[#d4af37] group-hover:text-[#e5c158] transition-colors">
-                        {image.title}
-                      </h3>
-                      
-                      {/* Caption */}
-                      {image.caption && (
-                        <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                          {image.caption}
-                        </p>
+                      {/* Gradient overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+                      {/* Title overlay (only on center image) */}
+                      {isCenter && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.2 }}
+                          className="absolute bottom-0 left-0 right-0 p-8"
+                        >
+                          <h3 className="font-cormorant text-3xl md:text-4xl font-bold text-[#d4af37] mb-2">
+                            {image.title}
+                          </h3>
+                          {image.caption && (
+                            <p className="text-gray-300 text-sm md:text-base">
+                              {image.caption}
+                            </p>
+                          )}
+                        </motion.div>
                       )}
-
-                      {/* Decorative Line */}
-                      <div className="pt-4">
-                        <div className="h-px w-16 bg-gradient-to-r from-[#d4af37] to-transparent opacity-50 group-hover:opacity-100 transition-opacity" />
-                      </div>
                     </div>
 
-                    {/* Hover Glow Effect */}
-                    <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                      <div className="absolute inset-0 rounded-2xl shadow-[0_0_60px_rgba(212,175,55,0.3)]" />
-                    </div>
+                    {/* Golden glow effect for center image */}
+                    {isCenter && (
+                      <div className="absolute inset-0 rounded-2xl shadow-[0_0_80px_rgba(212,175,55,0.3)] pointer-events-none" />
+                    )}
                   </div>
                 </motion.div>
-              ))}
+              );
+            })}
           </AnimatePresence>
+
+          {/* Navigation Buttons */}
+          <button
+            onClick={prevSlide}
+            className="absolute left-4 md:left-8 z-20 p-3 rounded-full bg-black/50 backdrop-blur-sm border border-[#d4af37]/30 text-[#d4af37] hover:bg-[#d4af37] hover:text-black transition-all duration-300 hover:scale-110"
+            aria-label="Previous slide"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+          <button
+            onClick={nextSlide}
+            className="absolute right-4 md:right-8 z-20 p-3 rounded-full bg-black/50 backdrop-blur-sm border border-[#d4af37]/30 text-[#d4af37] hover:bg-[#d4af37] hover:text-black transition-all duration-300 hover:scale-110"
+            aria-label="Next slide"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
         </div>
 
-        {/* No Images Message */}
-        {images.length === 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-20"
-          >
-            <p className="text-gray-500 text-lg">No performances to display yet</p>
-          </motion.div>
-        )}
+        {/* Dot indicators */}
+        <div className="flex justify-center gap-3 mt-12">
+          {images.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`transition-all duration-300 ${
+                index === currentIndex
+                  ? 'w-12 h-3 bg-[#d4af37] rounded-full'
+                  : 'w-3 h-3 bg-gray-600 hover:bg-gray-400 rounded-full'
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );
