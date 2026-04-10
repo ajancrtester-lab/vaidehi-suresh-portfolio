@@ -144,11 +144,11 @@ const GalleryManager = ({ onUpdate }) => {
                 // Edit Mode
                 <div className="p-4 space-y-4">
                   {/* Thumbnail */}
-                  <div className="relative w-full aspect-video">
+                  <div className="relative w-full aspect-video bg-black rounded-lg">
                     <img
                       src={image.thumbnail || image.url}
                       alt={image.title}
-                      className="w-full h-full object-cover rounded-lg"
+                      className="w-full h-full object-contain rounded-lg"
                     />
                     <div className="absolute top-2 right-2 w-8 h-8 rounded-full bg-[#d4af37] text-black flex items-center justify-center font-bold text-sm shadow-lg">
                       {editForm.order}
@@ -214,11 +214,11 @@ const GalleryManager = ({ onUpdate }) => {
                 // View Mode - Vertical Card
                 <div>
                   {/* Image with Order Badge */}
-                  <div className="relative w-full aspect-video">
+                  <div className="relative w-full aspect-video bg-black">
                     <img
                       src={image.thumbnail || image.url}
                       alt={image.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                     />
                     {/* Order Badge */}
                     <div className="absolute top-3 left-3 w-10 h-10 rounded-full bg-[#d4af37] text-black flex items-center justify-center font-bold text-lg shadow-lg">
