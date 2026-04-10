@@ -41,12 +41,12 @@ const Home = () => {
       <BackgroundMusic />
       <Hero />
       <About />
+      <PerformanceGallery />
       <Services />
       <Achievements />
       <Training />
       <AudioPlayer />
       <VideoGallery />
-      <PerformanceGallery />
       <ImageGallery />
       <Testimonials />
       <Contact />
