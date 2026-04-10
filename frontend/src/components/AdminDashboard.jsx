@@ -9,6 +9,7 @@ import MediaManagement from './MediaManagement';
 import SiteSettings from './SiteSettings';
 import ContentEditor from './ContentEditor';
 import GalleryUpload from './GalleryUpload';
+import GalleryManager from './GalleryManager';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -202,8 +203,21 @@ const AdminDashboard = () => {
                   Upload images for the 3D carousel gallery. Images are automatically resized to 1280x720.
                 </p>
               </CardHeader>
-              <CardContent>
-                <GalleryUpload onUploadSuccess={handleRefresh} />
+              <CardContent className="space-y-8">
+                {/* Upload Section */}
+                <div>
+                  <h3 className="text-lg font-semibold text-[#d4af37] mb-4">Upload New Images</h3>
+                  <GalleryUpload onUploadSuccess={handleRefresh} />
+                </div>
+
+                {/* Divider */}
+                <div className="border-t border-zinc-700 my-8"></div>
+
+                {/* Manage Existing Images */}
+                <div>
+                  <h3 className="text-lg font-semibold text-[#d4af37] mb-4">Manage Existing Images</h3>
+                  <GalleryManager onUpdate={handleRefresh} />
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
