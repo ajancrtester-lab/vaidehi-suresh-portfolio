@@ -121,7 +121,7 @@ const PerformanceGallery = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-24 md:mb-32"
         >
           <div className="inline-block mb-4">
             <div className="h-px w-24 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent" />
@@ -136,7 +136,7 @@ const PerformanceGallery = () => {
 
         {/* 3D Carousel Slider */}
         <div
-          className="relative h-[500px] md:h-[600px] flex items-center justify-center"
+          className="relative h-[350px] md:h-[450px] lg:h-[600px] flex items-center justify-center"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           onMouseDown={handleDragStart}
@@ -150,12 +150,12 @@ const PerformanceGallery = () => {
               const isCenter = offset === 0;
 
               // Calculate position and transformation
-              const x = offset * 400; // Increased spacing to prevent overlap
-              const z = isCenter ? 100 : -300 - Math.abs(offset) * 150; // Center is in front
+              const x = offset * 300; // Reduced spacing for smaller images
+              const z = isCenter ? 100 : -300 - Math.abs(offset) * 150;
               const rotateY = offset * 20;
               const scale = isCenter ? 1 : 0.7 - Math.abs(offset) * 0.1;
               const opacity = isCenter ? 1 : 0.3 + (1 - Math.abs(offset) * 0.15);
-              const zIndex = isCenter ? 50 : 10 - Math.abs(offset); // Center has highest z-index
+              const zIndex = isCenter ? 50 : 10 - Math.abs(offset);
 
               return (
                 <motion.div
@@ -182,10 +182,10 @@ const PerformanceGallery = () => {
                   }}
                   onClick={() => !isCenter && goToSlide(image.index)}
                 >
-                  {/* Fixed 1280×720px container */}
+                  {/* Fixed 960×540px container - responsive scaling */}
                   <div className="relative flex items-center justify-center">
-                    {/* Image container - exactly 1280×720 */}
-                    <div className="relative w-[1280px] h-[720px] rounded-2xl overflow-hidden border-2 border-[#d4af37]/30 shadow-2xl bg-black">
+                    {/* Image container - 960×540 (scales on mobile) */}
+                    <div className="relative w-[320px] h-[180px] sm:w-[480px] sm:h-[270px] md:w-[640px] md:h-[360px] lg:w-[960px] lg:h-[540px] rounded-2xl overflow-hidden border-2 border-[#d4af37]/30 shadow-2xl bg-black">
                       <img
                         src={image.url}
                         alt={image.title}
