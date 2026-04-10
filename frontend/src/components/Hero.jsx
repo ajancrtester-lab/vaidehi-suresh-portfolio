@@ -175,7 +175,7 @@ const Hero = () => {
               <div className="relative h-full bg-gradient-to-br from-[#1a1a1a] to-black border-4 border-[#d4af37]/40 rounded-sm overflow-hidden group">
                 {/* Artist Photo */}
                 <img
-                  src="/images/IMG_5748.JPG"
+                  src="https://customer-assets.emergentagent.com/job_sopana-artist/artifacts/k0m79qec_IMG_5748.JPG.jpeg"
                   alt="Vaidehi Suresh - Sopana Sangeetham Artist"
                   className="w-full h-full object-cover"
                   onError={(e) => {
