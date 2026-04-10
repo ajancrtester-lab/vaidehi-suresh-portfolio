@@ -67,7 +67,7 @@ const About = () => {
             <div className="relative">
               <div className="absolute -inset-4 bg-gradient-to-br from-[#800020]/20 to-[#d4af37]/20 blur-2xl" />
               <img
-                src="/images/IMG_7065.JPG.jpeg"
+                src="/images/vaidhu_03.jpeg"
                 alt="Vaidehi Suresh"
                 className="relative w-full h-[500px] object-cover border border-[#d4af37]/30 shadow-2xl"
               />
