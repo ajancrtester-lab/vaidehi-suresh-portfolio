@@ -7,6 +7,7 @@ import About from './components/About';
 import AudioPlayer from './components/AudioPlayer';
 import VideoGallery from './components/VideoGallery';
 import ImageGallery from './components/ImageGallery';
+import PerformanceGallery from './components/PerformanceGallery';
 import Services from './components/Services';
 import Achievements from './components/Achievements';
 import Training from './components/Training';
@@ -45,6 +46,7 @@ const Home = () => {
       <Training />
       <AudioPlayer />
       <VideoGallery />
+      <PerformanceGallery />
       <ImageGallery />
       <Testimonials />
       <Contact />

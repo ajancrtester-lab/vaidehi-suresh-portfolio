@@ -8,6 +8,7 @@ import { toast } from '../hooks/use-toast';
 import MediaManagement from './MediaManagement';
 import SiteSettings from './SiteSettings';
 import ContentEditor from './ContentEditor';
+import GalleryUpload from './GalleryUpload';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -189,6 +190,21 @@ const AdminDashboard = () => {
           {/* Media Management Tab */}
           <TabsContent value="media">
             <MediaManagement />
+          </TabsContent>
+
+          {/* Performance Gallery Tab */}
+          <TabsContent value="gallery">
+            <Card className="bg-zinc-900">
+              <CardHeader>
+                <CardTitle className="text-[#d4af37]">Performance Gallery</CardTitle>
+                <p className="text-sm text-gray-400">
+                  Upload images for the 3D carousel gallery. Images are automatically resized to 1280x720.
+                </p>
+              </CardHeader>
+              <CardContent>
+                <GalleryUpload onUploadSuccess={handleRefresh} />
+              </CardContent>
+            </Card>
           </TabsContent>
 
           {/* Content Editor Tab */}

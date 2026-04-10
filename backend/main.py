@@ -8,7 +8,8 @@ from typing import List, Optional
 from datetime import datetime, timezone
 from urllib.parse import quote
 import hashlib
-import uuid  # 🔥 ADD THIS IMPORT
+import uuid
+from uuid import uuid4
 
 # Import models from models package
 from models.status import StatusCheck, StatusCheckCreate
@@ -16,6 +17,10 @@ from models.booking import Booking, BookingCreate, BookingStatusUpdate
 from models.content import ContentUpdate, PortfolioContent
 from models.media import AudioTrack, AudioTrackCreate, Video, VideoCreate, GalleryImage, GalleryImageCreate, Testimonial, TestimonialCreate
 from models.admin import AdminLogin, SiteSettings, SiteSettingsUpdate
+from models.performance_gallery import PerformanceGalleryImage, PerformanceGalleryCreate, PerformanceGalleryUpdate
+
+# Import utilities
+from utils.image_processor import resize_and_crop_image, image_to_base64, validate_image
 
 # Import database
 from database import db, close_db_connection
@@ -1169,6 +1174,144 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
+
+
+# ============== PERFORMANCE GALLERY ==============
+
+@api_router.get("/performance-gallery")
+async def get_performance_gallery():
+    """Get all performance gallery images (public endpoint)"""
+    try:
+        images = await db.performance_gallery.find(
+            {"isActive": True},
+            {"_id": 0}
+        ).sort("order", 1).to_list(1000)
+        
+        return {"images": images, "count": len(images)}
+    except Exception as e:
+        logging.error(f"Error fetching performance gallery: {str(e)}")
+        return {"images": [], "count": 0}
+
+
+@api_router.get("/admin/performance-gallery")
+async def get_performance_gallery_admin():
+    """Get all performance gallery images for admin"""
+    try:
+        images = await db.performance_gallery.find(
+            {},
+            {"_id": 0}
+        ).sort("order", 1).to_list(1000)
+        
+        return {"images": images, "count": len(images)}
+    except Exception as e:
+        logging.error(f"Error fetching performance gallery: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.post("/admin/performance-gallery")
+async def upload_performance_gallery_image(
+    file: UploadFile = File(...),
+    title: str = Query(..., description="Image title"),
+    caption: str = Query("", description="Image caption"),
+    order: int = Query(0, description="Display order")
+):
+    """
+    Upload a new performance gallery image
+    
+    - Validates file size (max 10MB)
+    - Automatically resizes to 1280x720
+    - Center crops to maintain aspect ratio
+    - Stores as base64 data URL in MongoDB
+    """
+    try:
+        # Read file content
+        file_bytes = await file.read()
+        
+        # Validate image
+        validate_image(file_bytes)
+        
+        # Process image (resize and crop)
+        processed_bytes = resize_and_crop_image(file_bytes)
+        
+        # Convert to base64 data URL
+        image_url = image_to_base64(processed_bytes)
+        
+        # Create image document
+        image_id = str(uuid4())
+        image_doc = {
+            "id": image_id,
+            "url": image_url,
+            "title": title,
+            "caption": caption,
+            "order": order,
+            "isActive": True,
+            "createdAt": datetime.now(timezone.utc).isoformat()
+        }
+        
+        # Insert into database
+        await db.performance_gallery.insert_one(image_doc)
+        
+        # Return without the full base64 (too large for response)
+        return {
+            "success": True,
+            "id": image_id,
+            "message": "Image uploaded and processed successfully",
+            "title": title
+        }
+        
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+    except Exception as e:
+        logging.error(f"Error uploading image: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error uploading image: {str(e)}")
+
+
+@api_router.put("/admin/performance-gallery/{image_id}")
+async def update_performance_gallery_image(
+    image_id: str,
+    update_data: PerformanceGalleryUpdate
+):
+    """Update performance gallery image metadata"""
+    try:
+        update_dict = {k: v for k, v in update_data.dict().items() if v is not None}
+        
+        if not update_dict:
+            raise HTTPException(status_code=400, detail="No update data provided")
+        
+        result = await db.performance_gallery.update_one(
+            {"id": image_id},
+            {"$set": update_dict}
+        )
+        
+        if result.matched_count == 0:
+            raise HTTPException(status_code=404, detail="Image not found")
+        
+        return {"success": True, "message": "Image updated successfully"}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error updating image: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.delete("/admin/performance-gallery/{image_id}")
+async def delete_performance_gallery_image(image_id: str):
+    """Delete performance gallery image"""
+    try:
+        result = await db.performance_gallery.delete_one({"id": image_id})
+        
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Image not found")
+        
+        return {"success": True, "message": "Image deleted successfully"}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error deleting image: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
