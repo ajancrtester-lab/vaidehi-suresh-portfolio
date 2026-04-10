@@ -180,14 +180,14 @@ const PerformanceGallery = () => {
                   }}
                   onClick={() => !isCenter && goToSlide(image.index)}
                 >
-                  <div className="relative w-[600px] h-[400px] md:w-[700px] md:h-[450px]">
-                    {/* Image container */}
-                    <div className="relative w-full h-full rounded-2xl overflow-hidden border-2 border-[#d4af37]/30 shadow-2xl">
-                      {/* Image - object-contain to fit in box */}
+                  {/* Dynamic container - adapts to image aspect ratio */}
+                  <div className="relative flex items-center justify-center">
+                    {/* Image with natural dimensions */}
+                    <div className="relative rounded-2xl overflow-hidden border-2 border-[#d4af37]/30 shadow-2xl max-w-[700px] max-h-[500px]">
                       <img
                         src={image.url}
                         alt={image.title}
-                        className="w-full h-full object-contain bg-black"
+                        className="w-auto h-auto max-w-[700px] max-h-[500px] object-contain"
                         draggable="false"
                       />
 
@@ -212,12 +212,12 @@ const PerformanceGallery = () => {
                           )}
                         </motion.div>
                       )}
-                    </div>
 
-                    {/* Golden glow effect for center image */}
-                    {isCenter && (
-                      <div className="absolute inset-0 rounded-2xl shadow-[0_0_80px_rgba(212,175,55,0.3)] pointer-events-none" />
-                    )}
+                      {/* Golden glow effect for center image */}
+                      {isCenter && (
+                        <div className="absolute inset-0 rounded-2xl shadow-[0_0_80px_rgba(212,175,55,0.3)] pointer-events-none" />
+                      )}
+                    </div>
                   </div>
                 </motion.div>
               );
