@@ -1148,7 +1148,35 @@ async def upload_audio_file(file: UploadFile = File(...)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+# Include the router in the main app
+app.include_router(api_router)
 
+# CORS Configuration - supports both development and production
+CORS_ORIGINS = os.environ.get('CORS_ORIGINS', '*')
+if CORS_ORIGINS == '*':
+    # Development mode - allow all origins
+    allowed_origins = ["*"]
+else:
+    # Production mode - specific origins
+    allowed_origins = [origin.strip() for origin in CORS_ORIGINS.split(',')]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_credentials=True,
+    allow_origins=allowed_origins,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
+
+# ============== PERFORMANCE GALLERY ==============
 
 @api_router.get("/performance-gallery")
 async def get_performance_gallery():
@@ -1178,6 +1206,7 @@ async def get_performance_gallery_admin():
     except Exception as e:
         logging.error(f"Error fetching performance gallery: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+
 
 @api_router.post("/admin/performance-gallery")
 async def upload_performance_gallery_image(
@@ -1283,33 +1312,6 @@ async def delete_performance_gallery_image(image_id: str):
         logging.error(f"Error deleting image: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
-
-
-# Include the router in the main app
-app.include_router(api_router)
-
-# CORS Configuration - supports both development and production
-CORS_ORIGINS = os.environ.get('CORS_ORIGINS', '*')
-if CORS_ORIGINS == '*':
-    # Development mode - allow all origins
-    allowed_origins = ["*"]
-else:
-    # Production mode - specific origins
-    allowed_origins = [origin.strip() for origin in CORS_ORIGINS.split(',')]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_credentials=True,
-    allow_origins=allowed_origins,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
