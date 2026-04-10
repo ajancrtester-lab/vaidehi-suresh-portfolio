@@ -150,11 +150,12 @@ const PerformanceGallery = () => {
               const isCenter = offset === 0;
 
               // Calculate position and transformation
-              const x = offset * 350;
-              const z = isCenter ? 0 : -200 - Math.abs(offset) * 100;
-              const rotateY = offset * 15;
-              const scale = isCenter ? 1 : 0.75 - Math.abs(offset) * 0.1;
-              const opacity = isCenter ? 1 : 0.4 + (1 - Math.abs(offset) * 0.2);
+              const x = offset * 400; // Increased spacing to prevent overlap
+              const z = isCenter ? 100 : -300 - Math.abs(offset) * 150; // Center is in front
+              const rotateY = offset * 20;
+              const scale = isCenter ? 1 : 0.7 - Math.abs(offset) * 0.1;
+              const opacity = isCenter ? 1 : 0.3 + (1 - Math.abs(offset) * 0.15);
+              const zIndex = isCenter ? 50 : 10 - Math.abs(offset); // Center has highest z-index
 
               return (
                 <motion.div
@@ -167,6 +168,7 @@ const PerformanceGallery = () => {
                     rotateY,
                     scale,
                     opacity,
+                    zIndex,
                   }}
                   transition={{
                     type: 'spring',
@@ -180,14 +182,14 @@ const PerformanceGallery = () => {
                   }}
                   onClick={() => !isCenter && goToSlide(image.index)}
                 >
-                  {/* Dynamic container - adapts to image aspect ratio */}
+                  {/* Fixed 1280×720px container */}
                   <div className="relative flex items-center justify-center">
-                    {/* Image with natural dimensions - max 1280px wide × 720px tall */}
-                    <div className="relative rounded-2xl overflow-hidden border-2 border-[#d4af37]/30 shadow-2xl max-w-[1280px] max-h-[720px]">
+                    {/* Image container - exactly 1280×720 */}
+                    <div className="relative w-[1280px] h-[720px] rounded-2xl overflow-hidden border-2 border-[#d4af37]/30 shadow-2xl bg-black">
                       <img
                         src={image.url}
                         alt={image.title}
-                        className="w-auto h-auto max-w-[1280px] max-h-[720px] object-contain"
+                        className="w-full h-full object-contain"
                         draggable="false"
                       />
 
