@@ -126,10 +126,10 @@ const PerformanceGallery = () => {
           <div className="inline-block mb-4">
             <div className="h-px w-24 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent" />
           </div>
-          <h2 className="font-cormorant text-5xl md:text-6xl font-bold text-[#d4af37] mb-4">
+          <h2 className="font-cormorant text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#d4af37] mb-4">
             Divine Moments Through Music
           </h2>
-          <p className="text-gray-400 text-sm tracking-[0.3em] uppercase">
+          <p className="text-gray-400 text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] uppercase">
             Sacred Performances Captured
           </p>
         </motion.div>
@@ -204,11 +204,11 @@ const PerformanceGallery = () => {
                           transition={{ delay: 0.2 }}
                           className="absolute bottom-0 left-0 right-0 p-8"
                         >
-                          <h3 className="font-cormorant text-3xl md:text-4xl font-bold text-[#d4af37] mb-2">
+                          <h3 className="font-cormorant text-2xl sm:text-3xl md:text-4xl font-bold text-[#d4af37] mb-2">
                             {image.title}
                           </h3>
                           {image.caption && (
-                            <p className="text-gray-300 text-sm md:text-base">
+                            <p className="text-gray-300 text-xs sm:text-sm md:text-base">
                               {image.caption}
                             </p>
                           )}
