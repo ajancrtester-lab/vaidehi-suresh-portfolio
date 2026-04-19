@@ -32,6 +32,9 @@ const SEO = () => {
 
   return (
     <Helmet>
+      {/* Google Search Console Verification */}
+      <meta name="google-site-verification" content="92oTJzcupnwJTiRPtGexCcNFHPt02Y0e3Tj7iz7w3M0" />
+
       {/* Primary Meta Tags */}
       <title>Vaidehi Suresh | Sopana Sangeetham Artist Kerala | Temple Music Performer</title>
 
