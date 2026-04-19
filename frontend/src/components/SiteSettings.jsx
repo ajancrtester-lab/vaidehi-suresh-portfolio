@@ -41,6 +41,11 @@ const SiteSettings = () => {
   const getDefaultSettings = () => ({
     id: 'main_settings',
     instagramUsername: 'iraneesam_vaidehi_suresh',
+    contact: {
+      whatsapp: '919447435548',
+      email: 'vaidehisureshikm@gmail.com',
+      location: 'Iranikkulam,Mala,Thrissur, Kerala'
+    },
     backgroundMusic: {
       enabled: true,
       audioUrl: '',
@@ -194,6 +199,45 @@ const SiteSettings = () => {
               type="number"
               value={settings.stats?.awardsReceived || 25}
               onChange={(e) => updateField('stats.awardsReceived', parseInt(e.target.value))}
+              className="bg-black/50 border-[#d4af37]/30 text-white"
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Contact Information */}
+      <Card className="border-[#d4af37]/30 bg-black/50">
+        <CardHeader>
+          <CardTitle className="text-[#d4af37]">Contact Information</CardTitle>
+          <p className="text-sm text-gray-400">Update WhatsApp, email, and location</p>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <Label>WhatsApp Number (with country code)</Label>
+            <Input
+              value={settings.contact?.whatsapp || ''}
+              onChange={(e) => updateField('contact.whatsapp', e.target.value)}
+              placeholder="919447435548"
+              className="bg-black/50 border-[#d4af37]/30 text-white"
+            />
+            <p className="text-xs text-gray-500 mt-1">Format: Country code + number (e.g., 919447435548)</p>
+          </div>
+          <div>
+            <Label>Email Address</Label>
+            <Input
+              type="email"
+              value={settings.contact?.email || ''}
+              onChange={(e) => updateField('contact.email', e.target.value)}
+              placeholder="vaidehisureshikm@gmail.com"
+              className="bg-black/50 border-[#d4af37]/30 text-white"
+            />
+          </div>
+          <div>
+            <Label>Location</Label>
+            <Input
+              value={settings.contact?.location || ''}
+              onChange={(e) => updateField('contact.location', e.target.value)}
+              placeholder="Iranikkulam,Mala,Thrissur, Kerala"
               className="bg-black/50 border-[#d4af37]/30 text-white"
             />
           </div>
