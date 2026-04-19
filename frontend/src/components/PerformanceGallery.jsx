@@ -204,7 +204,7 @@ const PerformanceGallery = () => {
                           transition={{ delay: 0.2 }}
                           className="absolute bottom-0 left-0 right-0 p-8"
                         >
-                          <h3 className="font-cormorant text-2xl sm:text-3xl md:text-4xl font-bold text-[#d4af37] mb-2">
+                          <h3 className="font-cormorant text-xs sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[#d4af37] mb-1 sm:mb-2">
                             {image.title}
                           </h3>
                           {image.caption && (
