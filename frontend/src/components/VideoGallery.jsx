@@ -105,7 +105,7 @@ const VideoGallery = () => {
                     <div className="relative overflow-hidden">
                       <motion.img
                         src={video.thumbnail}
-                        alt={video.title}
+                        alt={`${video.title} - Kerala Sopana Sangeetham performance video by Vaidehi Suresh`}
                         className="w-full h-[300px] object-cover"
                         whileHover={{ scale: 1.05 }}
                         transition={{ duration: 0.6 }}

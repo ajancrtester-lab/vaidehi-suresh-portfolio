@@ -137,7 +137,7 @@ const ImageGallery = () => {
               <div className="relative overflow-hidden border border-[#d4af37]/20 hover:border-[#d4af37]/60 transition-all duration-300">
                 <motion.img
                   src={item.thumbnail}
-                  alt={item.title}
+                  alt={`${item.title} - Kerala temple performance and cultural event by Vaidehi Suresh`}
                   className="w-full h-[350px] object-cover"
                   whileHover={{ scale: 1.1 }}
                   transition={{ duration: 0.6 }}

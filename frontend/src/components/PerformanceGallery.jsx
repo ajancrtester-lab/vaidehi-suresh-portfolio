@@ -188,7 +188,7 @@ const PerformanceGallery = () => {
                     <div className="relative w-[320px] h-[180px] sm:w-[480px] sm:h-[270px] md:w-[640px] md:h-[360px] lg:w-[960px] lg:h-[540px] rounded-2xl overflow-hidden border-2 border-[#d4af37]/30 shadow-2xl bg-black">
                       <img
                         src={image.url}
-                        alt={image.title}
+                        alt={`${image.title} - Kerala temple music performance by Vaidehi Suresh - Sopana Sangeetham artist`}
                         className="w-full h-full object-contain"
                         draggable="false"
                       />

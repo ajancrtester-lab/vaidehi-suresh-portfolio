@@ -176,7 +176,7 @@ const Hero = () => {
                 {/* Artist Photo */}
                 <img
                   src="https://customer-assets.emergentagent.com/job_sopana-artist/artifacts/k0m79qec_IMG_5748.JPG.jpeg"
-                  alt="Vaidehi Suresh - Sopana Sangeetham Artist"
+                  alt="Vaidehi Suresh - Kerala Sopana Sangeetham Artist performing traditional temple music in Thrissur"
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     e.target.src = 'https://images.unsplash.com/photo-1610701061989-0d21853d1f82?w=600&h=800&fit=crop&q=80';

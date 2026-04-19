@@ -80,7 +80,7 @@ const InstagramFeed = () => {
                 {item.thumbnail || item.imageUrl ? (
                   <img
                     src={item.thumbnail || item.imageUrl}
-                    alt={item.title || 'Performance'}
+                    alt={`${item.title || 'Kerala temple music performance'} - Sopana Sangeetham by Vaidehi Suresh`}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     onError={(e) => {
                       e.target.style.display = 'none';

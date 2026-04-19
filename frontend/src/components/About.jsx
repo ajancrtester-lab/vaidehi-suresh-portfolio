@@ -68,7 +68,7 @@ const About = () => {
               <div className="absolute -inset-4 bg-gradient-to-br from-[#800020]/20 to-[#d4af37]/20 blur-2xl" />
               <img
                 src="/images/vaidhu_03.jpeg"
-                alt="Vaidehi Suresh"
+                alt="Vaidehi Suresh Kerala classical musician specializing in Sopana Sangeetham and devotional temple music"
                 className="relative w-full h-[500px] object-cover border border-[#d4af37]/30 shadow-2xl"
               />
               <div className="absolute -bottom-6 -right-6 w-32 h-32 border-2 border-[#d4af37]/50" />
