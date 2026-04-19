@@ -244,7 +244,7 @@ SITE_SETTINGS = {
         "facebook": "https://www.facebook.com/vaidehi.suresh"
     },
     "contact": {
-        "whatsapp": "919446909402",
+        "whatsapp": "919447435548",
         "email": "vaidehisureshikm@gmail.com",
         "location": "Iranikkulam,Mala,Thrissur, Kerala"
     },
