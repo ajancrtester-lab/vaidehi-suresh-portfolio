@@ -28,7 +28,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#1a0f0a] via-[#0a0a0a] to-black">
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#1a0f0a] via-[#0a0a0a] to-black">
       {/* Floating Flower Petals */}
       <FloatingPetals count={25} />
       

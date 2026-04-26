@@ -29,6 +29,7 @@ const Contact = () => {
 
   return (
     <section
+      id="contact"
       ref={ref}
       className="relative py-32 px-6 bg-gradient-to-b from-[#0a0a0a] to-black overflow-hidden"
     >
@@ -58,7 +59,7 @@ const Contact = () => {
           </h2>
 
           <p className={`text-gray-400 text-sm tracking-[0.3em] uppercase ${language === 'ml' ? 'malayalam-text' : ''}`}>
-            {t.contact.subtitle}
+            {language === 'en' ? 'Book Sopana Sangeetham Artist for Temple Events' : t.contact.subtitle}
           </p>
         </motion.div>
 

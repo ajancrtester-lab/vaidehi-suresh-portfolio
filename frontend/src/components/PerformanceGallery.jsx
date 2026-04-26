@@ -107,7 +107,7 @@ const PerformanceGallery = () => {
   const visibleImages = getVisibleImages();
 
   return (
-    <section className="relative py-32 px-6 bg-gradient-to-b from-[#0a0a0a] via-[#1a0a0a] to-[#0a0a0a] overflow-hidden">
+    <section id="gallery" className="relative py-32 px-6 bg-gradient-to-b from-[#0a0a0a] via-[#1a0a0a] to-[#0a0a0a] overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-1/4 left-10 w-72 h-72 bg-[#d4af37] rounded-full blur-[120px]" />

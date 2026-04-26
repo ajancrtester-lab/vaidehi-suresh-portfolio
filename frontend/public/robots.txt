@@ -1,3 +1,12 @@
+# Allow all search engines
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://vaidehisopanasangeethaartist.netlify.app/sitemap.xml
+
+# Crawl-delay for good practice
+Crawl-delay: 1
 User-agent: *
 Allow: /
 
