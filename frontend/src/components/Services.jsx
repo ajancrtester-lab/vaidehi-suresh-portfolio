@@ -20,6 +20,7 @@ const Services = () => {
 
   return (
     <section
+      id="services"
       ref={ref}
       className="relative py-32 px-6 bg-gradient-to-b from-[#0a0a0a] to-[#1a0a0a] overflow-hidden"
     >

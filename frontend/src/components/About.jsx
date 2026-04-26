@@ -20,6 +20,7 @@ const About = () => {
 
   return (
     <section
+      id="about"
       ref={ref}
       className="relative py-32 px-6 bg-gradient-to-b from-[#0a0a0a] via-[#1a0a0a] to-[#0a0a0a] overflow-hidden"
     >

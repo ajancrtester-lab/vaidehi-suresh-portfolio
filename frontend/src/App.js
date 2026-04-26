@@ -20,6 +20,7 @@ import LanguageToggle from './components/LanguageToggle';
 import BackgroundMusic from './components/BackgroundMusic';
 import AdminDashboard from './components/AdminDashboard';
 import SEO from './components/SEO';
+import SEOContent from './components/SEOContent';
 import { Toaster } from './components/ui/toaster';
 import './App.css';
 
@@ -41,6 +42,7 @@ const Home = () => {
       <BackgroundMusic />
       <Hero />
       <About />
+      <SEOContent /> {/* SEO-optimized content section */}
       <PerformanceGallery />
       <Services />
       <Achievements />
