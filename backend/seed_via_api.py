@@ -8,7 +8,7 @@ import json
 
 # Your Northflank backend URL
 BACKEND_URL = "https://p01--vaidehi-suresh-portfolio--xnwd42xkxs5d.code.run"
-ADMIN_PASSWORD = "admin123"  # Update if different
+ADMIN_PASSWORD = "vaidhuikm@acrpni###"  # Update if different
 
 def seed_via_api():
     """Seed database using admin API endpoints"""
