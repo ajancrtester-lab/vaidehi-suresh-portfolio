@@ -45,7 +45,7 @@ const SEO = () => {
       "Idakka Performance",
       "Kathakali Music",
       "Guruvayur Temple Music",
-      "Sabarimala Temple Music",
+      "Vadakkunnathan Temple Music",
       "Malayalam Devotional Songs"
     ],
     "sameAs": [
@@ -133,7 +133,7 @@ const SEO = () => {
         "name": "Who is the best Sopana Sangeetham artist in Kerala?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Vaidehi Suresh is a renowned Sopana Sangeetham artist in Kerala with 13+ years of experience and performances in 750+ temples across Kerala including Guruvayur, Sabarimala, and major temples in Thrissur."
+          "text": "Vaidehi Suresh is a renowned Sopana Sangeetham artist in Kerala with 13+ years of experience and performances in 750+ temples across Kerala including Guruvayur, Vadakkunnathan, and major temples in Thrissur."
         }
       },
       {
@@ -157,7 +157,7 @@ const SEO = () => {
         "name": "Which temples has Vaidehi Suresh performed in Kerala?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Vaidehi Suresh has performed in 750+ temples across Kerala including famous temples in Guruvayur, Thrissur, Thruvambady, Paramekkavu, Ettumanoor, Ambalappuzha, Sabarimala, and temples across Mumbai, Delhi, Gujarat, and other states."
+          "text": "Vaidehi Suresh has performed in 750+ temples across Kerala including famous temples in Guruvayur, Vadakkunnathan, Thruvambady, Paramekkavu, Ettumanoor, Ambalappuzha, Mookambika, and temples across Mumbai, Delhi, Gujarat, and other states."
         }
       },
       {

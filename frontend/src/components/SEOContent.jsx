@@ -83,7 +83,7 @@ const SEOContent = () => {
               Temple Music Performances Across India
             </h3>
             <p className="text-base leading-relaxed mb-6">
-              While rooted in Kerala's temple traditions, Vaidehi's artistry has transcended regional boundaries. She has performed as a <strong>Sopana Sangeetham artist in India</strong> at temples and cultural events across multiple states including Mumbai, Delhi, Gujarat, Karnataka, and Tamil Nadu. Her performances at famous Kerala temples like Guruvayur, Sabarimala, Ambalappuzha, Ettumanoor, Paramekkavu, and Mookambika have been highly acclaimed by audiences and temple authorities alike.
+              While rooted in Kerala's temple traditions, Vaidehi's artistry has transcended regional boundaries. She has performed as a <strong>Sopana Sangeetham artist in India</strong> at temples and cultural events across multiple states including Mumbai, Delhi, Gujarat, Karnataka, and Tamil Nadu. Her performances at famous Kerala temples like Guruvayur, Vadakkunnathan, Ambalappuzha, Ettumanoor, Paramekkavu, and Mookambika have been highly acclaimed by audiences and temple authorities alike.
             </p>
 
             <h3 className="text-2xl font-cormorant text-[#d4af37] mt-10 mb-4">
@@ -108,7 +108,7 @@ const SEOContent = () => {
                 <li>✓ <strong>13+ Years</strong> of dedicated practice and performance experience</li>
                 <li>✓ <strong>750+ Temple Performances</strong> across Kerala and India</li>
                 <li>✓ Expertise in traditional <strong>Sopana Sangeetham</strong> and <strong>Idakka</strong> performances</li>
-                <li>✓ Performed at prestigious temples: Guruvayur, Sabarimala, Vadakkunnathan</li>
+                <li>✓ Performed at prestigious temples: Guruvayur, Vadakkunnathan, Ambalappuzha</li>
                 <li>✓ Mastery of <strong>50+ devotional ragas</strong> and traditional compositions</li>
                 <li>✓ Authentic Kerala temple music tradition preserved and performed</li>
                 <li>✓ Available for temple festivals, cultural events, and devotional programs</li>
@@ -123,13 +123,13 @@ const SEOContent = () => {
             </p>
             <ul className="grid md:grid-cols-2 gap-3 text-base mb-6">
               <li>• Guruvayur Sri Krishna Temple</li>
-              <li>• Sabarimala Ayyappa Temple</li>
               <li>• Vadakkunnathan Temple, Thrissur</li>
               <li>• Ambalappuzha Sri Krishna Temple</li>
               <li>• Ettumanoor Mahadeva Temple</li>
               <li>• Thruvambady Sri Krishna Temple</li>
               <li>• Paramekkavu Bagavathi Temple</li>
               <li>• Mookambika Temple</li>
+              <li>• Chottanikkara Devi Temple</li>
               <li>• Temples in Mumbai, Delhi, Gujarat</li>
               <li>• Temples in Kanyakumari, Tiruchirappalli</li>
             </ul>
