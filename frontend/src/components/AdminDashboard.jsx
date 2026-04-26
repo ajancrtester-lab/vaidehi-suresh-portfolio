@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, LogOut, Save, RefreshCw } from 'lucide-react';
+import { Calendar, LogOut, Save, RefreshCw, Lock } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
+import { Input } from './ui/input';
 import { toast } from '../hooks/use-toast';
 import MediaManagement from './MediaManagement';
 import SiteSettings from './SiteSettings';
@@ -14,6 +15,9 @@ import GalleryManager from './GalleryManager';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const AdminDashboard = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState('');
+  const [loggingIn, setLoggingIn] = useState(false);
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -51,9 +55,53 @@ const AdminDashboard = () => {
     });
   };
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoggingIn(true);
+    
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/admin/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        sessionStorage.setItem('adminAuth', 'true');
+        setIsAuthenticated(true);
+        setPassword('');
+        toast({
+          title: 'Success',
+          description: 'Logged in successfully',
+        });
+      } else {
+        toast({
+          title: 'Error',
+          description: 'Invalid password',
+          variant: 'destructive',
+        });
+      }
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to login',
+        variant: 'destructive',
+      });
+    } finally {
+      setLoggingIn(false);
+    }
+  };
+
   const handleLogout = () => {
     sessionStorage.removeItem('adminAuth');
-    window.location.href = '/';
+    setIsAuthenticated(false);
+    setPassword('');
+    toast({
+      title: 'Logged out',
+      description: 'You have been logged out successfully',
+    });
   };
 
   const updateBookingStatus = async (bookingId, status) => {
@@ -81,8 +129,62 @@ const AdminDashboard = () => {
   };
 
   useEffect(() => {
+    // Check if already authenticated
+    const authStatus = sessionStorage.getItem('adminAuth');
+    if (authStatus === 'true') {
+      setIsAuthenticated(true);
+    }
     loadBookings();
   }, []);
+
+  // Show login form if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#1a0a0a] to-[#0a0a0a] flex items-center justify-center px-4">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="w-full max-w-md"
+        >
+          <Card className="bg-zinc-900 border-[#d4af37]/20">
+            <CardHeader className="text-center">
+              <div className="flex justify-center mb-4">
+                <div className="h-16 w-16 rounded-full bg-[#d4af37]/10 flex items-center justify-center">
+                  <Lock className="h-8 w-8 text-[#d4af37]" />
+                </div>
+              </div>
+              <CardTitle className="text-3xl font-cormorant text-[#d4af37]">
+                Admin Login
+              </CardTitle>
+              <p className="text-gray-400 mt-2">Enter your password to access the dashboard</p>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleLogin} className="space-y-4">
+                <div>
+                  <Input
+                    type="password"
+                    placeholder="Enter admin password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="bg-zinc-800 border-zinc-700 text-white placeholder:text-gray-500"
+                    disabled={loggingIn}
+                    autoFocus
+                  />
+                </div>
+                <Button
+                  type="submit"
+                  className="w-full bg-[#d4af37] hover:bg-[#b8941f] text-black"
+                  disabled={loggingIn || !password}
+                >
+                  {loggingIn ? 'Logging in...' : 'Login'}
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#1a0a0a] to-[#0a0a0a] py-12 px-4">
